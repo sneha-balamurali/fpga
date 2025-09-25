@@ -34,7 +34,7 @@ A normal computer uses a CPU. The CPU is general-purpose and can run any program
 
 ## Why Software is Slower
 
-A simple adder circuit (pure hardware) can add two binary numbers in ~500 ps. 
+A simple adder circuit (pure hardware) can add two binary numbers in ~500 ps[^1]. 
 
 But when software says ```a = b + c``` , the CPU doesn't just add:
 
@@ -234,5 +234,8 @@ The Red Pitaya STEMlab 125-14 provides:
 This combination makes the board ideal for applications where high-speed hardware control must be paired with software flexibility – exactly the reason it is used in laboratory and research environments.
 
 
+## References
+
+[^1] ECE253: Digital and Computer Systems, Lecture 1, Prof. Natalie Enright Jerger, University of Toronto
 
 

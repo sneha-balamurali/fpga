@@ -31,26 +31,18 @@ This repository contains setup guides, project walkthroughs, and notes from my F
 
 ## Resources:
 
-### Red Pitaya Documentation:
-
-https://redpitaya-knowledge-base.readthedocs.io/en/latest/learn_fpga/fpga_learn.html
+### [Red Pitaya Documentation:](https://redpitaya-knowledge-base.readthedocs.io/en/latest/learn_fpga/fpga_learn.html)
 
 Use this as a guide. The tutorials there (e.g. the LED blink lesson) say to install Vivado 2020.1, because the original tutorial code was written and tested on Vivado 2020.1. You can install the latest version instead — most things still work if you adapt slightly.
 
-### Pavel Demin github:
+### [Pavel Demin github:](https://pavel-demin.github.io/red-pitaya-notes/)
 
-https://pavel-demin.github.io/red-pitaya-notes/
-
-### Master's Thesis: Real-Time Processing of Laser-Ultrasonic Signals
+### [Master's Thesis: Real-Time Processing of Laser-Ultrasonic Signals](https://epub.jku.at/obvulihs/download/pdf/2406394?originalFilename=true )
 Author: Thomas Paireder, Johannes Kepler University Linz, 2017
-
-https://epub.jku.at/obvulihs/download/pdf/2406394?originalFilename=true 
 
 A lot of useful information on implementing real-time signal processing with the Red Pitaya. Many of the methods and design considerations are broadly applicable.
 
-### Benjamin Millward github:
-
-https://github.com/Bentwin2002/Group_IV_RP/tree/main/Complete_setup/tmp/wip_9/wip_9.srcs/sources_1/new 
+### [Benjamin Millward github:](https://github.com/Bentwin2002/Group_IV_RP/tree/main/Complete_setup/tmp/wip_9/wip_9.srcs/sources_1/new)
 
 Has useful code that is worth looking at later on when you are building your own projects. Includes code for things like a PID.
 
