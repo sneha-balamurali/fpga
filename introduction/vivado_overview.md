@@ -63,7 +63,7 @@ When you add these cores to your project, they show up as blocks you can drag in
 - For example, a 125 MHz clock means the signal goes through 125 million cycles (high → low → high) every second/ each period is 8ns.
 - Each rising edge (transition from low to high) or falling edge (high to low) can be used as a trigger for logic elements inside the FPGA to capture or update data.
 ### FCLK_CLK0
-- On the Red Pitaya, the ARM processor in the Zynq chip generates up to four programmable clocks (`FCLK_CLK0 … FCLK_CLK3`) to the FPGA logic. Physically, these clocks sit at the boundary between the processor system (PS) and the programmable logic (PL) and ensure both sides can stay synchronised when sharing data. [More information at Zynq 7000 SoC Technical Reference Manual (UG585): Clocks](https://docs.amd.com/r/en-US/ug585-zynq-7000-SoC-TRM/Clocks-and-Resets)
+- On the Red Pitaya, the ARM processor in the Zynq chip generates up to four programmable clocks (`FCLK_CLK0 … FCLK_CLK3`)[^1] to the FPGA logic. Physically, these clocks sit at the boundary between the processor system (PS) and the programmable logic (PL) and ensure both sides can stay synchronised when sharing data. [More information at Zynq 7000 SoC Technical Reference Manual (UG585): Clocks](https://docs.amd.com/r/en-US/ug585-zynq-7000-SoC-TRM/Clocks-and-Resets)
 - To access them, double click the PS block and navigate as shown in the image below. 
 ![ps_fabric_clock](/images/ps_fabric_clocks.png)
 
@@ -252,5 +252,8 @@ The ADC produces 14-bit outputs (`ADA0…ADA13`). Each of these is a single wire
 For example, `adc_dat_a_i[0]` is connected to package pin `V17`, which corresponds to `ADA0` from the ADC chip. At every clock cycle, all 14 wires update together, forming one binary number that represents the sampled voltage.
 
 ## References
+
+[^1]: AMD. *Zynq-7000 SoC Technical Reference Manual (UG585)*. Available at: https://docs.amd.com/r/en-US/ug585-zynq-7000-SoC-TRM/Zynq-7000-SoC-Technical-Reference-Manual
+
 
 [^2]: Analog Devices. *LTC2145-14 Datasheet*. Available at: https://www.analog.com/media/en/technical-documentation/data-sheets/21454314fa.pdf  
