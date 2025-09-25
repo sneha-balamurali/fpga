@@ -76,7 +76,8 @@ When you add these cores to your project, they show up as blocks you can drag in
 - **Why are there different AXI ports?**
     - `M_AXI_GP0` is a General Purpose Master interface. Here, the processor (PS) is the 'master' that sends data or commands into the FPGA fabric (PL).
     - `S_AXI_HP0` is the High Performance Slave interface. Here, the FPGA fabric (PL) can quickly send data (e.g. ADC samples) back into the PS, often into memory (DDR). 
-    - By connecting both `M_AXI_GP0_ACLK` and `S_AXI_HP0_ACLK`to the `FCLK_CLK0` both the PS -> PL and PL -> PS AXI transfers run in the same clock domain (signals all times by the same clock). This simplifies the design and avoids timing mismatches.  
+    - By connecting both `M_AXI_GP0_ACLK` and `S_AXI_HP0_ACLK`to the `FCLK_CLK0` both the PS -> PL and PL -> PS AXI transfers run in the same clock domain (signals all times by the same clock). This simplifies the design and avoids timing mismatches. [For more information go to Zynq 7000 SoC Technical Reference Manual (UG585)](https://docs.amd.com/r/en-US/ug585-zynq-7000-SoC-TRM/PS-PL-AXI-Interfaces)
+
 
 
 ### ADC Ports
@@ -250,3 +251,6 @@ The ADC produces 14-bit outputs (`ADA0…ADA13`). Each of these is a single wire
 
 For example, `adc_dat_a_i[0]` is connected to package pin `V17`, which corresponds to `ADA0` from the ADC chip. At every clock cycle, all 14 wires update together, forming one binary number that represents the sampled voltage.
 
+## References
+
+[^2]: Analog Devices. *LTC2145-14 Datasheet*. Available at: https://www.analog.com/media/en/technical-documentation/data-sheets/21454314fa.pdf  

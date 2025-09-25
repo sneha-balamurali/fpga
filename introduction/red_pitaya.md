@@ -99,18 +99,18 @@ If hardware isn’t fast enough, you can just build more of it in parallel. CPUs
 ## Key components
 
 ### Inputs (IN1, IN2):
-- **2x ADC 14 bit@125 MHz:**
+- **2x ADC 14 bit@125 MHz [^2]:**
     - The Red Pitaya has two **Analogue-to-Digital Converters (ADCs)**. These devices take an analogue signal (a continuously varying voltage, like a sine wave) and turn it into digital numbers that can be processed by the FPGA.
     - **14-bit resolution:** each sample is represented by one of 16,384 possible values, giving fine precision.
     - **125 MS/s sample rate:** the ADC captures 125 million snapshots per second. This means it can accurately follow signals with frequencies up to tens of MHz.
 
 - **Range Setting:**
-    - The ADC can only accept signals within a certain input range (**±1V or ±20V** depending on configuration).
+    - The ADC can only accept signals within a certain input range (**±1V or ±20V** depending on configuration)[^2].
     - **What happens if input is too big?** If your Red Pitaya is set to ±1V range, but you feed it a 5V peak signal. The ADC cannot represent values outside of -1V to +1 V. So everything above +1V gets "flattened" to +1V, and everything below -1V gets flattened to -1V. This is called saturation or clipping.
     - **What happens if input is too small?** If you have a 0.1V, but the ADC range is ±20V, the signal only uses 0.2V/40V = 0.5% of the ADC's available "steps." 14-bit -> 2¹⁴ = 16,384 steps across the full range and in our case the signal would only be using 82 steps. Your resolution is wasted. Imagine using a zoomed out camera to scan a really small object - it will appear as a blurry dot because you didn't use all the available pixels.
     - There are **jumpers** near the ADC and DAC inputs/outputs which you can change to select between ±1V mode (2 Vpp window, high resolution) and ±20V mode (40 Vpp window, lower resolution but can handle larger signals). The ADC always works with an input swing of about ±1 V. In ±1 V mode, the signal is fed directly. In ±20 V mode, a front-end attenuator first scales ±20 V down to ±1 V, so the ADC still sees the correct range without saturating.
 
-- **Low-Pass Filter (~50 MHz):**
+- **Low-Pass Filter (~50 MHz)[^2]:**
     - **Low-pass filter** allows low frequencies through and blocks high frequencies.
     - In the Red Pitaya's case signals below ~50 MHz pass cleanly, signals much above 50 MHz get strongly attenuated.
     - This is because of **Nyquist sampling theorem** which tells you how fast you need to sample a signal so that you can represent it accurately in digital form. 
@@ -119,8 +119,21 @@ If hardware isn’t fast enough, you can just build more of it in parallel. CPUs
     - The 50 MHz cutoff ensures only valid signals enter the ADC.
 
 - **SMA Connectors:**
-  -  The gold metal connectors you see in figure 1 and 3. They are a type of coaxial connectors (carries signals inside a shielded cable). 
-  - They have a **50Ω characteristic impedance**. Ensure that everything connected to the Red Pitaya is impedance matched. If there is a mismatch (generator 50Ω -> cable 50Ω -> oscilloscope at 1 MHz):
+  -  The gold metal connectors you see in figure 1. They are a type of coaxial connectors (carries signals inside a shielded cable).
+
+- **[SMA connector] → [Range setting circuit (jumpers)] → [Low-pass filter] → [ADC chip]**
+
+### Outputs (OUT1, OUT2):  
+- **2x DAC 14-bit@125 MHz [^2]:** 
+    - The Red Pitaya has two **14-bit Digital-to-Analogue Converters (DACs)** running at **125 MS/s**. 
+
+- **Low-Pass Filter (~50 MHz):**
+    - A DAC generates signals by updating the output voltage at discrete steps (every 8 ns at 125 MS/s) which won't produce a perfectly smooth waveform.
+    - If you tell it to generate a 10 MHz sine wave, what you actually get is a staircase approximation of that sine wave which contains the low frequency component (the 10 MHz sine) and lots of unwanted high-frequency componenets.
+    - The ~50 MHz low-pass filter after the DAC blocks the high-frequency componenets and ensures the output is a clean analogue signal.
+
+- **SMA Connectors:**
+  -  OUT1 and OUT2 are impedance matched to **50Ω characteristic impedance** [^2]. Ensure that everything connected to the Red Pitaya is impedance matched. If there is a mismatch (generator 50Ω -> cable 50Ω -> oscilloscope at 1 MHz):
     - Part of the wave is absorbed
     - Part will be reflected back down the line
     - This causes ringing, standing waves and wrong amplitudes on your oscilloscope
@@ -129,17 +142,6 @@ If hardware isn’t fast enough, you can just build more of it in parallel. CPUs
     - At the other end, the oscilloscope input should act like a wide-open drain that accepts the flow steadily (also 50Ω). 
     - If the scope looks like an infinite wall (1 MΩ), the water has nowhere to go and so part of the wave gets reflected.
   - In practice: the generator produces a waveform, but the scope displays the wrong amplitude (often doubled). You might also see ringing or distortion because the signals keep bouncing back and forth. If your scope has a different impedance you will have to terminate it with 50Ω. If your scope does not have a built in option to set the channel input to 50Ω, you will need to attach a **50Ω feed-through terminator to the input.**
-
-- **[SMA connector] → [Range setting circuit (jumpers)] → [Low-pass filter] → [ADC chip]**
-
-### Outputs (OUT1, OUT2):  
-- **2x DAC 14-bit@125 MHz:** 
-    - The Red Pitaya has two **14-bit Digital-to-Analogue Converters (DACs)** running at **125 MS/s**. 
-
-- **Low-Pass Filter (~50 MHz):**
-    - A DAC generates signals by updating the output voltage at discrete steps (every 8 ns at 125 MS/s) which won't produce a perfectly smooth waveform.
-    - If you tell it to generate a 10 MHz sine wave, what you actually get is a staircase approximation of that sine wave which contains the low frequency component (the 10 MHz sine) and lots of unwanted high-frequency componenets.
-    - The ~50 MHz low-pass filter after the DAC blocks the high-frequency componenets and ensures the output is a clean analogue signal.
 
 ### SoC Core (Xilinx Zynq XC7Z010):
 - **FPGA fabric (programmable logic):**
@@ -152,7 +154,7 @@ If hardware isn’t fast enough, you can just build more of it in parallel. CPUs
   - This offers flexibility, parallelism, speed and prototyping without making new silicon.
 
 - **ARM Cortex-A9 processor:** 
-  - The ARM Cortex-A9 inside the Zynq SoC is the CPU.  
+  - The ARM Cortex-A9 inside the Zynq SoC is the CPU. [For more information go to Zynq 7000 SoC Technical Reference Manual (UG585)](https://docs.amd.com/r/en-US/ug585-zynq-7000-SoC-TRM/PS-PL-AXI-Interfaces).  
   - It runs a lightweight Linux distribution (Red Pitaya OS), which makes the board programmable and user-friendly.
   - The CPU is responsible for tasks that are too slow, too complex, or too high-level for the FPGA:
     - File I/O: saving ADC data to the SD card, loading FPGA configurations, reading/writing logs.  
@@ -165,7 +167,7 @@ If hardware isn’t fast enough, you can just build more of it in parallel. CPUs
 - **FPGA does the nanosecond hardware work; the CPU makes the results accessible and manageable.**
 
 ### Memory:  
-- 256 MB DDR3 SDRAM, connected to the SoC.  
+- 256 MB DDR3 SDRAM, connected to the SoC [^2].  
 - Used for storing data, running Linux, and buffering signals.
 
 ### Connectivity:
@@ -177,10 +179,10 @@ If hardware isn’t fast enough, you can just build more of it in parallel. CPUs
 
 ### Expansion I/O:
 
-Click on the link to go to the image of the [extension connectors](https://redpitaya.readthedocs.io/en/latest/developerGuide/hardware/GEN1/hw_specs/extent.html)
+Click on the link to go to the image of the [extension connectors](https://redpitaya.com/rtd-iframe/?iframe=https://redpitaya.readthedocs.io/en/latest/developerGuide/hardware/hardware.html)
 
 - **E1 connector:** 
-  - 16 single-ended or 8 differential GPIO lines (3.3 V).
+  - 16 single-ended or 8 differential GPIO lines (3.3 V)[^3].
   - GPIO stands for General Purpose Input/Output. These are digital pins:
     
     Configurable as inputs (reads 0/1) or output (drives a 0/1).
@@ -236,6 +238,10 @@ This combination makes the board ideal for applications where high-speed hardwar
 
 ## References
 
-[^1] ECE253: Digital and Computer Systems, Lecture 1, Prof. Natalie Enright Jerger, University of Toronto
+[^1]: ECE253: Digital and Computer Systems, Lecture 1, Prof. Natalie Enright Jerger, University of Toronto
+
+[^2]: Red Pitaya d.o.o. *Red Pitaya Schematics v1.0.1*. Available at: https://downloads.redpitaya.com/doc/Red_Pitaya_Schematics_v1.0.1.pdf 
+
+[^3]: Red Pitaya d.o.o. *Hardware*. Available at: https://redpitaya.readthedocs.io/en/latest/developerGuide/hardware/hardware.html
 
 
