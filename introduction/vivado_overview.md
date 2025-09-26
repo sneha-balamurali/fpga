@@ -46,7 +46,7 @@ For example, [Pavel Demin’s Red Pitaya cores](https://github.com/pavel-demin/r
 When you add these cores to your project, they show up as blocks you can drag into the diagram and connect, instead of writing all the Verilog logic yourself.
 
 ### ZYNQ7 Processing System (PS) vs Programmable Logic (PL)
-- The ZYNQ7 Processing System IP block in Vivado represents the ARM Cortex-A9 subsystem inside the Zynq chip.
+- The ZYNQ7 Processing System IP block in Vivado represents the ARM Cortex-A9 subsystem inside the Zynq chip.[^1]
 - It acts as a bridge between:
     - PS (Processing System): the ARM CPU which runs Linux and software
     - PL (Programming Logic): the FPGA fabric, where you implement custom hardware
@@ -63,7 +63,7 @@ When you add these cores to your project, they show up as blocks you can drag in
 - For example, a 125 MHz clock means the signal goes through 125 million cycles (high → low → high) every second/ each period is 8ns.
 - Each rising edge (transition from low to high) or falling edge (high to low) can be used as a trigger for logic elements inside the FPGA to capture or update data.
 ### FCLK_CLK0
-- On the Red Pitaya, the ARM processor in the Zynq chip generates up to four programmable clocks (`FCLK_CLK0 … FCLK_CLK3`)[^1] to the FPGA logic. Physically, these clocks sit at the boundary between the processor system (PS) and the programmable logic (PL) and ensure both sides can stay synchronised when sharing data. [More information at Zynq 7000 SoC Technical Reference Manual (UG585): Clocks](https://docs.amd.com/r/en-US/ug585-zynq-7000-SoC-TRM/Clocks-and-Resets)
+- On the Red Pitaya, the ARM processor in the Zynq chip generates up to four programmable clocks (`FCLK_CLK0 … FCLK_CLK3`) to the FPGA logic. Physically, these clocks sit at the boundary between the processor system (PS) and the programmable logic (PL) and ensure both sides can stay synchronised when sharing data. [^1]
 - To access them, double click the PS block and navigate as shown in the image below. 
 ![ps_fabric_clock](/images/ps_fabric_clocks.png)
 
@@ -76,13 +76,12 @@ When you add these cores to your project, they show up as blocks you can drag in
 - **Why are there different AXI ports?**
     - `M_AXI_GP0` is a General Purpose Master interface. Here, the processor (PS) is the 'master' that sends data or commands into the FPGA fabric (PL).
     - `S_AXI_HP0` is the High Performance Slave interface. Here, the FPGA fabric (PL) can quickly send data (e.g. ADC samples) back into the PS, often into memory (DDR). 
-    - By connecting both `M_AXI_GP0_ACLK` and `S_AXI_HP0_ACLK`to the `FCLK_CLK0` both the PS -> PL and PL -> PS AXI transfers run in the same clock domain (signals all times by the same clock). This simplifies the design and avoids timing mismatches. [For more information go to Zynq 7000 SoC Technical Reference Manual (UG585)](https://docs.amd.com/r/en-US/ug585-zynq-7000-SoC-TRM/PS-PL-AXI-Interfaces)
-
-
+    - By connecting both `M_AXI_GP0_ACLK` and `S_AXI_HP0_ACLK`to the `FCLK_CLK0` both the PS -> PL and PL -> PS AXI transfers run in the same clock domain (signals all times by the same clock). This simplifies the design and avoids timing mismatches.[^1]
 
 ### ADC Ports
-- The Red Pitaya has two input channels (IN1 and IN2 SMA connectors). Each channel is digitised by the ADC into 14-bit samples, which appear at the `adc_dat_a_i[13:0]` and `adc_dat_b_i[13:0]` ports.
-- The ADC also provides a differential clock (`adc_clk_p_i`, `adc_clk_n_i`) so the FPGA knows when each sample word is valid.
+- The Red Pitaya has two input channels (IN1 and IN2 SMA connectors). Each channel is digitised by the ADC into 14-bit samples. [^3]
+- In the Vivado block design this appears as the `adc_dat_a_i[13:0]` and `adc_dat_b_i[13:0]` ports.
+- The ADC also provides a differential clock (`adc_clk_p_i`, `adc_clk_n_i`) so the FPGA knows when each sample word is valid.[^3]
 
 ### Daisy Ports
 - The DAISY connectors allow multiple Red Pitaya boards to be chained together.
@@ -164,7 +163,7 @@ Source: [Red Pitaya Schematics v1.0.1 (PDF)](https://downloads.redpitaya.com/doc
                 - `PCLK_P/PCLK_N` - an external clock input
                 - `OCLK_P/OCLK_N` - on-board 125 MHz oscillator (default clock source)
                 - `FCLK_P/FCLK_N` - clock provided by the FPGA, if you want the FPGA to control the sampling
-            - `CLKOUT+/CLKOUT-` (labelled `ADCLK_P / ADCLK_N` on the schematic) - the output data clock that goes into the FPGA. The FPGA uses this to synchronise capturing the ADC data bus: on each clock edge, all 14 data pins update together to represent the sampled voltage as a binary word
+            - `CLKOUT+/CLKOUT-` (labelled `ADCLK_P / ADCLK_N` on the schematic) - the output data clock that goes into the FPGA. The FPGA uses this to synchronise capturing the ADC data bus: on each clock edge, all 14 data pins update together to represent the sampled voltage as a binary word.[^2]
 
 - **Right beige rectangle (`U1A`):**
     - This is the FPGA chip (Xilinx Zynq-7010).
@@ -180,7 +179,7 @@ Source: [Red Pitaya Schematics v1.0.1 (PDF)](https://downloads.redpitaya.com/doc
 
 ### How this relates to `ports.xdc`
 
-Tool Command Language (Tcl) is the scripting language built into the Vivado environment — essentially, the language Vivado understands. You can use it to give instructions directly (for example, asking questions about the design or setting a constraint) or to write a script, which is a text file containing a list of commands that Vivado can run to repeat the same flow automatically. An example is the `make_project.tcl` script, which we used to create a new project when launching Vivado. Tcl also follows the conventions of the industry-standard Synopsys Design Constraints (SDC) format. [For more information on Tcl commands](https://docs.amd.com/v/u/2019.2-English/ug835-vivado-tcl-commands)
+Tool Command Language (Tcl) is the scripting language built into the Vivado environment — essentially, the language Vivado understands. You can use it to give instructions directly (for example, asking questions about the design or setting a constraint) or to write a script, which is a text file containing a list of commands that Vivado can run to repeat the same flow automatically. An example is the `make_project.tcl` script, which we used to create a new project when launching Vivado. Tcl also follows the conventions of the industry-standard Synopsys Design Constraints (SDC) format.[^4]
 
 `.xdc` files use a Tcl-based syntax. They look like Tcl scripts (set_property, etc.), but unlike general .tcl files, they are specifically for describing pin assignments, voltage standards, timing, and other design constraints.
 
@@ -216,15 +215,14 @@ set_property PACKAGE_PIN V16 [get_ports {adc_dat_a_i[15]}]
 ### First two lines
 
 - `adc_dat_a_i[*]` = this means all the pins in the ADC A data bus (`adc_dat_a_i[0] … adc_dat_a_i[13]` in your schematic).
-- `IOSTANDARD LVCMOS18` = sets the electrical standard. LVCMOS18 means “Low-Voltage CMOS at 1.8 V logic level.” This tells Vivado that these FPGA pins will be receiving 0 ↔ 1.8 V signals. [For more info](https://docs.amd.com/r/en-US/ug861-ultrascale-selectio/LVCMOS)
+- `IOSTANDARD LVCMOS18` = sets the electrical standard. LVCMOS18 means “Low-Voltage CMOS at 1.8 V logic level.” This tells Vivado that these FPGA pins will be receiving 0 ↔ 1.8 V signals.[^5]
 - `IOB TRUE` = requesting that the register used for that port be placed in the Input/Output Buffer of the FPGA, right next to the physical pin. 
     - When you connect an external signal (like the ADC outputs) to your FPGA, it first passes through a special interface block at the edge of the chip called the I/O Buffer (IOB). This block is where the FPGA talks to the outside world.
     - Inside the FPGA, you often use registers (flip-flops) to store signals at each clock cycle. Normally, Vivado might place these registers somewhere in the general FPGA fabric (a bit further away from the actual pin).
     - Why does it matter?
         - Tighter timing: Since the register is right at the pin, the signal doesn’t need to travel far before being captured. This reduces delay and helps you reliably capture very fast signals (like the 125 MS/s ADC data).
         - Consistency: Each build will place the register in the same spot, so the timing stays predictable.
-        - Good practice for high-speed interfaces: For things like ADC/DAC data buses, putting registers in the IOB is often essential to meet timing.
-    - [For more info](https://docs.amd.com/r/2024.1-English/ug901-vivado-synthesis/IOB)
+        - Good practice for high-speed interfaces: For things like ADC/DAC data buses, putting registers in the IOB is often essential to meet timing.[^6]
 
 ### Package pin mapping
 
@@ -257,3 +255,12 @@ For example, `adc_dat_a_i[0]` is connected to package pin `V17`, which correspon
 
 
 [^2]: Analog Devices. *LTC2145-14 Datasheet*. Available at: https://www.analog.com/media/en/technical-documentation/data-sheets/21454314fa.pdf  
+
+[^3]: Red Pitaya d.o.o. *Red Pitaya Schematics v1.0.1*. Available at: https://downloads.redpitaya.com/doc/Red_Pitaya_Schematics_v1.0.1.pdf 
+
+[^4]: AMD. *Vivado Tcl Command Reference Guide (UG835)*. Available at: https://docs.amd.com/v/u/2019.2-English/ug835-vivado-tcl-commands
+
+[^5]: AMD. *UltraScale Architecture SelectIO Resources (UG861)*. Section: LVCMOS. Available at: https://docs.amd.com/r/en-US/ug861-ultrascale-selectio/LVCMOS
+
+[^6]: AMD. *Vivado Design Suite User Guide: Synthesis (UG901)*. Section: IOB attribute. Available at: https://docs.amd.com/r/2024.1-English/ug901-vivado-synthesis/IOB
+
