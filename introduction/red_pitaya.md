@@ -94,7 +94,8 @@ If hardware isn’t fast enough, you can just build more of it in parallel. CPUs
 
 ![Red Pitaya Block Schematic](../images/red_pitaya_schematic.png)
 
-*Figure 2: Red Pitaya STEMlab 125-14 block diagram, from Red Pitaya Schematics v1.0.1 [^2]. Used with permission under the document terms for reproduction in unmodified form.*
+*Figure 2: Red Pitaya STEMlab 125-14 block diagram, from Red Pitaya Schematics v1.0.1 [^2].*
+
 
 ## Key components
 
@@ -124,7 +125,7 @@ The following explanations are based on the official Red Pitaya Schematics v1.0.
 - **SMA Connectors:**
   - The gold connectors on the Red Pitaya board are SMA connectors. These are a type of coaxial connector that carry signals inside a shielded cable, commonly used in RF and test equipment.
   - For the inputs (IN1 and IN2), on sheet 3 of 9 of the Red Pitaya Schematics v1.0.1[^2], the schematic shows that there is no fixed 50 Ω termination built in. Instead, they are designed with a high input resistance (1 MΩ) so you can connect different types of sources. If you need proper impedance matching (e.g., connecting to a 50 Ω signal generator), you may need to add a 50 Ω terminator externally.
-  - For the outputs (OUT1 and OUT2), the schematic clearly shows a built-in 50 Ω termination, which is explained below in the Outputs Section.
+  - For the outputs (OUT1 and OUT2), the schematic clearly shows a built-in 50 Ω termination, which is explained below in the Outputs (OUT1, OUT2) Section.
 
 - **[SMA connector] → [Range setting circuit (jumpers)] → [Low-pass filter] → [ADC chip]**
 
