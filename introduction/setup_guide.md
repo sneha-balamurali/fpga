@@ -123,6 +123,7 @@ How I did it:
 This section is adapted from the [LED Blink Tutorial by Anton Potočnik](https://redpitaya-knowledge-base.readthedocs.io/en/latest/learn_fpga/4_lessons/LedBlink.html).[^2]
 
 After generating your bitstream in vivado, it will generate the file to `<Path/to/repository>/tmp/led_blink/led_blink.runs/impl1/system_wrapper.bit`
+If you didn't rename the project in the `make_project.tcl`, it will look something more like `<Path/to/repository>/tmp/Calibration/Calibration.runs/impl1/system_wrapper.bit`.
 
 The method you use depends on which version of the Red Pitaya OS your board is running and if you're using Windows/Linux.
 
@@ -133,7 +134,7 @@ The method you use depends on which version of the Red Pitaya OS your board is r
 1. Open a command line on your computer:
   - Linux/macOS: open a Terminal
   - Windows: Command Prompt (CMD), PowerShell, or Git Bash. (I used Git bash)
-2. Use the `cd` (change directory) command to move into the folder where Vivado stored your generated `.bit` file (the FPGA bitstream).
+2. Use the `cd` (change directory) command to move into the folder where Vivado stored your generated `.bit` file (the FPGA bitstream). If you didn't rename the project in the `make_project.tcl`, your path will look something more like `<Path/to/repository>/tmp/Calibration/Calibration.runs/impl1/system_wrapper.bit`.
 ```bash
 cd <Path/to/repository>tmp/led_blink/led_blink.runs/impl1
 ```
@@ -157,7 +158,7 @@ cat system_wrapper.bit > /dev/xdevcfg
 
 ### OS v2.00
 
-1. For Windows, open the Vivado Tcl console or Vivado HSL Command Prompt and for Linux open the Terminal move to the directory where the `.bit` file was generated.
+1. For Windows, open the Vivado Tcl console or Vivado HSL Command Prompt and for Linux open the Terminal move to the directory where the `.bit` file was generated. If you didn't rename the project in the `make_project.tcl`, it will look something more like `<Path/to/repository>/tmp/Calibration/Calibration.runs/impl1/system_wrapper.bit`.
 ```bash
 cd <Path/to/repository>tmp/led_blink/led_blink.runs/impl1
 ``` 
