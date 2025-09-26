@@ -33,13 +33,17 @@ This repository contains setup guides, project walkthroughs, and notes from my F
 
 ## Resources:
 
+This project draws on a range of resources. Each section of the documentation includes references to the specific materials used (e.g., AMD/Xilinx documentation and Red Pitaya schematics.  
+
+Listed below are some additional resources:
+
 ### [Red Pitaya Documentation:](https://redpitaya-knowledge-base.readthedocs.io/en/latest/learn_fpga/fpga_learn.html)
 
 Use this as a guide. The tutorials there (e.g. the LED blink lesson) say to install Vivado 2020.1, because the original tutorial code was written and tested on Vivado 2020.1. You can install the latest version instead — most things still work if you adapt slightly.
 
 ### [Pavel Demin github:](https://github.com/pavel-demin/red-pitaya-notes/tree/master/cores)
 
-Were a useful reference because they provide ready-made IP cores (e.g. ADC, DAC).
+A useful reference because they provide ready-made IP cores (e.g. ADC, DAC).
 
 ### [Master's Thesis: Real-Time Processing of Laser-Ultrasonic Signals](https://epub.jku.at/obvulihs/download/pdf/2406394?originalFilename=true )
 Author: Thomas Paireder, Johannes Kepler University Linz, 2017
