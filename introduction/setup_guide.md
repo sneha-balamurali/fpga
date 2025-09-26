@@ -122,8 +122,8 @@ How I did it:
 
 This section is adapted from the [LED Blink Tutorial by Anton Potočnik](https://redpitaya-knowledge-base.readthedocs.io/en/latest/learn_fpga/4_lessons/LedBlink.html).[^2]
 
-After generating your bitstream in vivado, it will generate the file to `<Path/to/repository>/tmp/led_blink/led_blink.runs/impl1/system_wrapper.bit`
-If you didn't rename the project in the `make_project.tcl`, it will look something more like `<Path/to/repository>/tmp/Calibration/Calibration.runs/impl1/system_wrapper.bit`.
+After generating your bitstream in vivado, it will generate the file to `<Path/to/repository>/tmp/Calibration/Calibration.runs/impl1/system_wrapper.bit`
+If you renamed the project in the `make_project.tcl`, it will look something more like `<Path/to/repository>/tmp/<your-project-name>/<your-project-name>.runs/impl1/system_wrapper.bit`.
 
 The method you use depends on which version of the Red Pitaya OS your board is running and if you're using Windows/Linux.
 
@@ -134,9 +134,9 @@ The method you use depends on which version of the Red Pitaya OS your board is r
 1. Open a command line on your computer:
   - Linux/macOS: open a Terminal
   - Windows: Command Prompt (CMD), PowerShell, or Git Bash. (I used Git bash)
-2. Use the `cd` (change directory) command to move into the folder where Vivado stored your generated `.bit` file (the FPGA bitstream). If you didn't rename the project in the `make_project.tcl`, your path will look something more like `<Path/to/repository>/tmp/Calibration/Calibration.runs/impl1/system_wrapper.bit`.
+2. Use the `cd` (change directory) command to move into the folder where Vivado stored your generated `.bit` file (the FPGA bitstream). If you renamed the project in the `make_project.tcl`, it will look something more like `<Path/to/repository>/tmp/<your-project-name>/<your-project-name>.runs/impl1/system_wrapper.bit`.
 ```bash
-cd <Path/to/repository>tmp/led_blink/led_blink.runs/impl1
+cd <Path/to/repository>tmp/Calibration/Calibration.runs/impl1
 ```
 3. Transfer the .bit file to the Red Pitaya. On Linux/macOS, you can use scp; on Windows you can use WinSCP or an equivalent tool:
 You can re-name the `system_wrapper.bit` after `root/` to a name you prefer but just remember to be consistent and use that when you upload your bitstream.
@@ -158,9 +158,9 @@ cat system_wrapper.bit > /dev/xdevcfg
 
 ### OS v2.00
 
-1. For Windows, open the Vivado Tcl console or Vivado HSL Command Prompt and for Linux open the Terminal move to the directory where the `.bit` file was generated. If you didn't rename the project in the `make_project.tcl`, it will look something more like `<Path/to/repository>/tmp/Calibration/Calibration.runs/impl1/system_wrapper.bit`.
+1. For Windows, open the Vivado Tcl console or Vivado HSL Command Prompt and for Linux open the Terminal move to the directory where the `.bit` file was generated. If you renamed the project in the `make_project.tcl`, it will look something more like `<Path/to/repository>/tmp/<your-project-name>/<your-project-name>.runs/impl1/system_wrapper.bit`.
 ```bash
-cd <Path/to/repository>tmp/led_blink/led_blink.runs/impl1
+cd <Path/to/repository>tmp/Calibration/Calibration.runs/impl1
 ``` 
 2. Convert the `.bit` file to `.bin` file
 - Windows(Vivado TCL console or Vivado HSL Command Prompt):
