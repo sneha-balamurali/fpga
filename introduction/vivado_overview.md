@@ -128,11 +128,13 @@ The below is explained in more detail in the [red_pitaya](../introduction/red_pi
     - A low-pass filter then removes frequencies above ~50 MHz, since the ADC cannot capture signals higher than half its sampling rate (Nyquist limit) without distortions.
 
 ![red_pitaya_block_schematic](../images/red_pitaya_schematic.png)
-**Figure 4:** High-level block diagram of the board, where the FPGA (Xilinx Zynq-7010), ADC/DAC, filters, power, and I/O are shown as functional blocks.
-
-Source: [Red Pitaya Schematics v1.0.1 (PDF)](https://downloads.redpitaya.com/doc/Red_Pitaya_Schematics_v1.0.1.pdf), © Red Pitaya d.o.o.
+**Figure 4:** High-level block diagram of the board, showing the FPGA (Xilinx Zynq-7010), ADC/DAC, filters, power, and I/O as functional blocks. Source: Red Pitaya Schematics v1.0.1 (PDF)[^4]
 
 ### Detailed Schematic of SMA inputs to ADC to FPGA
+
+![red_pitaya_detailed_schematic](../images/red_pitaya_detailed_schematic_analog_front_end_and_analog_digital_converter.png)
+**Figure 5:** Detailed schematic view of the analog front-end and ADC connections into the FPGA pins. This shows the actual wiring between the SMA inputs, amplifiers, ADC chip, and FPGA package pins.  
+Source: Red Pitaya Schematics[^4]
 
 - **Left-hand side (blue, IN1,IN2 SMA connectors):**
     - These are the physical inputs where you connect analogue signals through the SMA ports. Before reaching the FPGA, they go through:
@@ -157,7 +159,7 @@ Source: [Red Pitaya Schematics v1.0.1 (PDF)](https://downloads.redpitaya.com/doc
             - `ADA0` = 1
             - Together, those 14 pins form one digital number that the FPGA reads.
     - There are a number of clock pins in the schematic:
-        - I had a look at the [data sheet for the ADC](https://www.analog.com/media/en/technical-documentation/data-sheets/21454314fa.pdf) and from what I understand:
+        - I had a look at the data sheet for the ADC[^3] and from what I understand:
             - `ENC+/ENC`- are the ADC's encode clock inputs. The ADC samples its analogue inputs on this clock (i.e. it sets the sampling rate).
             - `ACLK_P/ACLK_N` - the selected clock that actually drives `ENC`. It can come from one of three sources:
                 - `PCLK_P/PCLK_N` - an external clock input
@@ -171,11 +173,6 @@ Source: [Red Pitaya Schematics v1.0.1 (PDF)](https://downloads.redpitaya.com/doc
         - The FPGA Pin Description (`IO_L10P_T1_34`) is how Vivado and the FPGA fabric refer to that pin internally.
         - The Package Pin Location (`V15`) is the physical position of the pin on the FPGA chip package.
         - For example: the ADC output ADA11 connects to `IO_L10P_T1_34` (FPGA pin description), which corresponds to the physical package pin V15.
-
-![red_pitaya_detailed_schematic](../images/red_pitaya_detailed_schematic_analog_front_end_and_analog_digital_converter.png)
-**Figure 5:** Detailed schematic view of the analog front-end and ADC connections into the FPGA pins. This shows the actual wiring between the SMA inputs, amplifiers, ADC chip, and FPGA package pins.
-
-Source: [Red Pitaya Schematics v1.0.1 (PDF)](https://downloads.redpitaya.com/doc/Red_Pitaya_Schematics_v1.0.1.pdf), © Red Pitaya d.o.o.
 
 ### How this relates to `ports.xdc`
 
