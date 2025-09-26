@@ -117,7 +117,7 @@ The following explanations are based on the official Red Pitaya schematics [^2],
     - **Low-pass filter** allows low frequencies through and blocks high frequencies.
     - In the Red Pitaya's case signals below ~50 MHz pass cleanly, signals much above 50 MHz get strongly attenuated.
     - This is because of **Nyquist sampling theorem** which tells you how fast you need to sample a signal so that you can represent it accurately in digital form. 
-    - If you sample at a rate ​${f_s}$, the maximum frequency you can capture without distortion is half of that: $f_\text{max} = \frac{f_s}{2}$. This half-frequency is called the Nyquist frequency. 
+    - If you sample at a rate ​$f_s$, the maximum frequency you can capture without distortion is half of that: $f_\text{max} = \frac{f_s}{2}$. This half-frequency is called the Nyquist frequency. 
     - In Red Pitaya, the sampling rate is 125 MS/s so the Nyquist frequency is 62.5 MHz. Any signals below this can be digitised faithfully and any frequency above this will fold back into lower frequencies, creating false signals (aliasing). 
     - The 50 MHz cutoff ensures only valid signals enter the ADC.
 
