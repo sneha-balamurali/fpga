@@ -122,8 +122,9 @@ The following explanations are based on the official Red Pitaya Schematics v1.0.
     - The 50 MHz cutoff ensures only valid signals enter the ADC.
 
 - **SMA Connectors:**
-  - The gold metal connectors you see in figure 1. They are a type of coaxial connectors (carries signals inside a shielded cable).
-  - On Sheet 3 of 9 of the Red Pitaya Schematics v1.0.1[^2], “Analog front-end and analog-digital converter, FPGA bank 34”, it does not show a fixed 50 Ω termination for the inputs unlike for the outputs (on page 4). 
+  - The gold connectors on the Red Pitaya board are SMA connectors. These are a type of coaxial connector that carry signals inside a shielded cable, commonly used in RF and test equipment.
+  - For the inputs (IN1 and IN2), on sheet 3 of 9 of the Red Pitaya Schematics v1.0.1[^2], the schematic shows that there is no fixed 50 Ω termination built in. Instead, they are designed with a high input resistance (1 MΩ) so you can connect different types of sources. If you need proper impedance matching (e.g., connecting to a 50 Ω signal generator), you may need to add a 50 Ω terminator externally.
+  - For the outputs (OUT1 and OUT2), the schematic clearly shows a built-in 50 Ω termination, which is explained below in the Outputs Section.
 
 - **[SMA connector] → [Range setting circuit (jumpers)] → [Low-pass filter] → [ADC chip]**
 
@@ -137,13 +138,14 @@ The following explanations are based on the official Red Pitaya Schematics v1.0.
     - The ~50 MHz low-pass filter after the DAC blocks the high-frequency componenets and ensures the output is a clean analogue signal.
 
 - **SMA Connectors:**
-  -  OUT1 and OUT2 are impedance matched to **50Ω characteristic impedance**. Ensure that everything connected to the Red Pitaya is impedance matched. 
-  - Say you have a mismatch (generator 50Ω -> cable 50Ω -> oscilloscope at 1 MHz):
-    - Part of the wave is absorbed
+  -  On sheet 4 of 9 of the Red Pitaya Schematic v1.0.1[^2], the outputs (OUT1 and OUT2) are shown with a built-in **50Ω termination**
+  - For reliable measurements, all parts of your setup should use the same impedance (e.g. generator 50Ω → cable 50Ω → oscilloscope 50Ω). This is called impedance matching.
+  - Say you have a mismatch (e.g. the Red Pitaya outputs a 50Ω signal but your oscilloscope input is 1 MΩ):
+    - Part of the signal is absorbed
     - Part will be reflected back down the line
     - This causes ringing, standing waves and wrong amplitudes on your oscilloscope
 
-    - Analogy: a signal generator is like a water pump. It expects to pump water into a pipe system (the coax cable) with a known resistance.
+    - Analogy: when your red pitaya acts as a signal generator, it is like a water pump. It expects to pump water into a pipe system (the coax cable) with a known resistance.
     - At the other end, the oscilloscope input should act like a wide-open drain that accepts the flow steadily (also 50Ω). 
     - If the scope looks like an infinite wall (1 MΩ), the water has nowhere to go and so part of the wave gets reflected.
   - In practice: the generator produces a waveform, but the scope displays the wrong amplitude (often doubled). You might also see ringing or distortion because the signals keep bouncing back and forth. If your scope has a different impedance you will have to terminate it with 50Ω. If your scope does not have a built in option to set the channel input to 50Ω, you will need to attach a **50Ω feed-through terminator to the input.**
