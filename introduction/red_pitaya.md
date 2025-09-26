@@ -155,7 +155,7 @@ If hardware isn’t fast enough, you can just build more of it in parallel. CPUs
   - This offers flexibility, parallelism, speed and prototyping without making new silicon.
 
 - **ARM Cortex-A9 processor:** 
-  - The ARM Cortex-A9 inside the Zynq SoC is the CPU. [For more information go to Zynq 7000 SoC Technical Reference Manual (UG585)](https://docs.amd.com/r/en-US/ug585-zynq-7000-SoC-TRM/PS-PL-AXI-Interfaces).  
+  - The ARM Cortex-A9 inside the Zynq SoC is the CPU. [^3]
   - It runs a lightweight Linux distribution (Red Pitaya OS), which makes the board programmable and user-friendly.
   - The CPU is responsible for tasks that are too slow, too complex, or too high-level for the FPGA:
     - File I/O: saving ADC data to the SD card, loading FPGA configurations, reading/writing logs.  
@@ -183,7 +183,7 @@ If hardware isn’t fast enough, you can just build more of it in parallel. CPUs
 Click on the link to go to the image of the [extension connectors](https://redpitaya.com/rtd-iframe/?iframe=https://redpitaya.readthedocs.io/en/latest/developerGuide/hardware/hardware.html)
 
 - **E1 connector:** 
-  - 16 single-ended or 8 differential GPIO lines (3.3 V)[^3].
+  - 16 single-ended or 8 differential GPIO lines (3.3 V)[^4].
   - GPIO stands for General Purpose Input/Output. These are digital pins:
     
     Configurable as inputs (reads 0/1) or output (drives a 0/1).
@@ -243,6 +243,6 @@ This combination makes the board ideal for applications where high-speed hardwar
 
 [^2]: Red Pitaya d.o.o. *Red Pitaya Schematics v1.0.1*. Available at: https://downloads.redpitaya.com/doc/Red_Pitaya_Schematics_v1.0.1.pdf 
 
-[^3]: Red Pitaya d.o.o. *Hardware*. Available at: https://redpitaya.readthedocs.io/en/latest/developerGuide/hardware/hardware.html
+[^3]: AMD Xilinx. *Zynq-7000 SoC Technical Reference Manual (UG585)*. Version 1.13.1, July 2023. Available at:https://docs.amd.com/r/en-US/ug585-zynq-7000-SoC-TRM/Zynq-7000-SoC-Technical-Reference-Manual
 
-
+[^4]: Red Pitaya d.o.o. *Hardware*. Available at: https://redpitaya.readthedocs.io/en/latest/developerGuide/hardware/hardware.html
