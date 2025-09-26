@@ -201,15 +201,15 @@ fpgautil -b led_blink.bit.bin
 
 ## Acknowledgements & References
 
-This setup guide is adapted from internal Red Pitaya notes by M. Barendregt (2022)[^3] and B. Millward (2023)[^4], written within the Kagome Lattice subgroup of the MBQD group at the University of Cambridge during their Red Pitaya projects.
+This setup guide is adapted from internal Red Pitaya notes by M. Barendregt (2022) and B. Millward (2023), written within the Kagome Lattice subgroup of the MBQD group at the University of Cambridge during their Red Pitaya projects.
 
 ### References
-[^1] AMD. *Vivado Design Tools – Downloads Page*. Available at: [https://www.xilinx.com/support/download/index.html/content/xilinx/en/downloadNav/vivado-design-tools.html](https://www.xilinx.com/support/download/index.html/content/xilinx/en/downloadNav/vivado-design-tools.html)
+[^1]: AMD. *Vivado Design Tools – Downloads Page*. Available at: [https://www.xilinx.com/support/download/index.html/content/xilinx/en/downloadNav/vivado-design-tools.html](https://www.xilinx.com/support/download/index.html/content/xilinx/en/downloadNav/vivado-design-tools.html)
 
-[^2] Potočnik, Anton. *LED Blink Tutorial*. Red Pitaya Knowledge Base, Red Pitaya d.o.o. Available at: https://redpitaya-knowledge-base.readthedocs.io/en/latest/learn_fpga/4_lessons/LedBlink.html
+[^2]: Potočnik, Anton. *LED Blink Tutorial*. Red Pitaya Knowledge Base, Red Pitaya d.o.o. Available at: https://redpitaya-knowledge-base.readthedocs.io/en/latest/learn_fpga/4_lessons/LedBlink.html
 
-[^3] M. Barendregt, *Red Pitaya*, Kagome Lattice – MBQD Group, University of Cambridge, Internal Notes, Summer 2022. Retrieved from Kagome Wiki. Available at: [https://wiki.cam.ac.uk/kagome/Red_Pitaya](https://wiki.cam.ac.uk/kagome/Red_Pitaya)  
+[^3]: M. Barendregt, *Red Pitaya*, Kagome Lattice – MBQD Group, University of Cambridge, Internal Notes, Summer 2022. Retrieved from Kagome Wiki. Available at: [https://wiki.cam.ac.uk/kagome/Red_Pitaya](https://wiki.cam.ac.uk/kagome/Red_Pitaya)  
 
-[^4] B. Millward, *Red Pitaya Guide*, Kagome Lattice – MBQD Group, University of Cambridge, Internal Notes, 2023. Retrieved from Kagome Wiki. Available at: [https://wiki.cam.ac.uk/kagome/Red_Pitaya](https://wiki.cam.ac.uk/kagome/Red_Pitaya)
+[^4]: B. Millward, *Red Pitaya Guide*, Kagome Lattice – MBQD Group, University of Cambridge, Internal Notes, 2023. Retrieved from Kagome Wiki. Available at: [https://wiki.cam.ac.uk/kagome/Red_Pitaya](https://wiki.cam.ac.uk/kagome/Red_Pitaya)
 
 
