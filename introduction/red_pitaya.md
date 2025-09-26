@@ -98,7 +98,7 @@ If hardware isn’t fast enough, you can just build more of it in parallel. CPUs
 
 ## Key components
 
-The following explanations are based on the official Red Pitaya schematics [^2], with additional commentary for clarity.
+The following explanations are based on the official Red Pitaya Schematics v1.0.1 [^2], with additional commentary for clarity.
 
 ### Inputs (IN1, IN2):
 - **2x ADC 14 bit@125 MHz:**
@@ -122,7 +122,8 @@ The following explanations are based on the official Red Pitaya schematics [^2],
     - The 50 MHz cutoff ensures only valid signals enter the ADC.
 
 - **SMA Connectors:**
-  -  The gold metal connectors you see in figure 1. They are a type of coaxial connectors (carries signals inside a shielded cable).
+  - The gold metal connectors you see in figure 1. They are a type of coaxial connectors (carries signals inside a shielded cable).
+  - On Sheet 3 of 9 of the Red Pitaya Schematics v1.0.1[^2], “Analog front-end and analog-digital converter, FPGA bank 34”, it does not show a fixed 50 Ω termination for the inputs unlike for the outputs (on page 4). 
 
 - **[SMA connector] → [Range setting circuit (jumpers)] → [Low-pass filter] → [ADC chip]**
 
@@ -136,7 +137,8 @@ The following explanations are based on the official Red Pitaya schematics [^2],
     - The ~50 MHz low-pass filter after the DAC blocks the high-frequency componenets and ensures the output is a clean analogue signal.
 
 - **SMA Connectors:**
-  -  OUT1 and OUT2 are impedance matched to **50Ω characteristic impedance**. Ensure that everything connected to the Red Pitaya is impedance matched. If there is a mismatch (generator 50Ω -> cable 50Ω -> oscilloscope at 1 MHz):
+  -  OUT1 and OUT2 are impedance matched to **50Ω characteristic impedance**. Ensure that everything connected to the Red Pitaya is impedance matched. 
+  - Say you have a mismatch (generator 50Ω -> cable 50Ω -> oscilloscope at 1 MHz):
     - Part of the wave is absorbed
     - Part will be reflected back down the line
     - This causes ringing, standing waves and wrong amplitudes on your oscilloscope

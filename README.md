@@ -29,6 +29,8 @@ This repository contains setup guides, project walkthroughs, and notes from my F
 
 3. If you just want to program the Red Pitaya to do one of the projects, read through the [Setup guide](/introduction/setup_guide.md) and then go to your desired project.
 
+4. If you’re looking at this repository on QEG’s GitLab, it is worth looking at the [original repository](https://github.com/sneha-balamurali/fpga/tree/main) for any updates.
+
 ## Resources:
 
 ### [Red Pitaya Documentation:](https://redpitaya-knowledge-base.readthedocs.io/en/latest/learn_fpga/fpga_learn.html)
