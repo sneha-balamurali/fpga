@@ -69,7 +69,7 @@ When you add these cores to your project, they show up as blocks you can drag in
 
 **Figure 3: Clock configuration menu inside the Zynq7 Processing System IP.**
 
-- You'll see that the `FCLK_CLK0` is connected to `M_AXI_GP0_ACLK` and `S_AXI_HP0_ACLK`. These are clock inputs for the AXI interfaces that connect the processor system (PS) to the programmable logic (PL).
+- You'll see that the `FCLK_CLK0` is connected to `M_AXI_GP0_ACLK` and `S_AXI_HP0_ACLK`. These are clock inputs for the AXI interfaces that connect the processor system (PS) to the programmable logic (PL).[^2]
 
 - **What is AXI?**
     - AXI is a standard way of moving data between different parts of a chip (like CPU, memory, and FPGA logic). It is a common set of wires and rules that PS/PL IPs use to move data. It always needs a clock so that both sides know when to read or write signals. **AXI protocol will be expanded on in later sections**
@@ -253,14 +253,15 @@ For example, `adc_dat_a_i[0]` is connected to package pin `V17`, which correspon
 
 [^1]: AMD. *Zynq-7000 SoC Technical Reference Manual (UG585)*. Available at: https://docs.amd.com/r/en-US/ug585-zynq-7000-SoC-TRM/Zynq-7000-SoC-Technical-Reference-Manual
 
+[^2]: M. Barendregt, Red Pitaya – Kagome Lattice – MBQD Group, University of Cambridge, Internal Notes, Summer 2022. Retrieved from Kagome Wiki. Available at: https://wiki.cam.ac.uk/kagome/Red_Pitaya 
 
-[^2]: Analog Devices. *LTC2145-14 Datasheet*. Available at: https://www.analog.com/media/en/technical-documentation/data-sheets/21454314fa.pdf  
+[^3]: Analog Devices. *LTC2145-14 Datasheet*. Available at: https://www.analog.com/media/en/technical-documentation/data-sheets/21454314fa.pdf  
 
-[^3]: Red Pitaya d.o.o. *Red Pitaya Schematics v1.0.1*. Available at: https://downloads.redpitaya.com/doc/Red_Pitaya_Schematics_v1.0.1.pdf 
+[^4]: Red Pitaya d.o.o. *Red Pitaya Schematics v1.0.1*. Available at: https://downloads.redpitaya.com/doc/Red_Pitaya_Schematics_v1.0.1.pdf 
 
-[^4]: AMD. *Vivado Tcl Command Reference Guide (UG835)*. Available at: https://docs.amd.com/v/u/2019.2-English/ug835-vivado-tcl-commands
+[^5]: AMD. *Vivado Tcl Command Reference Guide (UG835)*. Available at: https://docs.amd.com/v/u/2019.2-English/ug835-vivado-tcl-commands
 
-[^5]: AMD. *UltraScale Architecture SelectIO Resources (UG861)*. Section: LVCMOS. Available at: https://docs.amd.com/r/en-US/ug861-ultrascale-selectio/LVCMOS
+[^6]: AMD. *UltraScale Architecture SelectIO Resources (UG861)*. Section: LVCMOS. Available at: https://docs.amd.com/r/en-US/ug861-ultrascale-selectio/LVCMOS
 
-[^6]: AMD. *Vivado Design Suite User Guide: Synthesis (UG901)*. Section: IOB attribute. Available at: https://docs.amd.com/r/2024.1-English/ug901-vivado-synthesis/IOB
+[^7]: AMD. *Vivado Design Suite User Guide: Synthesis (UG901)*. Section: IOB attribute. Available at: https://docs.amd.com/r/2024.1-English/ug901-vivado-synthesis/IOB
 

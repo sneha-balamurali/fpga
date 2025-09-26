@@ -112,6 +112,11 @@ There are multiple ways to connect to the Red Pitaya which is detailed [here](ht
 
 I did it through an ethernet cable connection to my laptop.
 
-## Acknowledgement
+## Acknowledgements & References
 
-This setup guide is adapted from internal Red Pitaya notes by M. Barendregt (2022) and B. Millward (2023), developed within the Kagome Lattice – MBQD group at the University of Cambridge during their Red Pitaya projects.
+This setup guide is adapted from internal Red Pitaya notes by M. Barendregt (2022) and B. Millward (2023), written within the Kagome Lattice subgroup of the MBQD group at the University of Cambridge during their Red Pitaya projects.
+
+### References
+- M. Barendregt, *Red Pitaya*, Kagome Lattice – MBQD Group, University of Cambridge, Internal Notes, Summer 2022. Retrieved from Kagome Wiki. Available at: [https://wiki.cam.ac.uk/kagome/Red_Pitaya](https://wiki.cam.ac.uk/kagome/Red_Pitaya)  
+- B. Millward, *Red Pitaya Guide*, Kagome Lattice – MBQD Group, University of Cambridge, Internal Notes, 2023. Retrieved from Kagome Wiki. Available at: [https://wiki.cam.ac.uk/kagome/Red_Pitaya](https://wiki.cam.ac.uk/kagome/Red_Pitaya)
+
