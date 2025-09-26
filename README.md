@@ -37,7 +37,9 @@ This repository contains setup guides, project walkthroughs, and notes from my F
 
 Use this as a guide. The tutorials there (e.g. the LED blink lesson) say to install Vivado 2020.1, because the original tutorial code was written and tested on Vivado 2020.1. You can install the latest version instead — most things still work if you adapt slightly.
 
-### [Pavel Demin github:](https://pavel-demin.github.io/red-pitaya-notes/)
+### [Pavel Demin github:](https://github.com/pavel-demin/red-pitaya-notes/tree/master/cores)
+
+Were a useful reference because they provide ready-made IP cores (e.g. ADC, DAC).
 
 ### [Master's Thesis: Real-Time Processing of Laser-Ultrasonic Signals](https://epub.jku.at/obvulihs/download/pdf/2406394?originalFilename=true )
 Author: Thomas Paireder, Johannes Kepler University Linz, 2017
