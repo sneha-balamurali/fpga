@@ -117,7 +117,7 @@ This is now slow enough for our eyes to see the LED blink on and off.
 
 #### Solution?
 
-- The Slice IP lets you cut out a subset of bits from a larger bus. 
+- The Slice IP lets you cut out a subset of bits from a larger bus.[^3]
 - You tell it: input width = 28, Din from = 27, Din to = 27.
 - This means "out of the 28 bits, only keep bit 27."
 - The Slice then outputs a 1-bit signal that you can neatly connect to the LED port.
