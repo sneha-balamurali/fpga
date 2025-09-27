@@ -43,7 +43,8 @@ Aim: Get an LED on the Red Pitaya to blink on and off.
 
 ### Binary Counter
 
-- A binary counter is a simpl digital circuit (which is given as an IP core in Vivado) that increments or decrements a binary number on each clock "tick" (rising or falling edge). 
+- A binary counter is a simple digital circuit (which is given as an IP core in Vivado) that increments or decrements a binary number on each clock "tick" (rising or falling edge).
+- The AMD Binary Counter v12.0 is the one we use in our tutorial. It supports up/down counting, wide bit widths (up to 256 bits), and different implementations (using LUTs or DSP slices).[^2]
 
 #### Example:
 
@@ -100,10 +101,6 @@ $$
 
 This is now slow enough for our eyes to see the LED blink on and off.
 
-#### Which counter do we use?
-
-- The AMD Binary Counter v12.0 is the one we use in our tutorial. It supports up/down counting, wide bit widths (up to 256 bits), and different implementations (using LUTs or DSP slices).[^2]
-
 ### Slice
 
 - The Binary Counter IP outputs all the bits at once i.e. 28 bits wide. So we get something like:
@@ -127,7 +124,7 @@ This is now slow enough for our eyes to see the LED blink on and off.
 
 With this setup, the chosen LED will now blink roughly once per second.
 
-1. Open up your Vivado project described in the [Set-up Guide](/introduction/setup_guide.md)
+1. Open up your Vivado project described in the [Setup Guide](/introduction/setup_guide.md)
 2. Open up your Block Design. 
 3. Right-click in the blank workspace and select Add IP.
 
@@ -144,7 +141,7 @@ With this setup, the chosen LED will now blink roughly once per second.
 ## Step 2: Add a Slice
 
 - Add the Inline Slice IP if you're using new Vivado versions (2024.2+) or the Slice IP if you are using older Vivado versions.
-- In my screenshots you’ll see the Slice IP (Vivado labels it as “Slice (Discontinued)” in Vivado 2025.1). I used it because it still appears in older tutorials and is useful to explain what’s happening.
+- In my screenshots you’ll see the Slice IP (Vivado labels it as “Slice (Discontinued)” in Vivado 2025.1). I used it because it still appears in older tutorials and is useful to explain what’s happening. The newer Inline Slice works identically for this tutorial so don't worry.
 - In newer Vivado versions (2024.2+), AMD provides inline HDL IPs (e.g. inline_slice) as replacements for older utility IPs like xlslice. These inline versions are lighter, faster to generate, and scale better in large projects. AMD now recommends using inline HDL IPs instead.[^1] [More info at UG994: Inline HDL](https://docs.amd.com/r/en-US/ug994-vivado-ip-subsystems/Inline-HDL)
 - Double-click and set the properties as shown below:
 
@@ -178,7 +175,7 @@ With this setup, the chosen LED will now blink roughly once per second.
 
 ## Step 6: Upload to Red Pitaya
 
-[Go to "Setup Guide: Connecting to your Red Pitaya" on instructions on how to uplaod bitstream to red pitaya](/introduction/setup_guide.md/)
+[Go to "Setup Guide: Connecting to your Red Pitaya" on instructions on how to upload bitstream to red pitaya](/introduction/setup_guide.md/)
 
 ## Learner's tip
 
