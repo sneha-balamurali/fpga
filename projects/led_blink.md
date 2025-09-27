@@ -36,14 +36,14 @@ Aim: Get an LED on the Red Pitaya to blink on and off.
 - In digital logic, a clock is a repeating signal that oscillates between high (1) and low (0). It acts as a timing reference so that all parts of the circuit know exactly when to update or transfer data.
 
 ![square_wave](/images/square_wave.jpg)
-- Here we have a periodic square wave. In digital logic, we can get our LED to blink on and off every time there is a rising edge (when it goes from 0 to 1) or falling edge (when it goes from 1 to 0). This is how the different parts of the ciruit keep track of time and know when to update or transfer data. 
+- Here we have a periodic square wave. In digital logic, we can get our LED to blink on and off every time there is a rising edge (when it goes from 0 to 1) or falling edge (when it goes from 1 to 0). This is how the different parts of the circuit keep track of time and know when to update or transfer data. 
 - Now we realise that we need a clock for our LED.
 - In this tutorial we will be using the Red Pitaya's internal clock. However, that internal clock is 125 MHz, which would mean that the LED would blink every 8ns...far too fast for our eyes to notice. The LED would just look like its on and not flashing on and off. 
 - In order to deal with that, we will use a binary counter.
 
 ### Binary Counter
 
-- A binary counter is a simpl digital circuit (which is given as an IP core in Vivado) that incremements or decrements a binary number on each clock "tick" (rising or falling edge). 
+- A binary counter is a simpl digital circuit (which is given as an IP core in Vivado) that increments or decrements a binary number on each clock "tick" (rising or falling edge). 
 
 #### Example:
 
@@ -77,7 +77,7 @@ Aim: Get an LED on the Red Pitaya to blink on and off.
 - Bit 2 toggles every 4 ticks.
 - Bit 3 (MSB) toggles every 8 ticks.
 
-- LSB = Lease Significant Bit
+- LSB = Least Significant Bit
 - MSB = Most Significant Bit
 
 This shows that higher-order bits have half the frequency of the bit below. In general:
@@ -143,8 +143,8 @@ With this setup, the chosen LED will now blink roughly once per second.
 
 ## Step 2: Add a Slice
 
-- Add the Inline Slice IP. 
-- In my screenshots you’ll see the older Slice IP (Vivado labels it as “Slice (Discontinued)”). I used it because it still appears in older tutorials and is useful to explain what’s happening.
+- Add the Inline Slice IP if you're using new Vivado versions (2024.2+) or the Slice IP if you are using older Vivado versions.
+- In my screenshots you’ll see the Slice IP (Vivado labels it as “Slice (Discontinued)” in Vivado 2025.1). I used it because it still appears in older tutorials and is useful to explain what’s happening.
 - In newer Vivado versions (2024.2+), AMD provides inline HDL IPs (e.g. inline_slice) as replacements for older utility IPs like xlslice. These inline versions are lighter, faster to generate, and scale better in large projects. AMD now recommends using inline HDL IPs instead.[^1] [More info at UG994: Inline HDL](https://docs.amd.com/r/en-US/ug994-vivado-ip-subsystems/Inline-HDL)
 - Double-click and set the properties as shown below:
 
@@ -164,7 +164,7 @@ With this setup, the chosen LED will now blink roughly once per second.
 - Hover over a port (e.g. the `CLK` pin of the Binary Counter). A pen icon will appear.
 - Click and drag it to connect it to `FCLK_CLK0` in the ZYNQ7 Processing System.
 - Connect the rest as shown in the block design below.
-- To disconnect something, right-click the port and select Disconnect Pin.
+- To disconnect something, right-click the port and select Disconnect Pin. Vivado calls them pins in the block diagram, but these correspond to the input/output ports of the IP core.
 
 ![led blink block design](/images/led_blink/led_blink_bd.png)
 
@@ -175,6 +175,14 @@ With this setup, the chosen LED will now blink roughly once per second.
 - You will then get a pop up called Launch Runs, as shown below. Click ok and wait for the bitstream to generate. 
 
 ![launch runs](/images/led_blink/launch_runs.png)
+
+## Step 6: Upload to Red Pitaya
+
+[Go to "Setup Guide: Connecting to your Red Pitaya" on instructions on how to uplaod bitstream to red pitaya](/introduction/setup_guide.md/)
+
+## Learner's tip
+
+- Try changing the Slice to use bit 26 or 25 and see how the blink speed changes.
 
 ## References:
 

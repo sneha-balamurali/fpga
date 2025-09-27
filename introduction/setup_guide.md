@@ -106,7 +106,7 @@ During my internship, I was using Vivado 2020.1 but that was because the officia
   - In the Sources window, double-click the new file and paste in the Verilog code for the module.
   - To bring it into your block design, right-click inside the block diagram and select Add Module.
 
-## Connecting your Red Pitaya
+## Connecting to your Red Pitaya
 
 There are multiple ways to connect to the Red Pitaya which is detailed [here](https://redpitaya.readthedocs.io/en/latest/quickStart/first.html)
 
