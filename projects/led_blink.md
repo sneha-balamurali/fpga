@@ -1,24 +1,129 @@
 # LED Blink
 
-## Background:
+Welcome to the first project!  
+You can think of this as the "Hello World" of FPGA / Red Pitaya development.
 
-Welcome to the first project! You can think of this as the "Hello World" equivalent of Python.
+Aim: Get an LED on the Red Pitaya to blink on and off.
 
-We will be using the Red Pitaya's internal clock to drive a counter. However, that internal clock is 125 MHz, which would mean that the LED would blink every 8ns...far too fast for our eyes to notice. The LED would just look like its on and not flashing on and off. In order to deal with that, we will use one bit of that counter to blink an LED at a visible rate. 
+## Background
 
-We will begin by adding two IP blocks in Vivado: a Binary Counter and a Slice.
+- In this tutorial, we won’t be writing any new HDL code ourselves. Instead, we’ll use IP cores — prebuilt modules that Vivado provides.
 
-- The Binary counter is clocked using `FCLK_CLK0` from the Zynq Processing System, which runs at 125 MHz. On each rising edge of this clock, the counter incremets its value by one. 
+### What are IP cores?
 
-- Since the counter runs very fast, we need to pick out a single bit from its output that toggles slowly enough to be visible to the human eye. In this case, the 27th bit is used. Because the counter increments every 8ns (1/125 MHz), bit 27 flips approximately once per second:
+- In FPGA development, IP (Intellectual Property) cores are predesigned, reusable hardware blocks.[^1] Examples include counters, memory controllers, ADC/DAC interfaces, and more.
+
+#### Why use IP cores?
+
+- You don’t have to reinvent everything — the modules are already designed, tested, and optimised.  
+- They simplify design by abstracting away lower-level complexity. 
+    - For example: if you want to divide a 125 MHz clock down to 1 Hz so an LED blinks once per second, you could write a counter in Verilog/VHDL by hand. Instead, Vivado provides a ready-made Binary Counter IP core. You just drop it into your block design, set its output width (e.g. 28 bits), and it gives you the divided clock signal automatically which we will see below in more detail.
+- They are configurable (e.g. width, depth, mode), so you can adapt them to your project.
+- If you click on the IP catalog in the flow navigator, you can search the different IP cores available. You will not there are two repositories: User Repository and Vivado Repository. If you expand BaseIP you will see all the cores from your cores folder. 
+![IP Catalog](/images/led_blink/ip_catalog.png)
+
+### IP Integrator
+
+- On the left of the Vivado window (under the Flow Navigator), you’ll see IP INTEGRATOR. If you expand it, you’ll find the options:
+  - Create Block Design
+  - Open Block Design
+  - Generate Block Design.
+- IP Integrator is a tool that lets you visually assemble systems by dragging in IP cores, wiring them together, and configuring them. This means you don’t have to hand-code every connection in HDL — you can work graphically and parametrically.[^1]
+
+### Clocks
+
+- In order for our LED to blink periodically, it needs a clock as a reference to let it know when to blink. 
+- In digital logic, a clock is a repeating signal that oscillates between high (1) and low (0). It acts as a timing reference so that all parts of the circuit know exactly when to update or transfer data.
+
+![square_wave](/images/square_wave.jpg)
+- Here we have a periodic square wave. In digital logic, we can get our LED to blink on and off every time there is a rising edge (when it goes from 0 to 1) or falling edge (when it goes from 1 to 0). This is how the different parts of the ciruit keep track of time and know when to update or transfer data. 
+- Now we realise that we need a clock for our LED.
+- In this tutorial we will be using the Red Pitaya's internal clock. However, that internal clock is 125 MHz, which would mean that the LED would blink every 8ns...far too fast for our eyes to notice. The LED would just look like its on and not flashing on and off. 
+- In order to deal with that, we will use a binary counter.
+
+### Binary Counter
+
+- A binary counter is a simpl digital circuit (which is given as an IP core in Vivado) that incremements or decrements a binary number on each clock "tick" (rising or falling edge). 
+
+#### Example:
+
+- Suppose you have a 4-bit counter. It starts at `0000`. Then on each clock edge, it increments: `0001`, `0010`, `0011`, etc., up to `1111`. Then it wraps around to `0000` again. This is shown below.
+
+**4-bit Counter Table:**
+
+|Count|Bit 3|Bit 2|Bit 1|Bit 0|
+|-----|-----|-----|------|-----|
+|0|0|0|0|0|
+|1|0|0|0|1|
+|2|0|0|1|0|
+|3|0|0|1|1|
+|4|0|1|0|0|
+|5|0|1|0|1|
+|6|0|1|1|0|
+|7|0|1|1|1|
+|8|1|0|0|0|
+|9|1|0|0|1|
+|10|1|0|1|0|
+|11|1|0|1|1|
+|12|1|1|0|0|
+|13|1|1|0|1|
+|14|1|1|1|0|
+|15|1|1|1|1|
+
+#### Notice:
+
+- Bit 0 (LSB) toggles every clock tick.
+- Bit 1 toggles every 2 ticks.
+- Bit 2 toggles every 4 ticks.
+- Bit 3 (MSB) toggles every 8 ticks.
+
+- LSB = Lease Significant Bit
+- MSB = Most Significant Bit
+
+This shows that higher-order bits have half the frequency of the bit below. In general:
+
+$f_\text{bit n} = \frac{f_{clock}}{2^n}$
+
+#### Why is this useful?
+
+- If your input clock is too fast (e.g. 125 MHz on the Red Pitaya), you can use a higher order bit of a binary counter as a slower clock signal.
+- This way, you don't need to manually divide the clock - the counter does it for free.
+
+#### Back to our LED blink:
+
+- The Red Pitaya clock runs at 125 MHz, so each count happens every 8ns.
+- If we use bit 27 of a 28-bit counter, it toggles roughly once per second:
 
 $$
   \frac{2^{27}}{125 \times 10^6 \,\text{s}^{-1}} \approx 1.07 \,\text{s}
 $$  
 
-- To access that bit, we insert a Slice block. The Slice is configured with an input width of 28 and both Din From and Din To set to 27. This means only the 27th bit of the counter is passed to the output. 
+This is now slow enough for our eyes to see the LED blink on and off.
 
-Finally, the single-bit output is connected to the LED port. If the port shows as `led_o[7:0]`, it means it expects 8 bits (one for each of the 8 LEDs on the Red Pitaya). To use only one LED, the width can be changed by adjusting the LEFT attribute in the port properties to `0`, leaving you with `led_0[0:0]`.
+#### Which counter do we use?
+
+- The AMD Binary Counter v12.0 is the one we use in our tutorial. It supports up/down counting, wide bit widths (up to 256 bits), and different implementations (using LUTs or DSP slices).[^2]
+
+### Slice
+
+- The Binary Counter IP outputs all the bits at once i.e. 28 bits wide. So we get something like:
+
+```arduino
+[bit 27, bit 26, bit 25, ..., bit 0]
+```
+
+- But for the LED blink, we only care about bit 27 because that's the one that toggles about once per second. 
+- Our LED output (`led_o[0:0]`) also expects 1 bit. If you tried to connect a 28 bit output to a 1 bit output, Vivado would complain.
+
+#### Solution?
+
+- The Slice IP lets you cut out a subset of bits from a larger bus. 
+- You tell it: input width = 28, Din from = 27, Din to = 27.
+- This means "out of the 28 bits, only keep bit 27."
+- The Slice then outputs a 1-bit signal that you can neatly connect to the LED port.
+- In this tutorial we only need a single Slice block, but in general you can add multiple Slices if you want to break out different ranges of bits from the same bus.
+
+## Tutorial
 
 With this setup, the chosen LED will now blink roughly once per second.
 
@@ -38,8 +143,9 @@ With this setup, the chosen LED will now blink roughly once per second.
 
 ## Step 2: Add a Slice
 
-- Add a Slice IP (Vivado may label it as “Slice (Discontinued)” — this is fine, it still works).
-- (Tip: for new projects, Xilinx recommends slicing signals directly in HDL instead of using this block. But for learning, it’s fine to keep the Slice IP.)
+- Add the Inline Slice IP. 
+- In my screenshots you’ll see the older Slice IP (Vivado labels it as “Slice (Discontinued)”). I used it because it still appears in older tutorials and is useful to explain what’s happening.
+- In newer Vivado versions (2024.2+), AMD provides inline HDL IPs (e.g. inline_slice) as replacements for older utility IPs like xlslice. These inline versions are lighter, faster to generate, and scale better in large projects. AMD now recommends using inline HDL IPs instead.[^1] [More info at UG994: Inline HDL](https://docs.amd.com/r/en-US/ug994-vivado-ip-subsystems/Inline-HDL)
 - Double-click and set the properties as shown below:
 
 ![slice properties](/images/led_blink/slice_properties.png)
@@ -70,3 +176,10 @@ With this setup, the chosen LED will now blink roughly once per second.
 
 ![launch runs](/images/led_blink/launch_runs.png)
 
+## References:
+
+[^1]: AMD. *Vivado Design Suite User Guide: Designing IP Subsystems Using IP Integrator (UG994)*. Available at: https://docs.amd.com/r/en-US/ug994-vivado-ip-subsystems/Getting-Started-with-Vivado-IP-Integrator
+
+[^2]: AMD. *Binary Counter v12.0 Product Guide (PG121)*. Available at: https://docs.amd.com/v/u/en-US/pg121-c-counter-binary
+
+[^3]: AMD. *Slice v1.0 Product Brief (PB042)*. Available at: https://docs.amd.com/v/u/en-US/pb042-xilinx-com-ip-xlslice 
