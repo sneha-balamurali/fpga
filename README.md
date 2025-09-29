@@ -20,7 +20,6 @@ This repository contains setup guides, project walkthroughs, and notes from my F
 
 - **Theory**
     1. [Verilog](/theory/verilog.md)
-    2. PID
 
 ## Notes and Advice:
 

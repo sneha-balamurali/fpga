@@ -1,6 +1,6 @@
 # Verilog
 
-# Resources
+## Resources
 
 [Verilog in 2 hours Youtube Video](https://www.youtube.com/watch?v=nblGw37Fv8A)
 

@@ -1,10 +1,10 @@
 # Red Pitaya
 
-## What This Section Covers
+## What This Section Covers:
 
 This section introduces the Red Pitaya STEMlab 125-14 board and explains how and why it is used.
 
-You’ll find:
+It covers:
 
 - **Why Red Pitaya? –** Why we need FPGAs alongside CPUs, and how hardware-level processing is faster than software.
 

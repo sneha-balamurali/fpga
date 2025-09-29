@@ -2,7 +2,9 @@
 
 ## What This Section Covers:
 
-This document introduces how Vivado represents the Red Pitaya FPGA design. It explains:
+This document introduces how Vivado represents the Red Pitaya FPGA design. 
+
+It covers:
 
 - **Block Design Basics:** what you see when you first open a project and how the diagram is structured.
 

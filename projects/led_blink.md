@@ -1,6 +1,6 @@
 # LED Blink
 
-## What this Section Covers
+## What this Section Covers:
 
 Welcome to the first project!  
 You can think of this as the "Hello World" of FPGA / Red Pitaya development.
@@ -176,7 +176,7 @@ With this setup, the chosen LED will now blink roughly once per second.
 ## Step 4: Wire the Blocks Together
 
 - Hover over a port (e.g. the `CLK` pin of the Binary Counter). A pen icon will appear.
-- Click and drag it to connect it to `FCLK_CLK0` in the ZYNQ7 Processing System.
+- Click and drag it to connect it to `FCLK_CLK0` in the ZYNQ7 Processing System. Press esc to get back to the mouse.
 - Connect the rest as shown in the block design below.
 - To disconnect something, right-click the port and select Disconnect Pin. Vivado calls them pins in the block diagram, but these correspond to the input/output ports of the IP core.
 
