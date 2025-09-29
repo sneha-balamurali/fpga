@@ -54,7 +54,7 @@ A lot of useful information on implementing real-time signal processing with the
 
 Has useful code that is worth looking at later on when you are building your own projects. Includes code for things like a PID.
 
-## Notes
+## Author’s Note & Disclaimer
 
 **Author:** Sneha Balamurali
 

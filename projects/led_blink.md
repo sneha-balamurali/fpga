@@ -1,13 +1,30 @@
 # LED Blink
 
+## What this Section Covers
+
 Welcome to the first project!  
 You can think of this as the "Hello World" of FPGA / Red Pitaya development.
 
-Aim: Get an LED on the Red Pitaya to blink on and off.
+It covers:
+
+- **IP Cores in Vivado:**
+  - What they are and why they simplify design
+  - How to add and configure them in a block design
+- **Clocks and Counters:**
+  - Using the Red Pitaya's 125 MHz internal clock
+  - How a binary counter works and why use its higher-order bits to slow down the LED blink to human-visible speed
+- **The Slice IP:**
+  - How to extract a single bit (bit 27) from the counter output
+  - Why newer Vivado versions use inline HDL instead of utility Slice blocks
+- **Connecting to hardware:**
+  - Linking the processed signal to the `led_o` port.
+  - Generating the bitstream and uploading it to the Red Pitaya
+
+By the end of this section, you’ll understand how to use IP cores, work with clocks and counters, and build your first working FPGA project on the Red Pitaya.
 
 ## Background
 
-- In this tutorial, we won’t be writing any new HDL code ourselves. Instead, we’ll use IP cores — prebuilt modules that Vivado provides.
+- In this tutorial, we won’t be writing any new HDL code ourselves. Instead, we’ll use IP cores — pre-built modules that Vivado provides.
 
 ### What are IP cores?
 
@@ -43,8 +60,8 @@ Aim: Get an LED on the Red Pitaya to blink on and off.
 
 ### Binary Counter
 
-- A binary counter is a simple digital circuit (which is given as an IP core in Vivado) that increments or decrements a binary number on each clock "tick" (rising or falling edge).
-- The AMD Binary Counter v12.0 is the one we use in our tutorial. It supports up/down counting, wide bit widths (up to 256 bits), and different implementations (using LUTs or DSP slices).[^2]
+- A binary counter is a simple digital circuit that increments or decrements a binary number on each clock "tick" (rising or falling edge).
+- It is given as an IP core in Vivado - the AMD Binary Counter v12.0 is the one we use in our tutorial.[^2]
 
 #### Example:
 
