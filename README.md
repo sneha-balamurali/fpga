@@ -11,11 +11,12 @@ This repository contains setup guides, project walkthroughs, and notes from my F
 
 - **Projects**
     1. [LED Blink](/projects/led_blink.md)
-    2. Wire
-    3. Oscilloscope
-    4. Signal Generator
-    5. Counter
-    6. Counter + PID
+    2. [LED Control (GPIO)](/projects/led_control_gpio.md)
+    3. Signal Passthrough (ADC -> DAC)
+    4. Oscilloscope
+    5. Signal Generator
+    6. Counter
+    7. Counter + PID
 
 - **Theory**
     1. Verilog
