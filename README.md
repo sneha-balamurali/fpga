@@ -19,7 +19,7 @@ This repository contains setup guides, project walkthroughs, and notes from my F
     7. Counter + PID
 
 - **Theory**
-    1. Verilog
+    1. [Verilog](/theory/verilog.md)
     2. PID
 
 ## Notes and Advice:
