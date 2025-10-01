@@ -12,9 +12,10 @@ This section introduces a lot of new concepts, you don't need to understand it a
 
 [Below is a short summary but for more detail go to the arm technical docs](https://developer.arm.com/documentation/102202/0300/Overview?lang=en)
 
-- AMBA = Advanced Micontroller Bus Architecture (a set of on-chip communication standards created by Arm).[^1]
-- AXI = Advanced eXtensible Interface, one of the most widely used AMBA protocols.[^1]
-- It defines how different parts of a system-on-chip (SoC) talk to each other, like processors, memory controllers, and peripherals.[^1]
+- AMBA = Advanced Micontroller Bus Architecture (a set of on-chip communication standards created by Arm).
+- AXI = Advanced eXtensible Interface, one of the most widely used AMBA protocols.
+- It defines how different parts of a system-on-chip (SoC) talk to each other, like processors, memory controllers, and peripherals.
+- (Based on the AMBA AXI protocol specification [^1].)
 
 In our case, AXI is the bus protocol used on the PS–PL AXI ports (GP/HP/ACP) of the Zynq-7000 shown below. These ports are the standard path for memory-mapped communication between the ARM cores in the Processing System (PS) and custom logic in the Programmable Logic (PL). [^2] [^3]
 
@@ -25,14 +26,14 @@ Figure 1: The PS–PL interfaces provide standard AXI pathways between the ARM c
 
 ### Master and Slave Componenets
 
-AXI specifies how intellectual property (IP) blocks communicate with each other. It standardises the interfaces at the block boundaries. Within AXI, there are two roles for these interfaces: [^1]
+AXI specifies how intellectual property (IP) blocks communicate with each other. It standardises the interfaces at the block boundaries. Within AXI, there are two roles for interfaces: a Manager (Master) and a Subordinate (Slave) [^1].
 
-- A Manager/Master = the one who initiates a transaction[^1]
+- A Manager/Master = the one who initiates a transaction
   - Example: the ARM processor (PS) writes data to a custom filter in the FPGA
-- A Subordinate/Slave = the one who responds to the transaction [^1]
+- A Subordinate/Slave = the one who responds to the transaction
   - Example: your custom Verilog FIR filter block that receives the data
 
-If multiple managers and subordinates are present in a system, an AXI interconnect is used, which provides manager and subordinate interfaces of its own. It makes it easier to integrate different IP blocks. [^1]
+If multiple managers and subordinates are present in a system, an AXI interconnect is used, which provides manager and subordinate interfaces of its own. It makes it easier to integrate different IP blocks.
 
 Note: In older documents you will see "Master" and "Slave" being used. Obviously, it is quite problematic terminology and so in newer docs you will see "Manager" and "Subordinate" instead.
 
@@ -43,7 +44,7 @@ The AXI protocol defines 5 channels that are divided into two groups:[^1]
 - channel for write transactions
 - channel for read transactions
 
-By separating them, AXI allows both to occur in parallel because they can happen at the same time.[^1]
+By separating them, AXI allows both to occur in parallel because they can happen at the same time.
 
 ### Write path:
 - The manager provides a target address on the Write Address (AW) channel which is used by the subordinate to decide where the data is recieved.[^1]
@@ -64,14 +65,14 @@ By separating them, AXI allows both to occur in parallel because they can happen
 
 In AXI, every channel uses a common handshake procedure built on two signals: VALID and READY. [^1]
 
-- VALID: driven by the source to show that data or control information is available. [^1]
-- READY: driven by the destination to show it is able to accept that information.[^1]
+- VALID: driven by the source to show that data or control information is available. 
+- READY: driven by the destination to show it is able to accept that information.
 
-Which sides acts as the source or destination depends on the channel. For instance, the manager drives the Write Address (AW) channel, but it is the destination on the Write Response channel (B) channel.[^1]
+Which sides acts as the source or destination depends on the channel. For instance, the manager drives the Write Address (AW) channel, but it is the destination on the Write Response channel (B) channel.
 
-When a source asserts VALID, it must keep the signal high until the destination asserts READY and the transfer is accepted.[^1] 
+When a source asserts VALID, it must keep the signal high until the destination asserts READY and the transfer is accepted.
 
-The transfer happens on the rising clock edge when both VALID and READY are high.[^1]
+The transfer happens on the rising clock edge when both VALID and READY are high.
 
 #### VALID and READY combinations:
 
