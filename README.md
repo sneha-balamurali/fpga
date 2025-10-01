@@ -27,13 +27,13 @@ This repository contains setup guides, project walkthroughs, and notes from my F
 
 2. Use ChatGPT carefully: it can explain concepts well, but don’t rely on it for Verilog debugging or writing full code. (At least in my experience with version 5.) 
 
-3. If you just want to program the Red Pitaya to do one of the projects, read through the [Setup guide](/introduction/setup_guide.md) and then go to your desired project.
+3. If you just want to program the Red Pitaya to do one of the projects, read through the [Setup guide](/introduction/setup_guide.md) and then go to the tutorial section of your desired project.
 
-4. If you’re looking at this repository from the QEG’s GitLab, it is worth looking at the [original repository](https://github.com/sneha-balamurali/fpga/tree/main) for any updates.
+4. If you’re looking at this repository from the QEG’s GitLab, it is worth looking at the [original repository](https://github.com/sneha-balamurali/fpga/tree/main) for any revisions.
 
 ## Resources:
 
-This project draws on a range of resources. Each section of the documentation includes references to the specific materials used (e.g., AMD/Xilinx documentation and Red Pitaya schematics.  
+This project draws on a range of resources. Each section of the documentation includes references to the specific materials used (e.g., AMD/Xilinx documentation and Red Pitaya schematics.)  
 
 Listed below are some additional resources:
 
@@ -49,10 +49,6 @@ A useful reference because they provide ready-made IP cores (e.g. ADC, DAC).
 Author: Thomas Paireder, Johannes Kepler University Linz, 2017
 
 A lot of useful information on implementing real-time signal processing with the Red Pitaya. Many of the methods and design considerations are broadly applicable.
-
-### [Benjamin Millward github:](https://github.com/Bentwin2002/Group_IV_RP/tree/main/Complete_setup/tmp/wip_9/wip_9.srcs/sources_1/new)
-
-Has useful code that is worth looking at later on when you are building your own projects. Includes code for things like a PID.
 
 ## Author’s Note & Disclaimer
 

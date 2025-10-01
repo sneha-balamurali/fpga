@@ -157,9 +157,9 @@ With this setup, the chosen LED will now blink roughly once per second.
 
 ## Step 2: Add a Slice
 
-- Add the Inline Slice IP if you're using new Vivado versions (2024.2+) or the Slice IP if you are using older Vivado versions.
+- Add the Inline Slice IP if you're using new Vivado versions or the Slice IP if you are using older Vivado versions.
 - In my screenshots you’ll see the Slice IP (Vivado labels it as “Slice (Discontinued)” in Vivado 2025.1). I used it because it still appears in older tutorials and is useful to explain what’s happening. The newer Inline Slice works identically for this tutorial so don't worry.
-- In newer Vivado versions (2024.2+), AMD provides inline HDL IPs (e.g. inline_slice) as replacements for older utility IPs like xlslice. These inline versions are lighter, faster to generate, and scale better in large projects. AMD now recommends using inline HDL IPs instead.[^1] [More info at UG994: Inline HDL](https://docs.amd.com/r/en-US/ug994-vivado-ip-subsystems/Inline-HDL)
+- In newer Vivado versions, AMD provides inline HDL IPs (e.g. inline_slice) as replacements for older utility IPs like xlslice. These inline versions are lighter, faster to generate, and scale better in large projects. AMD now recommends using inline HDL IPs instead.[^1] [More info at UG994: Inline HDL](https://docs.amd.com/r/en-US/ug994-vivado-ip-subsystems/Inline-HDL)
 - Double-click and set the properties as shown below:
 
 ![slice properties](/images/led_blink/slice_properties.png)
