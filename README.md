@@ -15,8 +15,8 @@ This repository contains setup guides, project walkthroughs, and notes from my F
     3. Signal Passthrough (ADC -> DAC)
     4. Oscilloscope
     5. Signal Generator
-    6. Counter
-    7. Counter + PID
+    6. Photon Counter
+    7. Photon Counter + PID
 
 - **Theory**
     1. [Verilog](/theory/verilog.md)
@@ -40,6 +40,10 @@ Listed below are some additional resources:
 ### [Red Pitaya Documentation:](https://redpitaya-knowledge-base.readthedocs.io/en/latest/learn_fpga/fpga_learn.html)
 
 Use this as a guide. The tutorials there (e.g. the LED blink lesson) say to install Vivado 2020.1, because the original tutorial code was written and tested on Vivado 2020.1. You can install the latest version instead — most things still work if you adapt slightly.
+
+### [Anton Potočnik:](https://antonpotocnik.com/?cat=29)
+
+A good chunk of the FPGA lessons in the Red Pitaya Documentation come from Anton Potočnik's website. Worth looking in there as there is also an extra lesson not in the Red Pitaya Docs and he has some useful links to other resources. If you'd like more projects to practice, look here.
 
 ### [Pavel Demin github:](https://github.com/pavel-demin/red-pitaya-notes/tree/master/cores)
 
