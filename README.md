@@ -12,24 +12,21 @@ This repository contains setup guides, project walkthroughs, and notes from my F
 - **Projects**
     1. [LED Blink](/projects/led_blink.md)
     2. [LED Control (GPIO)](/projects/led_control_gpio.md)
-    3. Signal Passthrough (ADC -> DAC)
-    4. Oscilloscope
-    5. Signal Generator
-    6. Photon Counter
-    7. Photon Counter + PID
+    3. [Signal Passthrough (ADC -> DAC)](/projects/signal_passthrough_adc_dac)
+    4. Photon Counter
 
 - **Theory**
     1. [Verilog](/theory/verilog.md)
 
 ## Notes and Advice:
 
-1. This can be quite overwhelming if you don't have a background in it. There is a lot of new information to take in. Don’t try to memorise everything at once — you’ll pick things up naturally as you do the projects. 
+1. This can be quite overwhelming if you don't have a background in it. There is a lot of new information to take in. Don’t try to memorise everything at once, skim through the introduction — you’ll pick things up naturally as you do the projects. 
 
 2. Use ChatGPT carefully: it can explain concepts well, but don’t rely on it for Verilog debugging or writing full code. (At least in my experience with version 5.) 
 
 3. If you just want to program the Red Pitaya to do one of the projects, read through the [Setup guide](/introduction/setup_guide.md) and then go to the tutorial section of your desired project.
 
-4. If you’re looking at this repository from the QEG’s GitLab, it is worth looking at the [original repository](https://github.com/sneha-balamurali/fpga/tree/main) for any revisions.
+4. If you’re looking at this repository from the QEG’s GitLab, it is worth looking at the [original repository](https://github.com/sneha-balamurali/fpga/tree/main) for any changes.
 
 ## Resources:
 

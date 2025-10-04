@@ -1,0 +1,98 @@
+# Signal Passthrough (ADC -> DAC)
+
+## What this Section Covers
+
+This section introduces real I/O — sending and receiving analogue signals through the Red Pitaya’s ADC and DAC.
+
+It covers:
+
+- **ADC and DAC:**
+    - How the Red Pitaya's 14-bit ADC and DAC channels operate at 125 MS/s
+    - How the DAC uses a Double Data Rate (DDR) interface and a 250 MHz clock
+    - How two DAC channels are multiplexed onto one 14-bit bus using ODDR *(not covered in detail, but you can explore it further starting with the referenced page and the DAC core HDL)*
+- **Clocking Wizard**
+    - Using the Clocking Wizard to derive the 250 MHz DAC clock from the 125 MHz ADC reference
+- **AXI4-Stream Dataflow**
+    - How the ADC and DAC cores exchange data through continuous AXI4-Stream interfaces
+- **Design Integration:**
+    - Building a simple signal passthrough system (ADC → DAC) in Vivado 
+    - Connecting and Configuring the IP blocks and Clocking Wizard
+
+By the end of this section, you’ll understand how to route real analogue signals through the FPGA, manage multiple clock domains, and prepare a foundation for inserting your own processing logic (e.g., filters, PID controllers) between the ADC and DAC.
+
+## Background:
+
+This project shows how to take an input signal from the Red Pitaya ADC (Analog-to-Digital Converter) and directly send it to the DAC (Digital-to-Analog Converter). At first glance this looks like a simple “wire” connection, but in practice the ADC and DAC operate on different timing requirements, so we need to manage the clocks carefully.
+
+In this design we use Pavel Demin’s ADC and DAC cores[^1], which are already included in the cores folder. These cores expose the Red Pitaya converters as AXI4-Stream interfaces, making it straightforward to connect them together.
+
+### ADC and DAC on the Red Pitaya
+
+- The Red Pitaya has two ADC channels, each 14-bit, sampling at 125 MS/s.[^2]
+- It also has two DAC channels, also 14-bit, which reconstruct analogue signals.
+- The ADC data comes in on two buses:
+    - `adc_dat_a_i[13:0]`
+    - `adc_dat_b_i[13:0]`
+
+- The DAC outputs on one bus:
+    - `dac_dat_o[13:0]`
+
+#### Why the DAC clock is different
+
+The DAC is a DDR (Double Data Rate) device using ODDR[^3]. Instead of latching data only on the rising edge of its clock, it captures one channel on the rising edge and the other on the falling edge.
+
+- Rising edge → output channel 1
+- Falling edge → output channel 2
+
+Because of this, the DAC needs a 250 MHz clock to achieve an effective 125 MS/s per channel. This explains why the DAC interface looks like a single bus, even though it drives two outputs: the FPGA multiplexes data for the two channels onto one 14-bit bus and uses the faster clock to deliver it.
+
+### Clocking Wizard
+
+The Clocking Wizard is an mixed-mode clock manager (MMCM)/phase-locked loop(PLL)-based clock generator that will let us[^4]: 
+
+- Take the ADC's 125 MHz sampling clock as its input (`clk_in1`)
+- Generate 250 MHz output clock (`clk_out1`) for the DAC
+
+This setup ensures that:
+
+- All FPGA-side logic (e.g. AXI-Stream data registers) runs in the 125 MHz domain (`adc_clk`).
+- The DAC receives a phase-related 250 MHz clock, so the two domains remain aligned and no drift occurs.
+
+### AXI4-Stream Wrappers
+
+In Vivado, the Red Pitaya ADC and DAC IP blocks are wrapped as AXI4-Stream interfaces:
+
+- ADC block (`axis_red_pitaya_adc`) → provides data on an AXI-Stream interface, 32-bit AXI-Stream data containing both 14-bit channels (with padding).
+- DAC block (`axis_red_pitaya_dac`) → consumes data on an AXI-Stream interface.
+
+AXI4-Stream is ideal for this use case: it is a lightweight protocol designed for continuous, high-throughput dataflow. By connecting the ADC’s AXI-Stream output directly to the DAC’s AXI-Stream input, we create the simplest possible passthrough system.
+
+Later, custom processing logic can be inserted between the ADC and DAC blocks (e.g. filters, PID controllers, FFTs) without changing the surrounding clocking scheme.
+
+## Tutorial
+
+Create the block design and configure the clocking wizard as shown below. 
+
+![signal_passthrough_block_design](/images/signal_passthrough/block_design.png)
+**Figure 1:** Complete block design for signal passthrough
+
+![clocking wizard configuration: clocking options](/images/signal_passthrough/clocking_options.png)
+**Figure 2:** Clocking Options
+
+![clocking wizard configuration: output clocks](/images/signal_passthrough/output_clocks.png)
+**Figure 3:** Output Clocks
+
+## Test
+
+Connect a signal generator to an input and an oscilloscope to an output. Check if what you output on the signal generator matches what you see on the oscilloscope. 
+
+## References
+
+[^1]: Pavel Demin, Available at : https://github.com/pavel-demin/red-pitaya-notes/tree/master/cores
+
+[^2]: Red Pitaya d.o.o. *Red Pitaya Schematics v1.0.1*. Available at: https://downloads.redpitaya.com/doc/Red_Pitaya_Schematics_v1.0.1.pdf 
+
+[^3]: AMD. Vivado Design Suite 7 Series FPGA and Zynq 7000 SoC Libraries Guide (UG953), Section: ODDR. Available at: https://docs.amd.com/r/en-US/ug953-vivado-7series-libraries/ODDR
+
+[^4]: AMD. Clocking Wizard LogiCORE IP Product Guide (PG065). Available at: https://docs.amd.com/r/en-US/pg065-clk-wiz/Features
+
