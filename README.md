@@ -20,7 +20,7 @@ This repository contains setup guides, project walkthroughs, and notes from my F
 
 ## Notes and Advice:
 
-1. This can be quite overwhelming if you don't have a background in it. There is a lot of new information to take in. Don’t try to memorise everything at once, skim through the introduction — you’ll pick things up naturally as you do the projects. 
+1. This can be quite overwhelming if you don't have a background in it. There is a lot of new information to take in. Follow the repository structure. Don’t try to memorise everything at once, skim through the introduction — you’ll pick things up naturally as you do the projects. 
 
 2. Use ChatGPT carefully: it can explain concepts well, but don’t rely on it for Verilog debugging or writing full code. (At least in my experience with version 5.) 
 
@@ -46,10 +46,14 @@ A good chunk of the FPGA lessons in the Red Pitaya Documentation come from Anton
 
 A useful reference because they provide ready-made IP cores (e.g. ADC, DAC).
 
-### [Master's Thesis: Real-Time Processing of Laser-Ultrasonic Signals](https://epub.jku.at/obvulihs/download/pdf/2406394?originalFilename=true )
+### [Master's Thesis: Real-Time Processing of Laser-Ultrasonic Signals:](https://epub.jku.at/obvulihs/download/pdf/2406394?originalFilename=true )
 Author: Thomas Paireder, Johannes Kepler University Linz, 2017
 
 A lot of useful information on implementing real-time signal processing with the Red Pitaya. Many of the methods and design considerations are broadly applicable.
+
+### [hls4ml:](https://fastmachinelearning.org/hls4ml/)
+
+A python based tool that translates machine learning models into FPGA firmware. 
 
 ## Author’s Note & Disclaimer
 

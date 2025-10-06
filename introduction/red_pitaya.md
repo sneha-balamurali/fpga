@@ -45,7 +45,7 @@ But when software says ```a = b + c``` , the CPU doesn't just add:
 5. Store result in register/memory.
 6. Increment the program counter and fetch the next instruction.
 
-So while step 4 (the physical addition) is only 500 ps, the total time is longer due to instruction overhead: fetching, decoding, moving data and managing program flow.
+So while step 4 (the physical addition) is only ~500 ps, the total time is longer due to instruction overhead: fetching, decoding, moving data and managing program flow.
 
 Because CPUs are general-purpose, they need all this overhead to stay flexible. However this generality comes at the cost of raw speed. 
 

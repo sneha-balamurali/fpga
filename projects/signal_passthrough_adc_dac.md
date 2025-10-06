@@ -71,7 +71,7 @@ Later, custom processing logic can be inserted between the ADC and DAC blocks (e
 
 ## Tutorial
 
-Create the block design and configure the clocking wizard as shown below. 
+### Step 1: Create the block design and configure the clocking wizard as shown below.
 
 ![signal_passthrough_block_design](/images/signal_passthrough/block_design.png)
 **Figure 1:** Complete block design for signal passthrough
@@ -82,9 +82,17 @@ Create the block design and configure the clocking wizard as shown below.
 ![clocking wizard configuration: output clocks](/images/signal_passthrough/output_clocks.png)
 **Figure 3:** Output Clocks
 
-## Test
+### Step 2: Generate bitsream and upload to Red Pitaya
+
+[Go to Section Connecting to your Red Pitaya of the Set Up Guide](/introduction/setup_guide.md#connecting-to-your-red-pitaya)
+
+### Step 3: Test
+
+[Generate bitstream and upload to red pitaya](/introduction/setup_guide.md#connecting-to-your-red-pitaya)
 
 Connect a signal generator to an input and an oscilloscope to an output. Check if what you output on the signal generator matches what you see on the oscilloscope. 
+
+When connecting the outputs, it is worth reading the section on [outputs](/introduction/red_pitaya.md#outputs-out1-out2) in the Red Pitaya page to understand impedance matching.
 
 ## References
 
