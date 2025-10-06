@@ -13,7 +13,7 @@ This repository contains setup guides, project walkthroughs, and notes from my F
     1. [LED Blink](/projects/led_blink.md)
     2. [LED Control (GPIO)](/projects/led_control_gpio.md)
     3. [Signal Passthrough (ADC -> DAC)](/projects/signal_passthrough_adc_dac.md)
-    4. Photon Counter
+    4. [Photon Counter](/projects/photon_counter.md)
 
 - **Theory**
     1. [Verilog](/theory/verilog.md)
