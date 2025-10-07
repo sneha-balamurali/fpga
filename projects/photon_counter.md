@@ -20,7 +20,7 @@ Because we only care about when a pulse occurs and not its precise voltage, we u
 
 ### Programmable Dead time and Integration Window.
 
-To measure photon detection events, the counter is configured to count each LVTTL pulse during a defined integration window. However, because the FPGA operates at a fixed clock frequency (125 MHz corresponding to 8 ns per clock cycle), a single pulse that reamins high for several clock periods could be counted multiple times.
+To measure photon detection events, the counter is configured to count each LVTTL pulse during a defined integration window. However, because the FPGA operates at a fixed clock frequency (125 MHz corresponding to 8 ns per clock cycle), a single pulse that remains high for several clock periods could be counted multiple times as shown in Figure 2.
 
 - **Integration Window:**
     - Counting is enabled for a fixed duration - the integration window.

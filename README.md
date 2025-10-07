@@ -22,7 +22,7 @@ This repository contains setup guides, project walkthroughs, and notes from my F
 
 1. This can be quite overwhelming if you don't have a background in it. There is a lot of new information to take in. Follow the repository structure. Don’t try to memorise everything at once, skim through the introduction — you’ll pick things up naturally as you do the projects. 
 
-2. Use ChatGPT carefully: it can explain concepts well, but don’t rely on it for Verilog debugging or writing full code. (At least in my experience with version 5.) 
+2. Use AI carefully: it can explain concepts well, but don’t rely on it for Verilog debugging or writing full code. (At least in my experience with ChatGPT-5) 
 
 3. If you just want to program the Red Pitaya to do one of the projects, read through the [Setup guide](/introduction/setup_guide.md) and then go to the tutorial section of your desired project.
 
@@ -34,26 +34,29 @@ This project draws on a range of resources. Each section of the documentation in
 
 Listed below are some additional resources:
 
-### [Red Pitaya Documentation:](https://redpitaya-knowledge-base.readthedocs.io/en/latest/learn_fpga/fpga_learn.html)
+### Foundation Resources
 
-Use this as a guide. The tutorials there (e.g. the LED blink lesson) say to install Vivado 2020.1, because the original tutorial code was written and tested on Vivado 2020.1. You can install the latest version instead — most things still work if you adapt slightly.
+- [**Red Pitaya Documentation:**](https://redpitaya-knowledge-base.readthedocs.io/en/latest/learn_fpga/fpga_learn.html)
+    - Use this as a guide. The tutorials there (e.g. the LED blink lesson) say to install Vivado 2020.1, because the original tutorial code was written and tested on Vivado 2020.1. You can install the latest version instead — most things still work if you adapt slightly.
 
-### [Anton Potočnik:](https://antonpotocnik.com/?cat=29)
+- [**Anton Potočnik Website:**](https://antonpotocnik.com/?cat=29)
+    - Many of the FPGA lessons on the Red Pitaya website originate from this website. His site includes additional projects and background reading not found in the official documentation. I would start here if you want to practice with more FPGA projects and then move onto the Red Pitaya Documentation lessons.
 
-A good chunk of the FPGA lessons in the Red Pitaya Documentation come from Anton Potočnik's website. Worth looking in there as there is also an extra lesson not in the Red Pitaya Docs and he has some useful links to other resources. If you'd like more projects to practice, look here.
+- [**Pavel Demin Github Repository:**](https://github.com/pavel-demin/red-pitaya-notes/tree/master/cores)
+    - Invaluable reference containing ready-made IP cores (e.g., the ADC and DAC used in my projects are his cores).
+    - Great for learning Verilog by looking at his code.
 
-### [Pavel Demin github:](https://github.com/pavel-demin/red-pitaya-notes/tree/master/cores)
+### Extended Reading and Real-Time Application
 
-A useful reference because they provide ready-made IP cores (e.g. ADC, DAC).
+- [**Master's Thesis: Real-Time Processing of Laser-Ultrasonic Signals:**](https://epub.jku.at/obvulihs/download/pdf/2406394?originalFilename=true )
+    - Author: Thomas Paireder, Johannes Kepler University Linz, 2017
+    - A detailed study of real-time signal processing on the Red Pitaya
+    - Covers FPGA control, signal acquisition and implementation methods that are broadly applicable to similar hardware setups. 
 
-### [Master's Thesis: Real-Time Processing of Laser-Ultrasonic Signals:](https://epub.jku.at/obvulihs/download/pdf/2406394?originalFilename=true )
-Author: Thomas Paireder, Johannes Kepler University Linz, 2017
+### Machine Learning and FPGA Co-Design
 
-A lot of useful information on implementing real-time signal processing with the Red Pitaya. Many of the methods and design considerations are broadly applicable.
-
-### [hls4ml:](https://fastmachinelearning.org/hls4ml/)
-
-A python based tool that translates machine learning models into FPGA firmware. 
+- [**hls4ml:**](https://fastmachinelearning.org/hls4ml/)
+    - An open-source Python framework that converts machine learning models (e.g., Keras, PyTorch) into synthesisable FPGA firmware using High-Level Synthesis (HLS).
 
 ## Author’s Note & Disclaimer
 
