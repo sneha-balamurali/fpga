@@ -85,13 +85,14 @@ To measure photon detection events, the counter is configured to count each LVTT
 module counter(
 // Module Ports
 
-input [31:0] window_length,                // a 32-bit value specifying how many clock cycles make up one integration window
+input [31:0] window_length,                // A 32-bit value specifying how many clock cycles make up one integration window
 
-input e1,                                  // the input pulse signal you want to count
+input e1,                                  // The input pulse signal you want to count
 
-input clk,                                 // the system clock; the counter increments on the rising edge of this clock
+input clk,                                 // The system clock; the counter increments on the rising edge of this clock
 
-input [31:0] val,                          // a 32-bit value defining the dead-time, i.e. how many clock cycles must pass before another pulse on e1 is counted
+input [31:0] val,                          // A 32-bit value defining the dead-time, i.e. how many clock cycles must pass
+                                           // before another pulse on e1 is counted.
 
 // AXI4-Stream data out  
 output [31:0] M_AXIS_tdata,
@@ -107,16 +108,19 @@ output S_AXIS_tready
 // Internal Registers 
 
 reg e1_count1 = 0;                       // Flag to show whether the module is in dead-time or not. 
-                                         // When 1, module ignores further pulses until the dead-time counter expires              
+                                         // When 1, module ignores further pulses until the dead-time counter expires.              
 
-reg [13:0] sum =0;                       // Stores the number of valid pulses detected eithin the current integration window
+reg [13:0] sum =0;                       // Stores the number of valid pulses detected eithin the current integration window.
 
 
 reg [31:0] store_v =0;                   // Used to implement dead-time. 
-                                         // Counts cycles while e1_count1 = 1 and resets when the configured dead-time (val) expires
+                                         // Counts cycles while e1_count1 = 1
+                                         // and resets when the configured dead-time (val) expires.
 
 reg [31:0] store_w =0;                   // Tracks the number of clock cycles elapsed in the current integration window. 
-                                         // When it exceeds the window_length, accumulated sum is captured and the counter resets
+                                         // When it exceeds the window_length, 
+                                         // accumulated sum is captured and the counter resets.
+
 
 reg [13:0] sum_hold =0;                  // Holds the pulse count from the most recently completed window. 
                                          // This value is packaged into M_AXIS_tdata on the next clock cycle.
@@ -125,12 +129,10 @@ always @(posedge clk) begin
 
 // Window Counter
     if (store_w > window_length) begin
-        sum_hold <=sum;                  // Stores sum at the end of each window so that it can be output
-                                         // while the counter resets for the next window
-
-        store_w <= 0;                    // Initialise the store_w value to 0 after a complete integration window 
-        sum <=0;                         // Clear sum at end of window 
-    end else begin
+        sum_hold <=sum;                  // Stores sum at the end of each window so that it can be output,
+        store_w <= 0;                    // while the counter resets for the next window. 
+        sum <=0;                         // Initialise the store_w value to 0 after a complete integration window 
+    end else begin                       // Clear sum at end of window
         store_w <= store_w + 1;          // Counts clock cycle within integration window
     end
     
@@ -142,10 +144,10 @@ always @(posedge clk) begin
             end 
         end
   
-    else begin                           // This is when you are in dead time. Increments store_v until it exceeds the configured 
-    if (store_v > val) begin             // dead-time value `val`, then clears the dead-time flag (e1_count1) and resets store_v.
-        store_v <= 0;                    // While store_v <= val, further pulses on e1 are ignored because e1_count1 remains 1.
-        e1_count1 <= 0;
+    else begin                           // This is when you are in dead time. 
+    if (store_v > val) begin             // Increments store_v until it exceeds the configured dead-time value `val`,
+        store_v <= 0;                    // then clears the dead-time flag (e1_count1) and resets store_v.
+        e1_count1 <= 0;                  // While store_v <= val, further pulses on e1 are ignored because e1_count1 remains 1.
      
     end
     else begin
