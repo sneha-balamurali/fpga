@@ -55,7 +55,7 @@ To measure photon detection events, the counter is configured to count each LVTT
     - When the FPGA drives the pin low (0 V), both ends of the LED are at the same potential, so no current flows and the LED remains off.
 
 ![diode](/images/photon_counter/diode.svg)
-**Figure 3:** Diode
+**Figure 3:** Annotated diode circuit symbol showing anode (+) and cathode (-), with conventional current flowing from the anode to the cathode.
 
 ![led schematic](/images/photon_counter/led_schematic.png)
 
@@ -68,13 +68,13 @@ To measure photon detection events, the counter is configured to count each LVTT
     - A pull-down resistor connects the input to read as logic low (0) when not actively driven high.
 
     - From Figure 5, we can see that exp_p_tri_io pins have a pull-up configuration meaning they default to high unless an external signal drives them low. 
-    - When I had connected `exp_p_tri_io[7:0]` pin to `led[7:0]`, all the pins except the one connected to a source signa (`exp_p_tri_io[0:0]`) were lit up and this is because of this pull-up configuration. This is shown in Figure 6. Since I wanted the LED to just mirror the digital input, I altered the design to `exp_p_tri_io[7:0]` -> `Slice` -> `led_o[0:0]`
+    - When I had connected `exp_p_tri_io[7:0]` pin to `led[7:0]`, all the pins except the one connected to the source signal (`exp_p_tri_io[0:0]`) were lit up and this is because of this pull-up configuration. This is shown in Figure 6. Since I wanted the LED to just mirror the digital input, I altered the design to `exp_p_tri_io[7:0]` -> `Slice` -> `led_o[0:0]`
 
 ![implementation_e1_properties](/images/photon_counter/implemetation_e1_properties.png)
 **Figure 5:** Once you have run implementation, you can go the the Flow Navigator, expand Open Implemented Design, and click on Schematic. In the tool bar, you will see X Cells, Y I/O Ports, and Z Nets. Click on the Y I/O Ports and search for `exp_p_tri_io`.
 
 ![pull-up behaviour in led connected to e1 pins](/images/photon_counter/pull_up_making_led_1_to_7_light_up.JPEG)
-**Figure 6:** Pull-up behaviour by directly connecting `exp_p_tri_io[7:0]` pin to `led[7:0]`.
+**Figure 6:** Pull-up behaviour by directly connecting `exp_p_tri_io[7:0]` to `led[7:0]` in the block design but with only `exp_p_tri_io[0:0]` connected to the signal generator on the red pitaya.
 
 ### Counter Code
 
@@ -83,8 +83,8 @@ To measure photon detection events, the counter is configured to count each LVTT
 
 ```verilog
 module counter(
+    
 // Module Ports
-
 input [31:0] window_length,                // A 32-bit value specifying how many clock cycles make up one integration window
 
 input e1,                                  // The input pulse signal you want to count
@@ -106,11 +106,10 @@ output S_AXIS_tready
 
     );
 // Internal Registers 
-
 reg e1_count1 = 0;                       // Flag to show whether the module is in dead-time or not. 
                                          // When 1, module ignores further pulses until the dead-time counter expires.              
 
-reg [13:0] sum =0;                       // Stores the number of valid pulses detected eithin the current integration window.
+reg [13:0] sum =0;                       // Stores the number of valid pulses detected within the current integration window.
 
 
 reg [31:0] store_v =0;                   // Used to implement dead-time. 
@@ -138,7 +137,7 @@ always @(posedge clk) begin
     
 // Dead-time / Edge Counting
         if (e1_count1 == 0) begin        // If not in dead-time (e1_count1 == 0), and if you detect a high level on e1, 
-        if (e1 == 1) begin               // increment sum and enter dead-time by setting e1_count1 to 1
+        if (e1 == 1) begin               // increment sum and enter dead-time by setting e1_count1 to 1.
         sum <= sum + 1;                      
         e1_count1 <= 1;
             end 
@@ -157,12 +156,82 @@ always @(posedge clk) begin
     
     
     end
+
+// AXI4-Stream data      
 assign M_AXIS_tdata = {4'b0, {12{e1_count1}}, {3{sum_hold[13]}}, sum_hold[12:0]}; 
 assign M_AXIS_tvalid = S_AXIS_tvalid;
 assign S_AXIS_tready = 1;
 
 endmodule
 ```
+
+### Explanation of  AXI4-Stream data
+
+- **Referenced code:**
+```verilog
+assign M_AXIS_tdata = {4'b0, {12{e1_count1}}, {3{sum_hold[13]}}, sum_hold[12:0]}; 
+```
+This line constructs a 32-bit data word to be sent over the AX14-Stream interface to the DAC.
+
+- **How the 32-bit data is packed:**
+```verilog
+assign M_AXIS_tdata =
+  { 4'b0,                 // [31:28]
+    {12{e1_count1}},      // [27:16]
+    {3{sum_hold[13]}},    // [15:13]
+    sum_hold[12:0]        // [12:0]
+  };
+```
+`M_AXIS_tdata` is 32-bits wide because the DAC's AXI4-Stream input expects a 32-bit bus as shown below in Figure 7.
+
+![DAC block](/images/photon_counter/DAC_block.png)
+
+**Figure 7:** DAC block showing that the `S_AXIS_tdata` expects a 32-bit data bus. 
+
+- **What the DAC actually uses:**
+    - Although the AX1 bus is 32 bits wide, the DAC module internally reads only 14 bits per output channel:
+        - Bits [13:0] -> Channel A (OUT 1)
+        - Bits [29:16] -> Channel B (OUT 2)
+        - Bits [14], [15], [30], [31] are ignored.
+    - So, while `M_AXIS_tdata` must be 32 bits for compatibility, only 28 bits are actively used by the DAC.
+
+- **Photon counter output (`sum_hold`):**
+
+```verilog
+{3{sum_hold[13]}}, sum_hold[12:0]
+```
+- Explanation:
+    - The counter produces a 14-bit value `sum_hold[13:0]` but we need to pad/extend the 14-bit signal to fit nearly into the 16-bit half of the stream which is why `sum_hold[13]` is repeated three times. 
+    - Bits [15:14] are ignored.
+
+- **Dead-time indicator (`e1_count1`)**
+```verilog
+4'b0, {12{e1_count1}}
+``` 
+- Explanation: 
+    - The `e1_count1` signal is a 1-bit flag that goes high when the counter is in dead-time (i.e. temporarily ignoring new pulses).
+    - Here, it is used as a simple debugging signal displayed on the DAC's second channel to verify when the module is in dead-time.
+    - `{12{e1_count1}}` simply replicates this bit 12 times, filling most of the upper 16-bit half. The remaining 4 bits (`4'b0`) pad to the total 16 bits.
+    - The exact padding scheme is flexible - for instance, `1'b0, 15{15{e1_count1}}` would work equally well.
+    - The key point is that the DAC only reads 14 of those bits, so the rest just ensures the concatenation produces a valid 32-bit word.
+
+- **Handshake Procedure:**
+```verilog
+// AXI4-Stream data out  
+output [31:0] M_AXIS_tdata,
+output M_AXIS_tvalid,
+
+// AXI4-Stream data in
+input [31:0] S_AXIS_tdata,
+input S_AXIS_tvalid,
+output S_AXIS_tready
+```
+
+```verilog
+assign M_AXIS_tvalid = S_AXIS_tvalid;
+assign S_AXIS_tready = 1;
+```
+
 
 ## Tutorial
 

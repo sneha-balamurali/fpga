@@ -40,7 +40,7 @@ Listed below are some additional resources:
     - Use this as a guide. The tutorials there (e.g. the LED blink lesson) say to install Vivado 2020.1, because the original tutorial code was written and tested on Vivado 2020.1. You can install the latest version instead — most things still work if you adapt slightly.
 
 - [**Anton Potočnik Website:**](https://antonpotocnik.com/?cat=29)
-    - Many of the FPGA lessons on the Red Pitaya website originate from this website. His site includes additional projects and background reading not found in the official documentation. I would start here if you want to practice with more FPGA projects and then move onto the Red Pitaya Documentation lessons.
+    - Many of the FPGA lessons on the Red Pitaya website originate from this website. Their site includes additional projects and background reading not found in the official documentation. I would start here if you want to practice with more FPGA projects and then move onto the Red Pitaya Documentation lessons.
 
 - [**Pavel Demin Github Repository:**](https://github.com/pavel-demin/red-pitaya-notes/tree/master/cores)
     - Invaluable reference containing ready-made IP cores (e.g., the ADC and DAC used in my projects are his cores).
