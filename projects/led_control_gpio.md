@@ -72,16 +72,16 @@ The AXI protocol defines 5 channels that are divided into two groups:[^1]
 By separating them, AXI allows both to occur in parallel because they can happen at the same time.
 
 ### Write path:
-- The manager provides a target address on the Write Address (AW) channel which is used by the subordinate to decide where the data is recieved.[^1]
-- It then sends the corresponding data over the Write Data (W) channel.
-- Once the subordinate has stored the data, it sends a confirmation or error back through the Write Response (B) channel.
+- The manager provides a target address on the Write Address (**AW**) channel which is used by the subordinate to decide where the data is recieved.[^1]
+- It then sends the corresponding data over the Write Data (**W**) channel.
+- Once the subordinate has stored the data, it sends a confirmation or error back through the Write Response (**B**) channel.
 
 ![write transaction](/images/led_control_gpio/axi_protocol/write_transaction.png)
 **Figure 3:** Adapted from Figure A1.1 of the AMBA AXI Protocol Specification [^4]
 
 ### Read path:
-- The manager specifies the location it wants to access using the Read Address (AR) channel.[^1]
-- The subordinate returns the requested data through the Read Data (R) channel from the requested address.
+- The manager specifies the location it wants to access using the Read Address (**AR**) channel.[^1]
+- The subordinate returns the requested data through the Read Data (**R**) channel from the requested address.
 - If the access fails (invalid address, corrupted data, or insufficient permissions), the error is also flagged on the R channel.
 ![read transaction](/images/led_control_gpio/axi_protocol/read_transaction.png)
 **Figure 4:** Adapted from Figure A1.2 of the AMBA AXI Protocol Specification [^4]
@@ -93,7 +93,7 @@ In AXI, every channel uses a common handshake procedure built on two signals: VA
 - VALID: driven by the source to show that data or control information is available. 
 - READY: driven by the destination to show it is able to accept that information.
 
-Which sides acts as the source or destination depends on the channel. For instance, the manager drives the Write Address (AW) channel, but it is the destination on the Write Response channel (B) channel.
+Which sides acts as the source or destination depends on the channel. For instance, the manager drives the Write Address (**AW**) channel, but it is the destination on the Write Response channel (**B**) channel.
 
 When a source asserts VALID, it must keep the signal high until the destination asserts READY and the transfer is accepted.
 

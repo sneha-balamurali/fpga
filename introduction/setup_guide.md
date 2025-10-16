@@ -108,7 +108,7 @@ During my internship, I was using Vivado 2020.1 but that was because the officia
 
 ## Connecting to your Red Pitaya
 
-There are multiple ways to connect to the Red Pitaya which is detailed [here](https://redpitaya.readthedocs.io/en/latest/quickStart/first.html)
+There are multiple ways to connect to the Red Pitaya which is detailed [here](https://redpitaya.readthedocs.io/en/latest/quickStart/first.html).
 
 How I did it:
 
@@ -120,7 +120,7 @@ How I did it:
 
 ### Uploading bitstream to red pitaya
 
-This section is adapted from the [LED Blink Tutorial by Anton Potočnik](https://redpitaya-knowledge-base.readthedocs.io/en/latest/learn_fpga/4_lessons/LedBlink.html).[^2]
+This section is adapted from the [LED Blink Tutorial by Anton Potočnik](https://redpitaya-knowledge-base.readthedocs.io/en/latest/learn_fpga/4_lessons/LedBlink.html).[^2] (Maybe look there first incase I made typing errors while adapting it).
 
 After generating your bitstream in vivado, it will generate the file to `<Path/to/repository>/tmp/Calibration/Calibration.runs/impl1/system_wrapper.bit`
 If you renamed the project in the `make_project.tcl`, it will look something more like `<Path/to/repository>/tmp/<your-project-name>/<your-project-name>.runs/impl1/system_wrapper.bit`.
