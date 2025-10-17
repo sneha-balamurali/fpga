@@ -113,10 +113,6 @@ $f_\text{bit n} = \frac{f_{clock}}{2^n}$
 - If we use bit 27 of a 28-bit counter, it toggles roughly once per second:
 
 $$
-  \frac{2^{27}}{125 \times 10^6 \,\text{s}^{-1}} \approx 1.07 \,\text{s}
-$$  
-
-$$
 \frac{2^{27}}{125 \times 10^6 \text{s}^{-1}} \approx 1.07 \text{s}
 $$
 
