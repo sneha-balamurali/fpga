@@ -95,9 +95,9 @@ Later, custom processing logic can be inserted between the ADC and DAC blocks (e
 
 - Connect a signal generator to one of the Red Pitaya’s inputs and an oscilloscope to one of its outputs. Verify that the waveform observed on the oscilloscope matches the signal generated.
 
-- [Impedance-match](/introduction/red_pitaya.md#outputs-out1-out2) the Red Pitaya output to the oscilloscope input. Both should be terminated at 50 Ω to prevent signal reflections and distortion.
+- Make sure to [impedance-match](/introduction/red_pitaya.md#outputs-out1-out2) the Red Pitaya output to the oscilloscope input. Both should be terminated at 50 Ω to prevent signal reflections and distortion.
 
-- Confirm that the signal generator's peak-to-peak voltage (Vpp) is within the Red Pitaya's supported input range which is [±1V or ±20V range depending on configuration](/introduction/red_pitaya.md#inputs-in1-in2). 
+- Also confirm that the signal generator's peak-to-peak voltage (Vpp) is within the Red Pitaya's supported input range which is [±1V or ±20V range depending on configuration](/introduction/red_pitaya.md#inputs-in1-in2). 
 
 ## References
 
