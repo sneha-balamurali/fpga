@@ -24,7 +24,7 @@ By the end of this section, you’ll understand how the PS and PL exchange infor
 
 ## Background
 
-This section introduces a lot of new concepts. Don't worry if it feels abstract — you don't need to understand it all to do the project. It will make sense once you follow the steps.
+This section introduces a lot of new concepts. Don't worry if it feels abstract - you don't need to understand it all to do the project. It will make sense once you follow the steps.
 
 #### More in-depth resources:
 1. [Arm Technical Docs: AMBA AXI Protocol Specification](https://developer.arm.com/documentation/ihi0022/latest)

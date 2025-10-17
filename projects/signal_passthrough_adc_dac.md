@@ -37,7 +37,7 @@ In this design we use Pavel Demin’s ADC and DAC cores[^1], which are already i
 - The DAC outputs on one bus:
     - `dac_dat_o[13:0]`
 
-#### Why the DAC clock is different
+#### Why the DAC requires a faster clock
 
 The DAC is a DDR (Double Data Rate) device using ODDR[^3]. Instead of latching data only on the rising edge of its clock, it captures one channel on the rising edge and the other on the falling edge.
 
@@ -71,28 +71,33 @@ Later, custom processing logic can be inserted between the ADC and DAC blocks (e
 
 ## Tutorial
 
-### Step 1: Create the block design and configure the clocking wizard as shown below.
-
-![signal_passthrough_block_design](/images/signal_passthrough/block_design.png)
-**Figure 1:** Complete block design for signal passthrough
+### Step 1: Add a Clocking Wizard to your block design and configure it as shown in Figure 1 and Figure 2
+- Double click on the Clocking Wizard to re-customise it.
 
 ![clocking wizard configuration: clocking options](/images/signal_passthrough/clocking_options.png)
-**Figure 2:** Clocking Options
+**Figure 1:** Clocking Options
 
 ![clocking wizard configuration: output clocks](/images/signal_passthrough/output_clocks.png)
-**Figure 3:** Output Clocks
+**Figure 2:** Output Clocks
 
-### Step 2: Generate bitsream and upload to Red Pitaya
+### Step 2: Create the block design shown in Figure 3
+
+![signal_passthrough_block_design](/images/signal_passthrough/block_design.png)
+**Figure 3:** Complete block design for signal passthrough
+
+### Step 3: Generate bitsream and upload to Red Pitaya
 
 [Go to Section Connecting to your Red Pitaya of the Set Up Guide](/introduction/setup_guide.md#connecting-to-your-red-pitaya)
 
-### Step 3: Test
+### Step 4: Test
 
 [Generate bitstream and upload to red pitaya](/introduction/setup_guide.md#connecting-to-your-red-pitaya)
 
-Connect a signal generator to an input and an oscilloscope to an output. Check if what you output on the signal generator matches what you see on the oscilloscope. 
+- Connect a signal generator to one of the Red Pitaya’s inputs and an oscilloscope to one of its outputs. Verify that the waveform observed on the oscilloscope matches the signal generated.
 
-When connecting the outputs, it is worth reading the section on [outputs](/introduction/red_pitaya.md#outputs-out1-out2) in the Red Pitaya page to understand impedance matching.
+- [Impedance-match](/introduction/red_pitaya.md#outputs-out1-out2) the Red Pitaya output to the oscilloscope input. Both should be terminated at 50 Ω to prevent signal reflections and distortion.
+
+- Confirm that the signal generator's peak-to-peak voltage (Vpp) is within the Red Pitaya's supported input range which is [±1V or ±20V range depending on configuration](/introduction/red_pitaya.md#inputs-in1-in2). 
 
 ## References
 
