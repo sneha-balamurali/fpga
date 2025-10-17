@@ -117,7 +117,7 @@ $$
 $$  
 
 $$
-\frac{2^{27}}{125 \times 10^6 \,\text{s}^{-1}} \approx 1.07\,\text{s}
+\frac{2^{27}}{125 \times 10^6 \text{s}^{-1}} \approx 1.07 \text{s}
 $$
 
 This is now slow enough for our eyes to see the LED blink on and off.
