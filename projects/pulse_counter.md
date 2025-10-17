@@ -508,10 +508,7 @@ $${T}_{period} = \text{the total time of one complete cycle}$$
 ![counted pulses over a window length on oscilloscope](/images/photon_counter/count_oscilloscope.JPEG)
 ## Further Steps
 
-I didn't get a chance to look into this but... asynchronous sets, synchroniser and etc.
-PID...
-
-re-verify the behaviour, so please treat this as a working interpretation rather than a confirmed fact.
+### Double-Check
 - If you intend to replicate or extend this work, I strongly recommend double-checking the full signal chain:
 
     - Inspect the counter output codes (digital counts from your HDL).
@@ -523,6 +520,14 @@ re-verify the behaviour, so please treat this as a working interpretation rather
     - [Red Pitaya Schematics v1.0.1](https://downloads.redpitaya.com/doc/Red_Pitaya_Schematics_v1.0.1.pdf)
     - [AD9763/AD9765/AD9767 Datasheet](https://www.analog.com/media/en/technical-documentation/data-sheets/AD9763_9765_9767.pdf)
 
+### PID
+
+- I left off at connecting the counter to the following PID:
+
+
+
+- I didn't get a chance to look into this but... asynchronous sets, synchroniser and etc.
+PID...
 ## References:
 
 [^1]: Euresys. TTL and LVTTL Logic Levels, Coaxlink 10.3 Documentation. Available at: https://documentation.euresys.com/Products/Coaxlink/Coaxlink_10_3/Content/03_Using_Coaxlink/application-notes/connecting-ttl-to-isolated-ports/TTL_and_LVTTL_levels.htm

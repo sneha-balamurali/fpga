@@ -53,7 +53,7 @@ Because CPUs are general-purpose, they need all this overhead to stay flexible. 
 
 When you design hardware for a specific task:
 
-- You dont need to fetch instructions, decode them or ask what's next. 
+- You don't need to fetch instructions, decode them or ask what's next. 
 - The hardware circuit is the operation itself. 
 
 **Example:**
@@ -137,8 +137,8 @@ The following explanations are based on the official Red Pitaya Schematics v1.0.
 
 - **Low-Pass Filter (~50 MHz):**
     - A DAC generates signals by updating the output voltage at discrete steps (every 8 ns at 125 MS/s) which won't produce a perfectly smooth waveform.
-    - If you tell it to generate a 10 MHz sine wave, what you actually get is a staircase approximation of that sine wave which contains the low frequency component (the 10 MHz sine) and lots of unwanted high-frequency componenets.
-    - The ~50 MHz low-pass filter after the DAC blocks the high-frequency componenets and ensures the output is a clean analogue signal.
+    - If you tell it to generate a 10 MHz sine wave, what you actually get is a staircase approximation of that sine wave which contains the low frequency component (the 10 MHz sine) and lots of unwanted high-frequency components.
+    - The ~50 MHz low-pass filter after the DAC blocks the high-frequency components and ensures the output is a clean analogue signal.
 
 - **SMA Connectors:**
   -  On sheet 4 of 9 of the Red Pitaya Schematic v1.0.1[^2], the outputs (OUT1 and OUT2) are shown with a built-in **50Ω termination**
