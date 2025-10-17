@@ -34,7 +34,7 @@ A normal computer uses a CPU. The CPU is general-purpose and can run any program
 
 ## Why Software is Slower
 
-A simple adder circuit (pure hardware) can add two binary numbers in ~500 ps[^1]. 
+A simple adder circuit (pure hardware) can add two binary numbers in ~500 ps (*approximate illustrative value, more exact value depends on factors like transistor technology*).[^1] 
 
 But when software says ```a = b + c``` , the CPU doesn't just add:
 
@@ -86,13 +86,13 @@ If hardware isn’t fast enough, you can just build more of it in parallel. CPUs
 
 ### STEMlab 125-14 Gen 1 board:
 
-![Physical Red Pitaya Board](../images/red_pitaya_mine.png)
+![Physical Red Pitaya Board](../images/red_pitaya/red_pitaya_mine.png)
 
 *Figure 1: Red Pitaya STEMlab 125-14*
 
 ### Block Schematic:
 
-![Red Pitaya Block Schematic](../images/red_pitaya_schematic.png)
+![Red Pitaya Block Schematic](../images/red_pitaya/red_pitaya_schematic.png)
 
 *Figure 2: Red Pitaya STEMlab 125-14 block diagram, from Red Pitaya Schematics v1.0.1 [^2].*
 
@@ -106,6 +106,7 @@ The following explanations are based on the official Red Pitaya Schematics v1.0.
     - The Red Pitaya has two **Analogue-to-Digital Converters (ADCs)**. These devices take an analogue signal (a continuously varying voltage, like a sine wave) and turn it into digital numbers that can be processed by the FPGA.
     - **14-bit resolution:** each sample is represented by one of 16,384 possible values, giving fine precision.
     - **125 MS/s sample rate:** the ADC captures 125 million snapshots per second. This means it can accurately follow signals with frequencies up to tens of MHz.
+    - They have used the [LTC2145-14 ADCs from Analog Devices](https://www.analog.com/en/products/ltc2145-14.html)[^5]
 
 - **Range Setting:**
     - The ADC can only accept signals within a certain input range (**±1V or ±20V** depending on configuration).
@@ -132,6 +133,7 @@ The following explanations are based on the official Red Pitaya Schematics v1.0.
 ### Outputs (OUT1, OUT2):  
 - **2x DAC 14-bit@125 MHz:** 
     - The Red Pitaya has two **14-bit Digital-to-Analogue Converters (DACs)** running at **125 MS/s**. 
+    - They use the [DAC AD9767 from Analog Devices](https://www.analog.com/en/products/AD9767.html)[^5]
 
 - **Low-Pass Filter (~50 MHz):**
     - A DAC generates signals by updating the output voltage at discrete steps (every 8 ns at 125 MS/s) which won't produce a perfectly smooth waveform.
@@ -187,10 +189,32 @@ The following explanations are based on the official Red Pitaya Schematics v1.0.
 
 ### Expansion I/O:
 
-Click on the link to go to the image of the [extension connectors](https://redpitaya.com/rtd-iframe/?iframe=https://redpitaya.readthedocs.io/en/latest/developerGuide/hardware/hardware.html)
+Click on the link to go to a more detailed annotations of the [extension connectors](https://redpitaya.com/rtd-iframe/?iframe=https://redpitaya.readthedocs.io/en/latest/developerGuide/hardware/hardware.html)
+
+![extension_connectors](/images/red_pitaya/extension_connectors.png)
+**Figure 3:** Labelled DIO0–DIO7 pairs (+/–) with grounds on E1 and the 4 slow analog inputs (0–3) and 4 slow analog outputs (0–3) on E2.
 
 - **E1 connector:** 
-  - 16 single-ended or 8 differential GPIO lines (3.3 V)[^4].
+  - 16 single-ended or 8 differential GPIO lines (3.3 V).
+
+|Red Pitaya Pin Description|FPGA Pin Number|Block Design Name|
+|----|----|----|
+|DIO0_P / EXT TRIG|G17|`exp_p_tri_io[0]`|
+|DIO0_N|G18|`exp_n_tri_io[0]`|
+|DIO1_P|H16|`exp_p_tri_io[1]`|
+|DIO1_N|H17|`exp_n_tri_io[1]`|
+|DIO2_P|J18|`exp_p_tri_io[2]`|
+|DIO2_N|H18|`exp_n_tri_io[2]`|
+|DIO3_P|K17|`exp_p_tri_io[3]`|
+|DIO3_N|K18|`exp_n_tri_io[3]`|
+|DIO4_P|L14|`exp_p_tri_io[4]`|
+|DIO4_N|L15|`exp_n_tri_io[4]`|
+|DIO5_P|L16|`exp_p_tri_io[5]`|
+|DIO5_N|L17|`exp_n_tri_io[5]`|
+|DIO6_P/CAN1_RX|K16|`exp_p_tri_io[6]`|
+|DIO6_N / CAN1_TX|J16|`exp_n_tri_io[6]`|
+|DIO7_P / CAN0_RX|M14|`exp_p_tri_io[7]`|
+|DIO7_N / CAN0_TX|M15|`exp_n_tri_io[7]`|
   - GPIO stands for General Purpose Input/Output. These are digital pins:
     
     Configurable as inputs (reads 0/1) or output (drives a 0/1).
@@ -201,9 +225,33 @@ Click on the link to go to the image of the [extension connectors](https://redpi
   - If you use them as differential pairs, each signals uses two wires (one carries the "positive" version and the other carries the "negative" version and the reciever looks at the difference between the two wires, not their voltage to ground). 
     
     This is better for noise immunity (common interference affects both wires equally so when you subtract the two, the noise also cancels out), signal integrity and high speed.
-  - The 3.3V means that logic high is approximately 3.3 V and logic low is 0V. **Important:** If you connect external hardware, it must also be 3.3V logic compatible. Connecting higher-voltage logic (e.g. 5 V) risks damaging the FPGA.
+  - The 3.3V means that logic high is approximately 3.3 V and logic low is 0V. **Important:** If you connect external hardware, it must also be 3.3V logic compatible. Connecting higher-voltage logic (e.g. 5 V) risks damaging the FPGA.[^5]
 
-- **E2 connector:** slow analogue I/O, I²C, SPI, UART, and external clock.  
+- **E2 connector:**
+- Contains I2C, SPI, UART, external clocks, GND, power sources, slow analog input channels and slow analog output channels.
+- Slow Analog Inputs: 
+  - Four auxiliary analog inputs with a 0–3.5 V voltage range
+  - 12-bit resolution
+  - Nominal sampling rate (how often the digital value updates) of ~100 kS/s.
+- Slow Analog Outputs: 
+  - Four auxiliary analog outputs with a 0–1.8 V voltage range
+  - Implemented as 8-bit low-pass-filtered PWM channels.
+  - Support an effective sample rate of up to ~3.2 MS/s
+  - Usable analog output bandwidth (the highest analog frequency that can pass cleanly) of ≈ 160 kHz.[^5]
+
+|Red Pitaya Pin Description|FPGA Pin Number|Block Design Name|
+|----|----|----|
+|Analog Input 0|B19, A20|Vaux8|
+|Analog Input 1|C20, B20|Vaux0|
+|Analog Input 2|E17, D18|Vaux1|
+|Analog Input 3|E18, E19|Vaux9|
+|Analog Output 0|T10|`dac_pwm_o[0]`|
+|Analog Output 1|T11|`dac_pwm_o[1]`|
+|Analog Output 2|P15|`dac_pwm_o[2]`|
+|Analog Output 3|U13|`dac_pwm_o[3]`|
+
+*Pin mapping based on `port.xdc` file and official hardware documentation [^5].*
+
 - **JTAG:** debugging and FPGA programming interface.  
 
 ### Indicators:
@@ -253,3 +301,5 @@ This combination makes the board ideal for applications where high-speed hardwar
 [^3]: AMD Xilinx. *Zynq-7000 SoC Technical Reference Manual (UG585)*. Version 1.13.1, July 2023. Available at:https://docs.amd.com/r/en-US/ug585-zynq-7000-SoC-TRM/Zynq-7000-SoC-Technical-Reference-Manual
 
 [^4]: Red Pitaya d.o.o. *Hardware*. Available at: https://redpitaya.readthedocs.io/en/latest/developerGuide/hardware/hardware.html
+
+[^5]: Red Pitaya d.o.o. *Original Boards* Available at: https://redpitaya.readthedocs.io/en/latest/developerGuide/hardware/ORIG_GEN/125-14/top.html

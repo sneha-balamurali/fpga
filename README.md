@@ -1,6 +1,6 @@
 # FPGA Internship Documentation
 
-This repository contains setup guides, project walkthroughs, and notes from my FPGA internship using **Red Pitaya STEMlab 125-14**, **Vivado**, and **Verilog.**
+This repository contains setup guides, project walkthroughs, and notes from my FPGA internship using **Red Pitaya STEMlab 125-14 (Gen 1)**, **Vivado**, and **Verilog.**
 
 ## Repository Structure
 

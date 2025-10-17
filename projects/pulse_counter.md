@@ -2,19 +2,19 @@
 
 ## What this Section Covers:
 
-- Pulse Counting Logic:
+- **Pulse Counting Logic:**
     - How to detect and count LVTTL pulses (e.g. photon events) using FPGA logic.
     - Understanding integration windows and dead time to avoid multiple counts per pulse.
 
-- Custom HDL Module Design:
+- **Custom HDL Module Design:**
     - How to write your own Verilog counter module from scratch.
     - How to interface it with existing IP blocks (e.g. DAC, clocking wizard, GPIO).
 
-- AXI4-Stream Data Handling:
+- **AXI4-Stream Data Handling:**
     - How the counter output is packaged and sent to the DAC over a 32-bit AXI-Stream bus.
     - Understanding bit padding and channel mapping for OUT1 and OUT2.
 
-- Real I/O Verification:
+- **Real I/O Verification:**
     - How to connect a signal generator to the Red Pitaya’s E1 pin.
     - How to visualise your counter’s output and dead-time signal on an oscilloscope.
     - How to interpret DAC voltages and translate them back into counts.
@@ -23,11 +23,17 @@
         - Process high-speed digital pulses in real time.
         - Verify your design experimentally using Red Pitaya hardware.
 
-- I would recommend going over the following projects beforehand:
+- **I would recommend going over the following projects beforehand:**
     - [LED blink](/projects/led_blink.md)
     - [LED Control (GPIO)](/projects/led_control_gpio.md)
     - [Signal Passthrough (ADC TO DAC)](/projects/signal_passthrough_adc_dac.md)
 
+- **Quick Links:**
+    - [Tutorial](/projects/pulse_counter.md#tutorial)
+    - [Testing](/projects/pulse_counter.md#testing)
+    - [Further Steps](/projects/pulse_counter.md#further-steps)
+    - [References](/projects/pulse_counter.md#references)
+    
 ## Background
 
 ### LVTTL Pulses in Photon Counting
@@ -311,23 +317,6 @@ $$
     - The exact padding scheme is flexible, for instance, `1'b0, 15{15{e1_count1}}` would work equally well.
     - The key point is that the DAC only reads 14 of those bits, so the rest just ensures the concatenation produces a valid 32-bit word.
 
-## Further Steps
-
-I didn't get a chance to look into this but... asynchronous sets, synchroniser and etc.
-PID...
-
-re-verify the behaviour, so please treat this as a working interpretation rather than a confirmed fact.
-- If you intend to replicate or extend this work, I strongly recommend double-checking the full signal chain:
-
-    - Inspect the counter output codes (digital counts from your HDL).
-    - Confirm what values are sent into and out of the DAC module (e.g., after any bit inversions).
-    - Measure or simulate the DAC output to understand how the Red Pitaya converts those codes into voltage.
-
-- It’s best to trace this end-to-end—from the Verilog counter to the SMA output—to confirm the exact polarity and scaling on your setup. Some other resources that might be helpful:
-
-    - [Red Pitaya Schematics v1.0.1](https://downloads.redpitaya.com/doc/Red_Pitaya_Schematics_v1.0.1.pdf)
-    - [AD9763/AD9765/AD9767 Datasheet](https://www.analog.com/media/en/technical-documentation/data-sheets/AD9763_9765_9767.pdf)
-
 ## Tutorial
 
 ### Step 1: Open a Vivado Project 
@@ -451,10 +440,10 @@ endmodule
 
 ![create_port](/images/photon_counter/create_port.png)
 
-16. Do as below.
+16. Do as below.(*Note: The DAC control signals dac_rst and dac_sel are incorrectly shown in this specific diagram. The correct connections are used in all other diagrams where this note does not appear.*)
 ![e1_pin](/images/photon_counter/e1_pin.png)
 
-17. Insert a slice and configure as shown. 
+17. Insert a slice and configure as shown. (*Note: The DAC control signals dac_rst and dac_sel are incorrectly shown in this specific diagram. The correct connections are used in all other diagrams where this note does not appear.*)
 
 |Field|Meaning|What to enter for our case|
 |---|---|---|
@@ -505,11 +494,35 @@ $$
 $${t}_{high} = \text{the time the signal stays high in one cycle}$$
 $${T}_{period} = \text{the total time of one complete cycle}$$
 
+- Which E1 pins to connect:
+    - Connect the wire recieving the pin to DIO_0 and the the ground to GND.
+
+![extension_connectors](/images/red_pitaya/extension_connectors.png)
+![e1_connection](/images/photon_counter/e1_connection.JPEG)
+![set_up_e1_to_signal_generator](/images/photon_counter/set_up_e1_to_signal_generator.JPEG)
+
 - When observing the outputs:
     - One DAC output will display the integrated count of pulses over your programmed window length such as in Figure 10 with the measured voltage corresponding to a certain number of pulses as covered in the background section.
     - The other will toggle between high and low, indicating when the counter is in dead-time (ignoring new pulses).
 
 ![counted pulses over a window length on oscilloscope](/images/photon_counter/count_oscilloscope.JPEG)
+## Further Steps
+
+I didn't get a chance to look into this but... asynchronous sets, synchroniser and etc.
+PID...
+
+re-verify the behaviour, so please treat this as a working interpretation rather than a confirmed fact.
+- If you intend to replicate or extend this work, I strongly recommend double-checking the full signal chain:
+
+    - Inspect the counter output codes (digital counts from your HDL).
+    - Confirm what values are sent into and out of the DAC module (e.g., after any bit inversions).
+    - Measure or simulate the DAC output to understand how the Red Pitaya converts those codes into voltage.
+
+- It’s best to trace this end-to-end—from the Verilog counter to the SMA output—to confirm the exact polarity and scaling on your setup. Some other resources that might be helpful:
+
+    - [Red Pitaya Schematics v1.0.1](https://downloads.redpitaya.com/doc/Red_Pitaya_Schematics_v1.0.1.pdf)
+    - [AD9763/AD9765/AD9767 Datasheet](https://www.analog.com/media/en/technical-documentation/data-sheets/AD9763_9765_9767.pdf)
+
 ## References:
 
 [^1]: Euresys. TTL and LVTTL Logic Levels, Coaxlink 10.3 Documentation. Available at: https://documentation.euresys.com/Products/Coaxlink/Coaxlink_10_3/Content/03_Using_Coaxlink/application-notes/connecting-ttl-to-isolated-ports/TTL_and_LVTTL_levels.htm
