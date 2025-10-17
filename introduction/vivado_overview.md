@@ -32,7 +32,7 @@ It covers:
 
 To begin, we will look at the block design first generated when you open a new project. On the flow navigator, click `Open Block Design`.
 
-![fresh_block_design](../images/fresh_bd.png)
+![fresh_block_design](../images/vivado_overview/fresh_bd.png)
 **Figure 1: Default Vivado block design loaded from the Red Pitaya FPGA project template. It serves as the starting point for further modifications.** 
 
 ### Ports
@@ -58,7 +58,7 @@ When you add these cores to your project, they show up as blocks you can drag in
 ### Clocks
 - In digital logic, a clock is a repeating signal that oscillates between high (1) and low (0). It acts as a timing reference so that all parts of the circuit know exactly when to update or transfer data.
 
-![square_wave](/images/square_wave.jpg)
+![square_wave](/images/vivado_overview/square_wave.jpg)
 
 **Figure 2: 125 MHz square wave, which is the shape of a typical clock signal.**
 - The frequency of the clock determines how fast the circuit operates.
@@ -67,14 +67,14 @@ When you add these cores to your project, they show up as blocks you can drag in
 ### FCLK_CLK0
 - On the Red Pitaya, the ARM processor in the Zynq chip generates up to four programmable clocks (`FCLK_CLK0 … FCLK_CLK3`) to the FPGA logic. Physically, these clocks sit at the boundary between the processor system (PS) and the programmable logic (PL) and ensure both sides can stay synchronised when sharing data. [^1]
 - To access them, double click the PS block and navigate as shown in the image below. 
-![ps_fabric_clock](/images/ps_fabric_clocks.png)
+![ps_fabric_clock](/images/vivado_overview/ps_fabric_clocks.png)
 
 **Figure 3: Clock configuration menu inside the Zynq7 Processing System IP.**
 
 - You'll see that the `FCLK_CLK0` is connected to `M_AXI_GP0_ACLK` and `S_AXI_HP0_ACLK`. These are clock inputs for the AXI interfaces that connect the processor system (PS) to the programmable logic (PL).[^2]
 
 - **What is AXI?**
-    - AXI is a standard way of moving data between different parts of a chip (like CPU, memory, and FPGA logic). It is a common set of wires and rules that PS/PL IPs use to move data. It always needs a clock so that both sides know when to read or write signals. **AXI protocol will be expanded on in later sections**
+    - AXI is a standard way of moving data between different parts of a chip (like CPU, memory, and FPGA logic). It is a common set of wires and rules that PS/PL IPs use to move data. It always needs a clock so that both sides know when to read or write signals. This is covered in more detail in the [Background section](/projects/led_control_gpio.md#background) of the LED Control (GPIO) project.
 - **Why are there different AXI ports?**
     - `M_AXI_GP0` is a General Purpose Master interface. Here, the processor (PS) is the 'master' that sends data or commands into the FPGA fabric (PL).
     - `S_AXI_HP0` is the High Performance Slave interface. Here, the FPGA fabric (PL) can quickly send data (e.g. ADC samples) back into the PS, often into memory (DDR). 
@@ -118,7 +118,7 @@ The mapping between physical pins (from the Red Pitaya schematics) and logical p
 - Below is a small exercpt from the `port.xdc` file which we will go through. But first we will look at the actual hardware to understand how it is all mapped. *No need to know this stuff in detail to do the projects, they are just there for understanding*
 
 ### Block Schematic
-The below is explained in more detail in the [red_pitaya](../introduction/red_pitaya.md) section which you can refer back to. We will mention it here again briefly because it is a simplified version of same system in the more detailed schematic we will use to explain pins and the constraints files.
+The below is explained in more detail in the [Red Pitaya](../introduction/red_pitaya.md) section which you can refer back to. We will mention it here again briefly because it is a simplified version of same system in the more detailed schematic we will use to explain pins and the constraints files.
 
 - **2× ADC 14-bit @ 125 MS/s**:
     - corresponds to the beige middle block labelled `U2 ADC 2 x 14bit` in the detailed schematic
@@ -129,12 +129,14 @@ The below is explained in more detail in the [red_pitaya](../introduction/red_pi
     - The range setting makes sure the signal fits into the ADC’s digitisation window (–1 V to +1 V).
     - A low-pass filter then removes frequencies above ~50 MHz, since the ADC cannot capture signals higher than half its sampling rate (Nyquist limit) without distortions.
 
-![red_pitaya_block_schematic](../images/red_pitaya_schematic.png)
+![red_pitaya_block_schematic](../images/red_pitaya/red_pitaya_schematic.png)
+
 **Figure 4:** High-level block diagram of the board, showing the FPGA (Xilinx Zynq-7010), ADC/DAC, filters, power, and I/O as functional blocks. Source: Red Pitaya Schematics v1.0.1 (PDF)[^4]
 
 ### Detailed Schematic of SMA inputs to ADC to FPGA
 
-![red_pitaya_detailed_schematic](../images/red_pitaya_detailed_schematic_analog_front_end_and_analog_digital_converter.png)
+![red_pitaya_detailed_schematic](../images/vivado_overview/red_pitaya_detailed_schematic_analog_front_end_and_analog_digital_converter.png)
+
 **Figure 5:** Detailed schematic view of the analog front-end and ADC connections into the FPGA pins. This shows the actual wiring between the SMA inputs, amplifiers, ADC chip, and FPGA package pins.  
 Source: Red Pitaya Schematics[^4]
 

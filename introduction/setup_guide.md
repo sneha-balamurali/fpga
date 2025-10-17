@@ -30,7 +30,7 @@ During my internship, I was using Vivado 2020.1 but that was because the officia
 
 1. Go to [AMD's downloads webpage](https://www.xilinx.com/support/download/index.html/content/xilinx/en/downloadNav/vivado-design-tools.html)[^1]
 2. Scroll down to  AMD Unified Installer for FPGAs & Adaptive SoCs 2025.1: Windows Self Extracting Web Installer (EXE - 226.04 MB) and click it to start download.
-3. You'll be taken to Sign-in page. Create an account if you don't have one, it is free and sign in. You'll then be asked to input some information about yourself, after which you can click on the "Download" button at the botton of the page to start the download.
+3. You'll be taken to Sign-in page. Create an account if you don't have one, it is free and sign in. You'll then be asked to input some information about yourself, after which you can click on the "Download" button at the bottom of the page to start the download.
 4. Follow the instructions to set it up. You'll be taken to a welcome page, click "Next >", put your AMD details in and select "Download and Install Now."
 5. Select Vivado as the product to install.
 6. Select Vivado ML Standard as the edition to install.
@@ -47,19 +47,20 @@ During my internship, I was using Vivado 2020.1 but that was because the officia
 
     It does take up a lot of space - ~45-65 GB. If you are trying to save as much space as possible you can de-select DocNav, it is just an offline document viewer from AMD/Xilinx which you can access on their website or install later if you wish.
 
-    ![vivado_ml_standard](../images/vivado_ml_standard.png)
+    ![vivado_ml_standard](../images/set_up_guide/vivado_ml_standard.png)
 
 8. On the next page, you'll be asked to accept some license agreements.
 9. On the Select Destination Directory section, select **All users** under "Apply shortcut & file association selection to" so every user account on your computer can use Vivado without re-installing. It doesn't really matter if you're the only user of your laptop.
 10. Find below the install summary, click install. It will take a while to install!
-![vivado_install_summary](../images/vivado_install_summary.png)
+![vivado_install_summary](../images/set_up_guide/vivado_install_summary.png)
 
 ## Opening a New Project
 
 [1. Download Final Vivado Folder](https://github.com/Bentwin2002/Group_IV_RP/tree/main/Final_Vivado)
 
 2. Open Vivado and in the Tcl Console, `cd` to where you saved the template
-![set_up_guide_tcl_demo](/images/set_up_guide_demo.png)
+![set_up_guide_tcl_demo](/images/set_up_guide/set_up_guide_demo.png)
+
 3. Run the commands:
 
     ```
@@ -108,19 +109,20 @@ During my internship, I was using Vivado 2020.1 but that was because the officia
 
 ## Connecting to your Red Pitaya
 
-There are multiple ways to connect to the Red Pitaya which is detailed [here](https://redpitaya.readthedocs.io/en/latest/quickStart/first.html).
+There are multiple ways to connect to the Red Pitaya which is detailed [here](https://redpitaya.readthedocs.io/en/latest/quickStart/first.html)[^5].
 
 How I did it:
 
 1. Insert SD card 
-![SD card 1](/images/FPGA%20SD%20card/1.jpg)
-![SD card 2](/images/FPGA%20SD%20card/2.jpg)
+![SD card 1](/images/set_up_guide/FPGA%20SD%20card/1.jpg)
+![SD card 2](/images/set_up_guide/FPGA%20SD%20card/2.jpg)
+
 2. Connect ethernet cable from red pitaya to laptop and plug into power as shown below.
-![connecting ethernet and power into red pitaya](/images/ethernet_and_power.JPEG)
+![connecting ethernet and power into red pitaya](/images/set_up_guide/ethernet_and_power.JPEG)
 
 ### Uploading bitstream to red pitaya
 
-This section is adapted from the [LED Blink Tutorial by Anton Potočnik](https://redpitaya-knowledge-base.readthedocs.io/en/latest/learn_fpga/4_lessons/LedBlink.html).[^2] (Maybe look there first incase I made typing errors while adapting it).
+This section is adapted from the [LED Blink Tutorial in the Red Pitaya Knowledge Base](https://redpitaya-knowledge-base.readthedocs.io/en/latest/learn_fpga/4_lessons/LedBlink.html).[^2] (Look there first in case I made typing errors while adapting it and if newer Red Pitaya OS versions have been released since this doc was written).
 
 After generating your bitstream in vivado, it will generate the file to `<Path/to/repository>/tmp/Calibration/Calibration.runs/impl1/system_wrapper.bit`
 If you renamed the project in the `make_project.tcl`, it will look something more like `<Path/to/repository>/tmp/<your-project-name>/<your-project-name>.runs/impl1/system_wrapper.bit`.
@@ -173,7 +175,7 @@ bootgen -image system_wrapper.bif -arch zynq -process_bitstream bin -o system_wr
 echo -n "all:{ system_wrapper.bit }" >  system_wrapper.bif
 bootgen -image system_wrapper.bif -arch zynq -process_bitstream bin -o system_wrapper.bit.bin -w
 ```
-3. Transfer the .bit file to the Red Pitaya. On Linux/macOS, you can use `scp`; on Windows you can use WinSCP or an equivalent tool. You can repalce the "led_blink.bit.bin" with what you want to call the file:
+3. Transfer the .bit file to the Red Pitaya. On Linux/macOS, you can use `scp`; on Windows you can use WinSCP or an equivalent tool. You can replace the "led_blink.bit.bin" with what you want to call the file:
 ```bash
 scp system_wrapper.bit.bin root@rp-xxxxxx.local:/root/led_blink.bit.bin
 ```
@@ -189,7 +191,7 @@ ls
 ```bash
 fpgautil -b led_blink.bit.bin
 ```
-7. If at any point you want to return the board to its default Red Pitaya FPGA configuration, you can do so by running the following command:
+7. If at any point you want to return the board to its default Red Pitaya FPGA configuration, you can do so by restarting the Red Pitaya or running the following command:
   - OS v1.04 or earlier:
   ```bash
   cat /opt/redpitaya/fpga/fpga_0.94.bit > /dev/xdevcfg
@@ -199,7 +201,6 @@ fpgautil -b led_blink.bit.bin
   overlay.sh v0.94
   ```
 
-
 ## Acknowledgements & References
 
 This setup guide is adapted from internal Red Pitaya notes by M. Barendregt (2022)[^3] and B. Millward (2023)[^4], written within the Kagome Lattice subgroup of the MBQD group at the University of Cambridge during their Red Pitaya projects.
@@ -207,10 +208,12 @@ This setup guide is adapted from internal Red Pitaya notes by M. Barendregt (202
 ### References
 [^1]: AMD. *Vivado Design Tools – Downloads Page*. Available at: [https://www.xilinx.com/support/download/index.html/content/xilinx/en/downloadNav/vivado-design-tools.html](https://www.xilinx.com/support/download/index.html/content/xilinx/en/downloadNav/vivado-design-tools.html)
 
-[^2]: Potočnik, Anton. *LED Blink Tutorial*. Red Pitaya Knowledge Base, Red Pitaya d.o.o. Available at: https://redpitaya-knowledge-base.readthedocs.io/en/latest/learn_fpga/4_lessons/LedBlink.html
+[^2]: Red Pitaya d.o.o. *FPGA Tutorial – LED Blink*. Originally authored by Anton Potočnik. In: Red Pitaya Knowledge Base – Learn FPGA Lessons 4.2.2.7. Available at: https://redpitaya-knowledge-base.readthedocs.io/en/latest/learn_fpga/4_lessons/LedBlink.html
 
 [^3]: M. Barendregt, *Red Pitaya*, Kagome Lattice – MBQD Group, University of Cambridge, Internal Notes, Summer 2022. Retrieved from Kagome Wiki. Available at: [https://wiki.cam.ac.uk/kagome/Red_Pitaya](https://wiki.cam.ac.uk/kagome/Red_Pitaya)  
 
 [^4]: B. Millward, *Red Pitaya Guide*, Kagome Lattice – MBQD Group, University of Cambridge, Internal Notes, 2023. Retrieved from Kagome Wiki. Available at: [https://wiki.cam.ac.uk/kagome/Red_Pitaya](https://wiki.cam.ac.uk/kagome/Red_Pitaya)
+
+[^5]: Red Pitaya d.o.o. *Quick Start*. Available at: https://redpitaya.readthedocs.io/en/latest/quickStart/first.html 
 
 
