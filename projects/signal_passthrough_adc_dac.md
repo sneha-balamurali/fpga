@@ -87,11 +87,11 @@ Later, custom processing logic can be inserted between the ADC and DAC blocks (e
 
 ### Step 3: Generate bitsream and upload to Red Pitaya
 
-[Go to Section Connecting to your Red Pitaya of the Set Up Guide](/introduction/setup_guide.md#connecting-to-your-red-pitaya)
+- [Go to Section Connecting to your Red Pitaya of the Set Up Guide](/introduction/setup_guide.md#connecting-to-your-red-pitaya)
 
 ### Step 4: Test
 
-[Generate bitstream and upload to red pitaya](/introduction/setup_guide.md#connecting-to-your-red-pitaya)
+- [Generate bitstream and upload to red pitaya](/introduction/setup_guide.md#connecting-to-your-red-pitaya)
 
 - Connect a signal generator to one of the Red Pitaya’s inputs and an oscilloscope to one of its outputs. Verify that the waveform observed on the oscilloscope matches the signal generated.
 
