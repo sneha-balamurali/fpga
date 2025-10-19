@@ -4,7 +4,7 @@ This repository documents my learning process during an eight-week summer intern
 
 ![high_level_system_overview](/images/read_me/high_level_system_overview.png)
 
-*Figure 1:* The diagram illustrates how the Red Pitaya STEMlab 125-14 interfaces with a host PC and external signal sources and devices. Solid arrows represent data, signal, and command flow between the host PC, Red Pitaya, and connected instruments, while dashed arrows indicate an optional closed-loop feedback path where outputs are fed back as inputs for adaptive control.
+*Figure 1:* The diagram illustrates how the Red Pitaya STEMlab 125-14 interfaces with a host PC and external signal instruments. Solid arrows represent data, signal, and command flow between the host PC, Red Pitaya, and connected instruments, while dashed arrows indicate an optional closed-loop feedback path where outputs are fed back as inputs for adaptive control.
 
 ## Repository Structure
 
