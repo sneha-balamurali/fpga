@@ -505,6 +505,12 @@ $$
 \text{Duty Cycle (\%)} = \dfrac{t_\mathrm{high}}{T_\mathrm{period}} \times 100
 $$
 
+
+$$
+DC(\%) = \frac{t_{high}}{T_{period}} \times 100
+$$
+
+
 $$
 \mathrm{Duty\ Cycle}\ (\%) = \dfrac{t_{\mathrm{high}}}{T_{\mathrm{period}}} \times 100
 $$
