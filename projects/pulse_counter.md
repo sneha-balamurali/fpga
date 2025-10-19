@@ -283,13 +283,13 @@ This section is relevant if you connect the Red Pitaya DAC to an oscilloscope an
 - N< 8192:
 
 $$
-V_{\text{out}} = \frac{N}{2^{13} - 1} \times 1\,\text{V}
+V_{\text{out}} = \frac{N}{2^{13} - 1} \times 1 \text{V}
 $$
 
   - N > 8191:
 
 $$
-V_{\text{out}} = \frac{(N - 2^{14})}{2^{13}} \times 1\,\text{V}
+V_{\text{out}} = \frac{(N - 2^{14})}{2^{13}} \times 1\text{V}
 $$
 
 where  
@@ -310,7 +310,7 @@ $$
 - Each Least Significant Bit (LSB) corresponds to:
 
 $$
-\text{1 LSB} = \frac{2\,\text{V}}{2^{14}} \approx 122\,\mu\text{V}
+\text{1 LSB} = \frac{2\,\text{V}}{2^{14}} \approx 122\mu\text{V}
 $$
 
 - So increasing the digital count by 1 changes the DAC output by roughly 122 µV.
