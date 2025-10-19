@@ -497,22 +497,9 @@ Since the E1 header operates at 3.3 V logic, configure the generator output to s
     - The dead time you set in the FPGA design is longer than the pulse high duration, so that a single pulse is only counted once.(You can fine-tune this by adjusting the signal generator’s duty cycle.)
     - But also that the dead time is shorter than the total pulse period, so that the next pulse still falls outside the dead-time window.
 
-$$DC(\%)=\frac{t_{\mathrm{high}}}{T_{\mathrm{period}}}\cdot 100$$
+$$\text{Duty Cycle} \%=\frac{t_{\text{high}}}{T_{\text{period}}}\times 100$$
 
-$$\mathrm{DC}\,(\%)=\frac{t_\mathrm{h}}{T_\mathrm{p}}\cdot100$$
-
-$DC(\%)=\frac{t_{high}}{T_{period}}\times100$
-
-$$
-DC(\%)=\frac{t_{\mathrm{high}}}{T_{\mathrm{period}}}\cdot100
-$$
-
-
-$$\text{Duty Cycle} (\%)=\frac{t_{\text{high}}}{T_{\text{period}}}\times 100$$
-
-
-
-$$\text{Duty Cycle \(\%\)} = \frac{\text{t}_{high}}{\text{T}_{period}} \times 100$$
+$$\text{Duty Cycle \%} = \frac{\text{t}_{high}}{\text{T}_{period}} \times 100$$
 
 $${t}_{high} = \text{the time the signal stays high in one cycle}$$
 $${T}_{period} = \text{the total time of one complete cycle}$$
