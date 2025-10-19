@@ -1,11 +1,15 @@
 # FPGA Internship Documentation
 
-This repository contains setup guides, project walkthroughs, and notes from my FPGA internship using **Red Pitaya STEMlab 125-14 (Gen 1)**, **Vivado**, and **Verilog.**
+This repository documents my learning process during an eight-week summer internship with the Quantum Engineering Group. It includes setup guides, project walkthroughs, and technical notes developed while working with the **Red Pitaya STEMlab 125-14 (Gen 1)** using **Vivado** and **Verilog.**
+
+![high_level_system_overview](/images/read_me/high_level_system_overview.png)
+
+*Figure 1:* The diagram illustrates how the Red Pitaya STEMlab 125-14 interfaces with a host PC and external signal sources and devices. Solid arrows represent data, signal, and command flow between the host PC, Red Pitaya, and connected instruments, while dashed arrows indicate an optional closed-loop feedback path where outputs are fed back as inputs for adaptive control.
 
 ## Repository Structure
 
 - **Introduction**
-    1. [Intro to Red Pitaya](/introduction/red_pitaya.md)
+    1. [Introduction to Red Pitaya](/introduction/red_pitaya.md)
     2. [Setup Guide](/introduction/setup_guide.md)
     3. [Vivado Overview: Mapping Red Pitaya Hardware into Vivado](/introduction/vivado_overview.md)
 
@@ -20,9 +24,9 @@ This repository contains setup guides, project walkthroughs, and notes from my F
 
 ## Notes and Advice:
 
-1. This can be quite overwhelming if you don't have a background in it. There is a lot of new information to take in. Follow the repository structure. Don’t try to memorise everything at once, skim through the introduction — you’ll pick things up naturally as you do the projects. 
+1. This can be quite overwhelming if you don't have a background in it. If you're completely new to FPGAs, I recommend following the order shown above and treating each project as a building block. Contributions and suggestions for improvement are always welcome.
 
-2. Use AI carefully: it can explain concepts well, but don’t rely on it for Verilog debugging or writing full code. (At least in my experience with ChatGPT-5) 
+2. Use AI assistants carefully: it can explain concepts well, but don’t rely on it for Verilog debugging or writing full code. (At least in my experience with ChatGPT-5) 
 
 3. If you just want to program the Red Pitaya to do one of the projects, read through the [Setup guide](/introduction/setup_guide.md) and then go to the tutorial section of your desired project.
 
@@ -45,7 +49,7 @@ Listed below are some additional resources:
     - Great for learning Verilog by looking at his code.
 
 - [**AMD Technical Information Portal**](https://docs.amd.com/)
-    - Many of the documents referenced throughout this repository are sourced from AMD’s official documentation library. These include user guides, product specifications, and technical reference manuals for Vivado IP and Zynq devices.
+    - Many of the documents referenced throughout this repository are sourced from the AMD library. These include user guides, product specifications, and technical reference manuals for Vivado IP and Zynq devices.
 
 - [**FPGA-101**](https://nandland.com/fpga-101/)
     - A great resource for FPGA fundamentals. Their explanations of metastability and clock domain crossing were particularly helpful when implementing the two-flip-flop synchroniser and rising-edge detector described in the [further steps](/projects/pulse_counter.md#further-steps) section of my pulse counter.
