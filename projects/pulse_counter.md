@@ -3,25 +3,34 @@
 ## What this Section Covers:
 
 - **Pulse Counting Logic:**
-    - How to detect and count LVTTL pulses (e.g. photon events) using FPGA logic.
-    - Understanding integration windows and dead time to avoid multiple counts per pulse.
+    - Introduction to LVTTL pulse signals and their characteristics
+    - Detecting and counting LVTTL pulses (e.g., photon or TTL events) using FPGA logic
+    - Understanding integration windows and dead time to prevent multiple counts from a single pulse
+    - Interfacing the counter with existing IP blocks such as the DAC, Clocking Wizard, and GPIO. 
 
-- **Custom HDL Module Design:**
-    - How to write your own Verilog counter module from scratch.
-    - How to interface it with existing IP blocks (e.g. DAC, clocking wizard, GPIO).
+- **LED Debug:**
+    - Using the on-board LEDs to verify that pulses are being received correctly
+    - Understanding the underlying LED circuit and signal path
+    - Exploring floating inputs and the role of pull-up and pull-down resistors
 
-- **AXI4-Stream Data Handling:**
-    - How the counter output is packaged and sent to the DAC over a 32-bit AXI-Stream bus.
-    - Understanding bit padding and channel mapping for OUT1 and OUT2.
+- **Counter code:**
+    - Line-by-line explanation of the Verilog counter module
+    - How the counter output is packaged and transmitted to the DAC over a 32-bit AXI4-Stream bus
+    - Understanding bit padding and channel mapping for OUT1 and OUT2
+    - Converting digital counts into corresponding output voltages for oscilloscope observation
 
-- **Real I/O Verification:**
-    - How to connect a signal generator to the Red Pitaya’s E1 pin.
-    - How to visualise your counter’s output and dead-time signal on an oscilloscope.
-    - How to interpret DAC voltages and translate them back into counts.
-    - By the end of this section, you’ll understand how to:
-        - Design, simulate, and integrate your own custom FPGA logic.
-        - Process high-speed digital pulses in real time.
-        - Verify your design experimentally using Red Pitaya hardware.
+- **Tutorial:**
+    - Step-by-step Vivado implementation and block design walkthrough
+
+- **Testing:**
+    - Verifying system functionality using a signal generator and oscilloscope
+    - Guidance on impedance matching, configuring a square-wave source to emulate LVTTL pulses, and adjusting duty cycles
+    - What to expect when observing output waveforms on the oscilloscope 
+
+- **Further Steps:**
+    - Reviewing and validating the entire signal chain
+    - Implementing a two-flip-flop synchroniser and rising-edge detector
+    - Introducing PID control as a next step toward closed-loop feedback systems
 
 - **I would recommend going over the following projects beforehand:**
     - [LED blink](/projects/led_blink.md)
@@ -290,9 +299,9 @@ $${2^{14} = 16384} {\text{ is the total number of possible digital codes}}$$
 
 - For an N-bit signed number, the representable range is:
 
-    $$
-    -2^{N-1} \text{ to } 2^{N-1} - 1
-    $$
+$$
+-2^{N-1} \text{ to } 2^{N-1} - 1
+$$
 
 - The MSB is used as the sign bit:
     - `0` for positive
@@ -487,9 +496,8 @@ Since the E1 header operates at 3.3 V logic, configure the generator output to s
 - Ensure that:
     - The dead time you set in the FPGA design is longer than the pulse high duration, so that a single pulse is only counted once.(You can fine-tune this by adjusting the signal generator’s duty cycle.)
     - But also that the dead time is shorter than the total pulse period, so that the next pulse still falls outside the dead-time window.
-$$
-\text{Duty Cycle \(\%\)} = \frac{\text{t}_{high}}{\text{T}_{period}} \times 100 
-$$
+
+$$\text{Duty Cycle \(\%\)} = \frac{\text{t}_{high}}{\text{T}_{period}} \times 100$$
 
 $${t}_{high} = \text{the time the signal stays high in one cycle}$$
 $${T}_{period} = \text{the total time of one complete cycle}$$
