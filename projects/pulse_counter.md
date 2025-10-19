@@ -502,11 +502,7 @@ $$
 $$
 
 $${t_\mathrm{high}} = \text{the time the signal stays high in one cycle}$$
-
 $${T_\mathrm{period}} = \text{the total time of one complete cycle}$$
-
-$${t}_{high} = \text{the time the signal stays high in one cycle}$$
-$${T}_{period} = \text{the total time of one complete cycle}$$
 
 - Which E1 pins to connect:
     - Connect the wire recieving the pin to DIO_0 and the the ground to GND.
