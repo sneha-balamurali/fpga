@@ -501,6 +501,10 @@ $$
 \text{Duty Cycle (\\%)} = \dfrac{t_\mathrm{high}}{T_\mathrm{period}} \times 100
 $$
 
+$${t_\mathrm{high}} = \text{the time the signal stays high in one cycle}$$
+
+$${T_\mathrm{period}} = \text{the total time of one complete cycle}$$
+
 $${t}_{high} = \text{the time the signal stays high in one cycle}$$
 $${T}_{period} = \text{the total time of one complete cycle}$$
 
