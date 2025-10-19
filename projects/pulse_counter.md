@@ -218,7 +218,7 @@ assign M_AXIS_tdata =
 **Figure 7:** DAC block showing that the `S_AXIS_tdata` expects a 32-bit data bus. 
 
 - **What the DAC Actually Uses:**
-    - Although the AX1 bus is 32 bits wide, the DAC module internally reads only 14 bits per output channel:
+    - Although the AX14-Stream bus is 32 bits wide, the DAC module internally reads only 14 bits per output channel:
         - Bits [13:0] -> Channel A (OUT 1)
         - Bits [29:16] -> Channel B (OUT 2)
         - Bits [14], [15], [30], [31] are ignored.
@@ -502,7 +502,7 @@ $${T}_{period} = \text{the total time of one complete cycle}$$
 ![set_up_e1_to_signal_generator](/images/photon_counter/set_up_e1_to_signal_generator.JPEG)
 
 - When observing the outputs:
-    - One DAC output will display the integrated count of pulses over your programmed window length such as in Figure 10 with the measured voltage corresponding to a certain number of pulses as covered in the background section.
+    - One DAC output will display the integrated count of pulses over your programmed window length such as in the image below with the measured voltage corresponding to a certain number of pulses as covered in the background section.
     - The other will toggle between high and low, indicating when the counter is in dead-time (ignoring new pulses).
 
 ![counted pulses over a window length on oscilloscope](/images/photon_counter/count_oscilloscope.JPEG)
@@ -520,14 +520,79 @@ $${T}_{period} = \text{the total time of one complete cycle}$$
     - [Red Pitaya Schematics v1.0.1](https://downloads.redpitaya.com/doc/Red_Pitaya_Schematics_v1.0.1.pdf)
     - [AD9763/AD9765/AD9767 Datasheet](https://www.analog.com/media/en/technical-documentation/data-sheets/AD9763_9765_9767.pdf)
 
+### Improving the Counter Design
+
+*Disclaimer: I haven't yet tested them. These are just ideas for improving the counter.*
+
+- Two-flip-flop synchroniser and rising edge detector:
+    - The E1 pin carries asynchronous LVTTL pulses which means they are not aligned with the FPGA's internal 125 MHz clock.
+    - The logic inside the FPGA only updates on the edge of that internal clock as shown in Figure 2.
+    - However, if the external signal changes right around the clock edge of that internal clock, the FPGA flip-flop that samples it can enter a state called metastability where it is not cleanly a `0` or `1` for a short time and can lead to random behaviour downstream.
+    - To solve this:
+
+    This code I adapted from the one in [the Crossing Clock Domain lesson on nandland.com](https://nandland.com/lesson-14-crossing-clock-domains/)[^5]
+    ```verilog
+    reg syn_ff1;
+    reg syn_ff2;
+    reg syn_ff3;
+
+    always @(posedge clk) begin
+        // Two-flip-flop synchroniser
+        syn_ff1 <= e1;                               // may go metastable
+        syn_ff2 <= syn_ff1;                          // metastability resolves by next cycle
+        // rising edge detector
+        syn_ff3 <= syn_ff2;
+
+        if (syn_ff3 == 1'b0 && syn_ff2 == 1'b1) begin
+        // Dead-time and other logic here
+        end
+     end
+    ```
+    OR
+
+    This code, I tweaked to be a bit cleaner.
+    ```verilog
+    reg syn_ff1;
+    reg syn_ff2;
+    reg rising_edge;
+
+    always @(posedge clk) begin
+        // Two-flip-flop synchroniser
+        syn_ff1 <= e1;                               // may go metastable
+        syn_ff2 <= syn_ff1;                          // metastability resolves by next cycle
+    
+        // Rising-edge detector
+        rising_edge <= (syn_ff2 & ~syn_ff1);        // ~ is for inverting syn_ff1 so that when syn_ff2 and syn_ff1 are different, the overall statement is true
+
+        if (rising_edge) begin                      // if rising_edge = 1 i.e. true, this code branch will be executed
+            // Dead-time and other logic here
+        end
+    end
+    ```
+
+    - What these code do is use a 2-ff synchroniser to re-sample over two cycles. `syn_ff1` might go metastable if the E1 input changes too close to the clock edge. But this is usually resolved withing a few nanoseconds to a definite `0` or `1`. `syn_ff2` samples this one clock cycle later and sees the clean and stable value. This method is to ensure that the metastability dies out before it can affect the rest of the design.
+    - Your incoming pulse might be high for multiple cycles and by detecting the `0` to `1` transition, you ensure only one pulse per event is counted.
+    - A nice youtube video accompanies the website I referenced if you want to learn what approaches to take if you are going from a slow to fast domain, fast to slow domain and handling multiple clock domains: [Crossing Clock Domains in an FPGA](https://www.youtube.com/watch?v=eyNU6mn_-7g&t=960s)
+
+- Xilinx Parameterized Macros:
+    - Instead of manually writing Verilog for a two-flip-flop synchroniser, Xilinx provides a set of [Xilinx Parameterized Macros (XPMs)](https://docs.amd.com/r/en-US/ug953-vivado-7series-libraries/Xilinx-Parameterized-Macros)[^6] which are pre-verified HDL blocks optimised for safe clock domain crossing and other common design patterns. These are directly available within Vivado's IP catalog. 
+    - I haven't tested it but perhaps start with:
+        - Clicking on the blank space in the block design, select Add IP, search `xpm_cdc` and select that. 
+        - Double click the `xpm_cdc` block and configure as shown below.
+        ![customise_xpm_cdc](/images/photon_counter/customise_xpm_cdc.png)
+        - Add a constant block, set it to 1'b0 and tie to the unused port `src_clk`.
+        ![customise_slice](/images/photon_counter/customise_slice.png)
+        - Connect blocks together as shown below.
+        ![block_design_with_xpm_cdc](/images/photon_counter/block_design_with_xpm_cdc.png)
+    - My thinking: 
+        - I used the `xpm_cdc_single` to synchronise the E1 input signal to the 125 MHz ADC clock.
+        - In the attributes, I set the destination sync flip-flops to 2 as in the Two-flip-flop synchroniser and rising edge detector example above. I think increasing it could lower the metastability risk even more but might create delays in data transfer (increase latency). I think 2 FFs is okay for 125 MHz.
+        - The E1 pin generates pulses asynchronously (not driven by another clock) so I wanted to set `src_input_reg` to 0 and tie the unused `src_clk` port to 1'b0 since there is no source clock domain.
+        - For reference, look at [Vivado Design Suite 7 Series FPGA and Zynq 7000 SoC Libraries Guide (UG953)](https://docs.amd.com/r/en-US/ug953-vivado-7series-libraries/XPM_CDC_SINGLE), which also includes Verilog and VHDL instantiation templates that you can adapt and embed directly inside your counter module if preferred.
+
 ### PID
+- During the internship, I began wiring the counter output into a PID controller but didn't have time to finish testing: [PID by Ben Millward](https://github.com/Bentwin2002/Group_IV_RP/blob/1916aeb4dfb7fd2a1658bcffc84c78c3ad14fbd9/Complete_setup/tmp/wip_9/wip_9.srcs/sources_1/new/PID_FINAL_b.v)
 
-- I left off at connecting the counter to the following PID:
-
-
-
-- I didn't get a chance to look into this but... asynchronous sets, synchroniser and etc.
-PID...
 ## References:
 
 [^1]: Euresys. TTL and LVTTL Logic Levels, Coaxlink 10.3 Documentation. Available at: https://documentation.euresys.com/Products/Coaxlink/Coaxlink_10_3/Content/03_Using_Coaxlink/application-notes/connecting-ttl-to-isolated-ports/TTL_and_LVTTL_levels.htm
@@ -537,3 +602,7 @@ PID...
 [^3]: Red Pitaya d.o.o. 3.6.8. Monitor utility Available at: https://redpitaya.readthedocs.io/en/latest/appsFeatures/command_line_tools/utils/monitor_util.html
 
 [^4]: Red Pitaya d.o.o. Extension connectors (Original boards) Available at: https://redpitaya.readthedocs.io/en/latest/developerGuide/hardware/ORIG_GEN/hw_specs/extent.html#extension-connector-e1
+
+[^5]: Russell Merrick, Nandland.com. *Crossing Clock Domains in an FPGA* Available at: https://nandland.com/lesson-14-crossing-clock-domains/
+
+[^6]: AMD. *Vivado Design Suite 7 Series FPGA and Zynq 7000 SoC Libraries Guide (UG953)*. Available at: https://docs.amd.com/r/en-US/ug953-vivado-7series-libraries/XPM_CDC_SINGLE

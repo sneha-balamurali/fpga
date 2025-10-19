@@ -44,6 +44,12 @@ Listed below are some additional resources:
     - Invaluable reference containing ready-made IP cores (e.g., the ADC and DAC used in my projects are his cores).
     - Great for learning Verilog by looking at his code.
 
+- [**AMD Technical Information Portal**](https://docs.amd.com/)
+    - Many of the documents referenced throughout this repository are sourced from AMD’s official documentation library. These include user guides, product specifications, and technical reference manuals for Vivado IP and Zynq devices.
+
+- [**FPGA-101**](https://nandland.com/fpga-101/)
+    - A great resource for FPGA fundamentals. Their explanations of metastability and clock domain crossing were particularly helpful when implementing the two-flip-flop synchroniser and rising-edge detector described in the [further steps](/projects/pulse_counter.md#further-steps) section of my pulse counter.
+
 ### Extended Reading and Real-Time Application
 
 - [**Master's Thesis: Real-Time Processing of Laser-Ultrasonic Signals:**](https://epub.jku.at/obvulihs/download/pdf/2406394?originalFilename=true )
