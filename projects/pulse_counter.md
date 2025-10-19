@@ -499,7 +499,7 @@ Since the E1 header operates at 3.3 V logic, configure the generator output to s
 
 
 
-$$\text{Duty Cycle $(\%)$}=\frac{t_{\text{high}}}{T_{\text{period}}}\times 100$$
+$$\text{Duty Cycle} $(\%)$=\frac{t_{\text{high}}}{T_{\text{period}}}\times 100$$
 
 
 
