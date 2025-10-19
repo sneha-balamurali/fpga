@@ -20,11 +20,9 @@ It covers:
 
   - **Memory and connectivity.**
 
-  - **Expansion connectors** (GPIO, SPI, I²C, UART).
+  - **Expansion connectors** - Overview of the E1 (digital GPIO) and E2 (auxillary analog I/O) connectors and how they extend the board's functionality.
 
-  - **Indicators** (LEDs).
-
-- **How to interpret the diagrams –** How signals flow from the inputs through the FPGA to the outputs and CPU.
+  - **Indicators** - On-board LEDs.
 
 - **Summary –** Why this combination of fast hardware (FPGA) and flexible software (ARM/Linux) makes Red Pitaya valuable in labs and research.
 

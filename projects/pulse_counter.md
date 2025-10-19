@@ -4,7 +4,7 @@
 
 - **Pulse Counting Logic:**
     - Introduction to LVTTL pulse signals and their characteristics
-    - Detecting and counting LVTTL pulses (e.g., photon or TTL events) using FPGA logic
+    - Detecting via digital E1 pins and counting LVTTL pulses (e.g., photon or TTL events) using FPGA logic
     - Understanding integration windows and dead time to prevent multiple counts from a single pulse
     - Interfacing the counter with existing IP blocks such as the DAC, Clocking Wizard, and GPIO. 
 

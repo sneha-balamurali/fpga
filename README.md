@@ -10,21 +10,31 @@ This repository documents my learning process during an eight-week summer intern
 
 - **Introduction**
     1. [Introduction to Red Pitaya](/introduction/red_pitaya.md)
+        - Hardware overview
     2. [Setup Guide](/introduction/setup_guide.md)
+        - Step-by-step installation and connection guide
+        - How to communicate with the Red Pitaya via SSH
     3. [Vivado Overview: Mapping Red Pitaya Hardware into Vivado](/introduction/vivado_overview.md)
+        - Getting started with Vivado
+        - Basics of Block Design and IP integration
 
 - **Projects**
     1. [LED Blink](/projects/led_blink.md)
+        - First FPGA project: creating a simple LED blink circuit 
     2. [LED Control (GPIO)](/projects/led_control_gpio.md)
+        - Controlling on-board LEDs via computer using AXI GPIO
     3. [Signal Passthrough (ADC -> DAC)](/projects/signal_passthrough_adc_dac.md)
+        - Implementing a analog signal passthrough between ADC and DAC channels
     4. [Pulse Counter](/projects/pulse_counter.md)
+        - Detecting and counting LVTTL pulses (e.g., photon or TTL events) via digital E1 pins using FPGA logic
 
 - **Theory**
     1. [Verilog](/theory/verilog.md)
+        - Resources for learning Verilog HDL fundamentals
 
 ## Notes and Advice:
 
-1. This can be quite overwhelming if you don't have a background in it. If you're completely new to FPGAs, I recommend following the order shown above and treating each project as a building block. Contributions and suggestions for improvement are always welcome.
+1. This can be quite overwhelming if you don't have a background in it. If you're completely new to FPGAs, I recommend following the order shown above and treating each project as a building block. 
 
 2. Use AI assistants carefully: it can explain concepts well, but don’t rely on it for Verilog debugging or writing full code. (At least in my experience with ChatGPT-5) 
 
