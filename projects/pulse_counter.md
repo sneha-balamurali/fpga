@@ -512,7 +512,8 @@ $${T_\mathrm{period}} = \text{the total time of one complete cycle}$$
 ![set_up_e1_to_signal_generator](/images/photon_counter/set_up_e1_to_signal_generator.JPEG)
 
 - When observing the outputs:
-    - One DAC output will display the integrated count of pulses over your programmed window length such as in the image below with the measured voltage corresponding to a certain number of pulses as covered in the background section.
+    - One DAC output will display the integrated count of pulses over your programmed window length such as in the image below with the measured voltage corresponding to a certain number of pulses as covered in the [background section.](/projects/pulse_counter.md#converting-counts-to-output-voltage) 
+    - *Note: The image below is provided as an example of an expected stable waveform. The voltage may not correspond exactly to the specific signal generator settings shown above.*  
     - The other will toggle between high and low, indicating when the counter is in dead-time (ignoring new pulses).
 
 ![counted pulses over a window length on oscilloscope](/images/photon_counter/count_oscilloscope.JPEG)
