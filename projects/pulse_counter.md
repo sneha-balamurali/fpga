@@ -48,7 +48,7 @@
 ### LVTTL Pulses in Photon Counting
 - LVTTL stands for Low-Voltage Transistor-Transistor Logic - a digital logic standard that guarantees an output at around 2.4-3.3 V for the logic high level and 0-0.4 V for logic low level. [^1]
 - In LVTTL, an incoming signal is interpreted as logic HIGH (1) if its voltage is between 2.0-3.3 V and logic LOW (0) if it is 0-0.8 V
-- An LVTTL pulse is a short transient signal that rises from 0V to approximately 3.3V and back to 0V. Each pulse represents the occurence of a discrete event e.g. the detection of a photon by the single-photon detector.
+- An LVTTL pulse is a short transient signal that rises from 0V to approximately 3.3V and back to 0V. Each pulse represents the occurrence of a discrete event e.g. the detection of a photon by the single-photon detector.
 
 Because we only care about when a pulse occurs and not its precise voltage, we use a digital input pin like the E1 pin instead of the ADC. The E1 pins directly register these 0/1 transitions, which simplifies the counting logic and avoids unnecessary analogue conversion.
 
@@ -76,13 +76,13 @@ To measure photon detection events, the counter is configured to count each LVTT
     - This ensures that each physical photon detection event corresponds to exactly one digital count.  
 
 ![dead time](/images/photon_counter/dead_time.svg)
-**Figure 2:** The cyan waveform represents the incoming LVTTL pulses, while the white dashed waveform indicates the 125 MHz FPGA clock. The red dashed lines illustrates a case where two rising edges of the clock occur within a single LVTTL pulse. Without applying a dead time, both clock edges would be registered as seperate events, causing the counter to double-count one photon pulse.
+**Figure 2:** The cyan waveform represents the incoming LVTTL pulses, while the white dashed waveform indicates the 125 MHz FPGA clock. The red dashed lines illustrates a case where two rising edges of the clock occur within a single LVTTL pulse. Without applying a dead time, both clock edges would be registered as separate events, causing the counter to double-count one photon pulse.
 
 ### LED Debug Connection and Pull Configuration
 
 - **How to know E1 pin is receiving a signal**
     - To verify that the E1 pin is receiving a signal, we will connect it to an LED output in the block design. This allows us to visually confirm when the FPGA detects a signal. When a pulse arrives, the LED will light up; when there is no pulse, it will turn off.
-    - If you input a high-frequency square wave (e.g. 1 KHz or 1 MHz) to the E1 pin, the LED will appear continuously lit because it is flashing faster than the human eye can percieve. 
+    - If you input a high-frequency square wave (e.g. 1 KHz or 1 MHz) to the E1 pin, the LED will appear continuously lit because it is flashing faster than the human eye can perceive. 
     - If you input a low-frequency square wave (e.g. 1 Hz), you will see the LED visibly blink on and off at each pulse.
     - This set up provides a quick hardware check that your E1 pins and signal path are functioning before integrating the counter logic. 
 
@@ -123,6 +123,7 @@ module counter(
     
 // Module Ports
 input [31:0] window_length,                // A 32-bit value specifying how many clock cycles make up one integration window
+                                           // The window ends when store_w exceeds window_length (so it spans window_length+1 cycles).
 
 input e1,                                  // The input pulse signal you want to count
 
@@ -130,6 +131,7 @@ input clk,                                 // The system clock; the counter incr
 
 input [31:0] val,                          // A 32-bit value defining the dead-time, i.e. how many clock cycles must pass
                                            // before another pulse on e1 is counted.
+                                           // Dead time ends when store_v exceeds val (approx val+1 cycles after entry).
 
 // AXI4-Stream data out  
 output [31:0] M_AXIS_tdata,
@@ -196,7 +198,7 @@ always @(posedge clk) begin
 
 // AXI4-Stream data      
 assign M_AXIS_tdata = {4'b0, {12{e1_count1}}, {3{sum_hold[13]}}, sum_hold[12:0]}; 
-assign M_AXIS_tvalid = S_AXIS_tvalid;     // Counter forwards upstream tvalid signal and doesn't independentely decide 
+assign M_AXIS_tvalid = S_AXIS_tvalid;     // Counter forwards upstream tvalid signal and doesn't independently decide 
                                           // when the output data is valid to keep data flow synchronous and continuous
 assign S_AXIS_tready = 1;                 // Counter always ready to recieve input
 
@@ -209,7 +211,7 @@ endmodule
 ```verilog
 assign M_AXIS_tdata = {4'b0, {12{e1_count1}}, {3{sum_hold[13]}}, sum_hold[12:0]}; 
 ```
-This line constructs a 32-bit data word to be sent over the AX14-Stream interface to the DAC.
+This line constructs a 32-bit data word to be sent over the AXI4-Stream interface to the DAC.
 
 - **How the 32-bit data is packed:**
 ```verilog
@@ -227,7 +229,7 @@ assign M_AXIS_tdata =
 **Figure 7:** DAC block showing that the `S_AXIS_tdata` expects a 32-bit data bus. 
 
 - **What the DAC Actually Uses:**
-    - Although the AX14-Stream bus is 32 bits wide, the DAC module internally reads only 14 bits per output channel:
+    - Although the AXI4-Stream bus is 32 bits wide, the DAC module internally reads only 14 bits per output channel:
         - Bits [13:0] -> Channel A (OUT 1)
         - Bits [29:16] -> Channel B (OUT 2)
         - Bits [14], [15], [30], [31] are ignored.
@@ -276,7 +278,7 @@ This section is relevant if you connect the Red Pitaya DAC to an oscilloscope an
     |8192|-8192|−1 V|`1000 0000 0000 00`|
 
 ![counter ramp oscilloscope](/images/photon_counter/count_ramp_oscilloscope.JPEG)
-**Figure 9:** Sawtooth Wave showing the live DAC output from the counter ramping as it recieves pulses.
+**Figure 9:** Sawtooth Wave showing the live DAC output from the counter ramping as it receives pulses.
 
 - The relationship between the digital count (unsigned from your FPGA) and the analogue output voltage is:
 
@@ -505,7 +507,7 @@ $${t_\mathrm{high}} = \text{the time the signal stays high in one cycle}$$
 $${T_\mathrm{period}} = \text{the total time of one complete cycle}$$
 
 - Which E1 pins to connect:
-    - Connect the wire recieving the signal to pin DIO_0P and the ground to GND.
+    - Connect the wire receiving the signal to pin DIO_0P and the ground to GND.
 
 ![extension_connectors](/images/red_pitaya/extension_connectors.png)
 ![e1_connection](/images/photon_counter/e1_connection.JPEG)

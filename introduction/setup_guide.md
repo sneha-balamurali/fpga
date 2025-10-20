@@ -56,7 +56,7 @@ During my internship, I was using Vivado 2020.1 but that was because the officia
 
 ## Opening a New Project
 
-[1. Download Final Vivado Folder](https://github.com/Bentwin2002/Group_IV_RP/tree/main/Final_Vivado)
+1. [Download Final Vivado Folder](https://github.com/Bentwin2002/Group_IV_RP/tree/main/Final_Vivado)
 
 2. Open Vivado and in the Tcl Console, `cd` to where you saved the template
 ![set_up_guide_tcl_demo](/images/set_up_guide/set_up_guide_demo.png)
