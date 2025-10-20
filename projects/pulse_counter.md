@@ -4,7 +4,7 @@
 
 - **Pulse Counting Logic:**
     - Introduction to LVTTL pulse signals and their characteristics
-    - Detecting via digital E1 pins and counting LVTTL pulses (e.g., photon or TTL events) using FPGA logic
+    - Detecting pulses via digital E1 pins and counting using FPGA logic
     - Understanding integration windows and dead time to prevent multiple counts from a single pulse
     - Interfacing the counter with existing IP blocks such as the DAC, Clocking Wizard, and GPIO. 
 
@@ -254,7 +254,7 @@ This section is relevant if you connect the Red Pitaya DAC to an oscilloscope an
     - Confirm what values are sent into and out of the DAC module (e.g., after any bit inversions).
     - Measure or simulate the DAC output to understand how the Red Pitaya converts those codes into voltage.
 
-- It’s best to trace this end-to-end—from the Verilog counter to the SMA output—to confirm the exact polarity and scaling on your setup. Some other resources that might be helpful:
+- It’s best to trace this end-to-end from the Verilog counter to the SMA output in order to confirm the exact polarity and scaling on your setup. Some other resources that might be helpful:
 
     - [Red Pitaya Schematics v1.0.1](https://downloads.redpitaya.com/doc/Red_Pitaya_Schematics_v1.0.1.pdf)
     - [AD9763/AD9765/AD9767 Datasheet](https://www.analog.com/media/en/technical-documentation/data-sheets/AD9763_9765_9767.pdf)
@@ -505,7 +505,7 @@ $${t_\mathrm{high}} = \text{the time the signal stays high in one cycle}$$
 $${T_\mathrm{period}} = \text{the total time of one complete cycle}$$
 
 - Which E1 pins to connect:
-    - Connect the wire recieving the pin to DIO_0 and the the ground to GND.
+    - Connect the wire recieving the signal to pin DIO_0P and the ground to GND.
 
 ![extension_connectors](/images/red_pitaya/extension_connectors.png)
 ![e1_connection](/images/photon_counter/e1_connection.JPEG)
@@ -525,7 +525,7 @@ $${T_\mathrm{period}} = \text{the total time of one complete cycle}$$
     - Confirm what values are sent into and out of the DAC module (e.g., after any bit inversions).
     - Measure or simulate the DAC output to understand how the Red Pitaya converts those codes into voltage.
 
-- It’s best to trace this end-to-end—from the Verilog counter to the SMA output—to confirm the exact polarity and scaling on your setup. Some other resources that might be helpful:
+- It’s best to trace this end-to-end from the Verilog counter to the SMA output in order to confirm the exact polarity and scaling of the setup. Some other resources that might be helpful:
 
     - [Red Pitaya Schematics v1.0.1](https://downloads.redpitaya.com/doc/Red_Pitaya_Schematics_v1.0.1.pdf)
     - [AD9763/AD9765/AD9767 Datasheet](https://www.analog.com/media/en/technical-documentation/data-sheets/AD9763_9765_9767.pdf)
@@ -601,7 +601,7 @@ $${T_\mathrm{period}} = \text{the total time of one complete cycle}$$
         - For reference, look at [Vivado Design Suite 7 Series FPGA and Zynq 7000 SoC Libraries Guide (UG953)](https://docs.amd.com/r/en-US/ug953-vivado-7series-libraries/XPM_CDC_SINGLE), which also includes Verilog and VHDL instantiation templates that you can adapt and embed directly inside your counter module if preferred.
 
 ### PID
-- During the internship, I began wiring the counter output into a PID controller but didn't have time to finish testing: [PID by Ben Millward](https://github.com/Bentwin2002/Group_IV_RP/blob/1916aeb4dfb7fd2a1658bcffc84c78c3ad14fbd9/Complete_setup/tmp/wip_9/wip_9.srcs/sources_1/new/PID_FINAL_b.v)
+- During the internship, I began wiring the counter output into [Ben Millward's PID](https://github.com/Bentwin2002/Group_IV_RP/blob/1916aeb4dfb7fd2a1658bcffc84c78c3ad14fbd9/Complete_setup/tmp/wip_9/wip_9.srcs/sources_1/new/PID_FINAL_b.v) but didn't have time to complete testing. 
 
 ## References:
 

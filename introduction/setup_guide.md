@@ -140,7 +140,7 @@ The method you use depends on which version of the Red Pitaya OS your board is r
 ```bash
 cd <Path/to/repository>/tmp/Calibration/Calibration.runs/impl1
 ```
-3. Transfer the .bit file to the Red Pitaya. On Linux/macOS, you can use scp; on Windows you can use WinSCP or an equivalent tool:
+3. Transfer the .bit file to the Red Pitaya. On Linux/macOS, you can use `scp`; on Windows you can use WinSCP or an equivalent tool:
 You can re-name the `system_wrapper.bit` after `root/` to a name you prefer but just remember to be consistent and use that when you upload your bitstream.
 ```bash
 scp system_wrapper.bit root@rp-xxxxxx.local:/root/system_wrapper.bit
@@ -175,7 +175,7 @@ bootgen -image system_wrapper.bif -arch zynq -process_bitstream bin -o system_wr
 echo -n "all:{ system_wrapper.bit }" >  system_wrapper.bif
 bootgen -image system_wrapper.bif -arch zynq -process_bitstream bin -o system_wrapper.bit.bin -w
 ```
-3. Transfer the .bit file to the Red Pitaya. On Linux/macOS, you can use `scp`; on Windows you can use WinSCP or an equivalent tool. You can replace the "led_blink.bit.bin" with what you want to call the file:
+3. Transfer the .bit.bin file to the Red Pitaya. On Linux/macOS, you can use `scp`; on Windows you can use WinSCP or an equivalent tool. You can replace the "led_blink.bit.bin" with what you want to call the file:
 ```bash
 scp system_wrapper.bit.bin root@rp-xxxxxx.local:/root/led_blink.bit.bin
 ```
@@ -187,7 +187,7 @@ ssh root@rp-xxxxxx.local
 ```bash
 ls
 ```
-6. Program the FPGA with the uploaded `.bin` file:
+6. Program the FPGA with the uploaded `.bit.bin` file:
 ```bash
 fpgautil -b led_blink.bit.bin
 ```

@@ -72,6 +72,11 @@ When you add these cores to your project, they show up as blocks you can drag in
 **Figure 3: Clock configuration menu inside the Zynq7 Processing System IP.**
 
 - You'll see that the `FCLK_CLK0` is connected to `M_AXI_GP0_ACLK` and `S_AXI_HP0_ACLK`. These are clock inputs for the AXI interfaces that connect the processor system (PS) to the programmable logic (PL).[^2]
+- As mentioned in the Figure 1 caption, these connections don't occur automatically and were connected by `block_design.tcl.` I have pasted the lines from the `project/block_design.tcl` file. The connections can be changed later in Vivado.
+    ```tcl
+    connect_bd_net [get_bd_pins processing_system7_0/M_AXI_GP0_ACLK] [get_bd_pins processing_system7_0/FCLK_CLK0]
+    connect_bd_net [get_bd_pins processing_system7_0/S_AXI_HP0_ACLK] [get_bd_pins processing_system7_0/FCLK_CLK0]
+    ```
 
 - **What is AXI?**
     - AXI is a standard way of moving data between different parts of a chip (like CPU, memory, and FPGA logic). It is a common set of wires and rules that PS/PL IPs use to move data. It always needs a clock so that both sides know when to read or write signals. This is covered in more detail in the [Background section](/projects/led_control_gpio.md#background) of the LED Control (GPIO) project.
@@ -208,9 +213,6 @@ set_property PACKAGE_PIN V13 [get_ports {adc_dat_a_i[10]}]
 set_property PACKAGE_PIN T14 [get_ports {adc_dat_a_i[11]}]
 set_property PACKAGE_PIN T15 [get_ports {adc_dat_a_i[12]}]
 set_property PACKAGE_PIN V15 [get_ports {adc_dat_a_i[13]}]
-set_property PACKAGE_PIN T16 [get_ports {adc_dat_a_i[14]}]
-set_property PACKAGE_PIN V16 [get_ports {adc_dat_a_i[15]}]
-
 ```
 
 ### First two lines

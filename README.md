@@ -1,6 +1,6 @@
 # FPGA Internship Documentation
 
-This repository documents my learning process during an eight-week summer internship with the Quantum Engineering Group. It includes setup guides, project walkthroughs, and technical notes developed while working with the **Red Pitaya STEMlab 125-14 (Gen 1)** using **Vivado** and **Verilog.**
+This repository is documentation for my eight-week summer internship with the Quantum Engineering Group. It includes setup guides, project walkthroughs, and technical notes developed while working with the **Red Pitaya STEMlab 125-14 (Gen 1)** using **Vivado** and **Verilog.**
 
 ![high_level_system_overview](/images/read_me/high_level_system_overview.png)
 

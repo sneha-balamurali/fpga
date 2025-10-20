@@ -20,6 +20,10 @@ It covers:
   - Adding and customising the AXI GPIO IP core
   - Writing values into the GPIO register from the CPU to turn LEDs on/off
 
+- **Quick Links:**
+  - [Tutorial](/projects/led_control_gpio.md#tutorial)
+  - [References](/projects/led_control_gpio.md#references)
+  
 By the end of this section, you’ll understand how the PS and PL exchange information over AXI, and you’ll control the LEDs directly from the processor using a memory-mapped GPIO block.
 
 ## Background

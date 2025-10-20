@@ -17,7 +17,11 @@ It covers:
 - **Design Integration:**
     - Building a simple signal passthrough system (ADC → DAC) in Vivado 
     - Connecting and Configuring the IP blocks and Clocking Wizard
-
+- **Quick Links:**
+    - [Tutorial](/projects/signal_passthrough_adc_dac.md#tutorial)
+    - [Testing](/projects/signal_passthrough_adc_dac.md#testing)
+    - [References](/projects/signal_passthrough_adc_dac.md#references)
+    
 By the end of this section, you’ll understand how to route real analogue signals through the FPGA, manage multiple clock domains, and prepare a foundation for inserting your own processing logic (e.g., filters, PID controllers) between the ADC and DAC.
 
 ## Background:
@@ -89,15 +93,31 @@ Later, custom processing logic can be inserted between the ADC and DAC blocks (e
 
 - [Go to Section Connecting to your Red Pitaya of the Set Up Guide](/introduction/setup_guide.md#connecting-to-your-red-pitaya)
 
-### Step 4: Test
+## Testing
 
-- [Generate bitstream and upload to red pitaya](/introduction/setup_guide.md#connecting-to-your-red-pitaya)
+### Step 1: Connect signal generator and oscilloscope to Red Pitaya
 
-- Connect a signal generator to one of the Red Pitaya’s inputs and an oscilloscope to one of its outputs. Verify that the waveform observed on the oscilloscope matches the signal generated.
-
+- Connect a signal generator to one of the Red Pitaya’s inputs and an oscilloscope to one of its outputs.
 - Make sure to [impedance-match](/introduction/red_pitaya.md#outputs-out1-out2) the Red Pitaya output to the oscilloscope input. Both should be terminated at 50 Ω to prevent signal reflections and distortion.
 
-- Also confirm that the signal generator's peak-to-peak voltage (Vpp) is within the Red Pitaya's supported input range which is [±1V or ±20V range depending on configuration](/introduction/red_pitaya.md#inputs-in1-in2). 
+![input_output_connections](/images/signal_passthrough/input_output_connections.JPEG)
+**Figure 4:** Connections on the Red Pitaya for signal passthrough verfication.
+
+![set_up](/images/signal_passthrough/set_up.JPEG)
+**Figure 6:** Complete experimental setup.
+
+### Step 2: Configure your signal generator
+
+- Make sure that the signal generator's peak-to-peak voltage (Vpp) is within the Red Pitaya's supported input range which is [±1V or ±20V range depending on configuration](/introduction/red_pitaya.md#inputs-in1-in2). 
+
+![signal_generator](/images/signal_passthrough/signal_generator.JPEG)
+**Figure 5:** Example configuration on signal generator.
+
+### Step 3: Observe Waveform on oscilloscope
+- Verify that the waveform observed on the oscilloscope matches the signal generated.
+
+![oscilloscope](/images/signal_passthrough/oscilloscope.JPEG)
+**Figure 7:** Output waveform observed on the oscilloscope.
 
 ## References
 

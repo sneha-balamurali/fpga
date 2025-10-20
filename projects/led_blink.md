@@ -19,7 +19,10 @@ It covers:
 - **Connecting to hardware:**
   - Linking the processed signal to the `led_o` port.
   - Generating the bitstream and uploading it to the Red Pitaya
-
+- **Quick Links:**
+  - [Tutorial](/projects/led_blink.md#tutorial)
+  - [References](/projects/led_blink.md#references)
+  
 By the end of this section, you’ll understand how to use IP cores, work with clocks and counters, and build your first working FPGA project on the Red Pitaya.
 
 ## Background
@@ -194,7 +197,8 @@ With this setup, the chosen LED will now blink roughly once per second.
 
 ## Step 6: Upload to Red Pitaya
 
-[Connect to your Red Pitaya](/introduction/setup_guide.md/#connecting-to-your-red-pitaya)
+- [Connect to your Red Pitaya](/introduction/setup_guide.md/#connecting-to-your-red-pitaya)
+- One the bitstream file has been successfully uploaded onto your Red Pitaya, you should see LED 0 blinking automatically!
 
 ## Learner's tip
 
