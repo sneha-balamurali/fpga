@@ -27,7 +27,7 @@ By the end of this section, you’ll understand how to use IP cores, work with c
 
 ## Background
 
-- In this tutorial, we won’t be writing any new HDL code ourselves. Instead, we’ll use IP cores — pre-built modules that Vivado provides.
+- In this tutorial, we won’t be writing any new HDL code ourselves. Instead, we’ll use IP cores which are pre-built modules that Vivado provides.
 
 ### What are IP cores?
 

@@ -208,7 +208,7 @@ Click on the link to go to a more detailed annotations of the [extension connect
   - GPIO stands for General Purpose Input/Output. 
   - These are digital pins: configurable as inputs (reads 0/1) or output (drives a 0/1).
   - If you use them as single-ended, you get 16 independent digital lines (each one referenced to ground).
-  - If you use them as differential pairs, each signals uses two wires (one carries the "positive" version and the other carries the "negative" version and the reciever looks at the difference between the two wires, not their voltage to ground). This is better for noise immunity (common interference affects both wires equally so when you subtract the two, the noise also cancels out), signal integrity and high speed.
+  - If you use them as differential pairs, each signals uses two wires (one carries the "positive" version and the other carries the "negative" version and the receiver looks at the difference between the two wires, not their voltage to ground). This is better for noise immunity (common interference affects both wires equally so when you subtract the two, the noise also cancels out), signal integrity and high speed.
   - The 3.3V means that logic high is approximately 3.3 V and logic low is 0V. **Important:** If you connect external hardware, it must also be 3.3V logic compatible. Connecting higher-voltage logic (e.g. 5 V) risks damaging the FPGA.[^5]
 
 - **E2 connector:**

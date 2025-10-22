@@ -62,7 +62,7 @@ When you add these cores to your project, they show up as blocks you can drag in
 
 **Figure 2: 125 MHz square wave, which is the shape of a typical clock signal.**
 - The frequency of the clock determines how fast the circuit operates.
-- For example, a 125 MHz clock means the signal goes through 125 million cycles (high → low → high) every second/ each period is 8ns.
+- For example, a 125 MHz clock means the signal goes through 125 million cycles (high → low → high) every second/ each period is 8 ns.
 - Each rising edge (transition from low to high) or falling edge (high to low) can be used as a trigger for logic elements inside the FPGA to capture or update data.
 ### FCLK_CLK0
 - On the Red Pitaya, the ARM processor in the Zynq chip generates up to four programmable clocks (`FCLK_CLK0 … FCLK_CLK3`) to the FPGA logic. Physically, these clocks sit at the boundary between the processor system (PS) and the programmable logic (PL) and ensure both sides can stay synchronised when sharing data. [^1]
@@ -101,6 +101,8 @@ When you add these cores to your project, they show up as blocks you can drag in
 
 ## Mapping Hardware into Logical Design Environment (Vivado):
 
+**Note:** This section is optional and mainly reflects my own exploration. I don’t have a formal background in electrical engineering, but I wanted to understand how Vivado maps Red Pitaya’s hardware (pins, voltages, and standards) into the logical design environment. You can skip this if you just want to follow the project steps. If you do read it, please cross-check the details against the official Red Pitaya and AMD Vivado documentation.
+
 The mapping between physical pins (from the Red Pitaya schematics) and logical ports in Vivado is handled by the constraint files and Tcl file.
 
 ### Pin Vs Port
@@ -120,7 +122,7 @@ The mapping between physical pins (from the Red Pitaya schematics) and logical p
 - `cfg/ports.tcl` brings these named ports into the block design so that you can connect them to logic.
 - `project/block_design.tcl` instantiates core blocks (e.g. the ZYNQ7 Processing System and utility buffers) and wires them together with the ports.
 - This allows Vivado to display clean block-level diagrams as shown above, while the `.xdc` and `.tcl` files ensure that the logical design aligns with the actual Red Pitaya hardware.
-- Below is a small exercpt from the `port.xdc` file which we will go through. But first we will look at the actual hardware to understand how it is all mapped. *No need to know this stuff in detail to do the projects, they are just there for understanding*
+- Below is a small exercpt from the `port.xdc` file which we will go through. But first we will look at the actual hardware to understand how it is all mapped.
 
 ### Block Schematic
 The below is explained in more detail in the [Red Pitaya](../introduction/red_pitaya.md) section which you can refer back to. We will mention it here again briefly because it is a simplified version of same system in the more detailed schematic we will use to explain pins and the constraints files.
@@ -168,7 +170,7 @@ Source: Red Pitaya Schematics[^4]
             - `ADA0` = 1
             - Together, those 14 pins form one digital number that the FPGA reads.
     - There are a number of clock pins in the schematic:
-        - I had a look at the data sheet for the ADC[^3] and from what I understand:
+        - According to the [Red Pitaya 125-14 hardware documentation](https://redpitaya.readthedocs.io/en/latest/developerGuide/hardware/ORIG_GEN/125-14/top.html), the board uses two LTC2145-14 ADCs. Based on the datasheet[^3] and the schematic, here’s my understanding:
             - `ENC+/ENC`- are the ADC's encode clock inputs. The ADC samples its analogue inputs on this clock (i.e. it sets the sampling rate).
             - `ACLK_P/ACLK_N` - the selected clock that actually drives `ENC`. It can come from one of three sources:
                 - `PCLK_P/PCLK_N` - an external clock input
@@ -185,7 +187,7 @@ Source: Red Pitaya Schematics[^4]
 
 ### How this relates to `ports.xdc`
 
-Tool Command Language (Tcl) is the scripting language built into the Vivado environment — essentially, the language Vivado understands. You can use it to give instructions directly (for example, asking questions about the design or setting a constraint) or to write a script, which is a text file containing a list of commands that Vivado can run to repeat the same flow automatically. An example is the `make_project.tcl` script, which we used to create a new project when launching Vivado. Tcl also follows the conventions of the industry-standard Synopsys Design Constraints (SDC) format.[^4]
+Tool Command Language (Tcl) is the scripting language built into the Vivado environment which is essentially, the language Vivado understands. You can use it to give instructions directly (for example, asking questions about the design or setting a constraint) or to write a script, which is a text file containing a list of commands that Vivado can run to repeat the same flow automatically. An example is the `make_project.tcl` script, which we used to create a new project when launching Vivado. Tcl also follows the conventions of the industry-standard Synopsys Design Constraints (SDC) format.[^4]
 
 `.xdc` files use a Tcl-based syntax. They look like Tcl scripts (set_property, etc.), but unlike general .tcl files, they are specifically for describing pin assignments, voltage standards, timing, and other design constraints.
 
