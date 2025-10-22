@@ -4,7 +4,7 @@ This repository is documentation for my eight-week summer internship with the Qu
 
 ![high_level_system_overview](/images/read_me/high_level_system_overview.svg)
 
-*Figure 1:* The diagram illustrates how the Red Pitaya STEMlab 125-14 interfaces with a host PC and external signal instruments. Solid arrows represent data, signal, and command flow between the host PC, Red Pitaya, and connected instruments, while dashed arrows indicate an optional closed-loop feedback path where outputs are fed back as inputs for adaptive control.
+**Figure 1:** The diagram illustrates how the Red Pitaya STEMlab 125-14 interfaces with a host PC and external signal instruments. Solid arrows represent data, signal, and command flow between the host PC, Red Pitaya, and connected instruments, while dashed arrows indicate an optional closed-loop feedback path where outputs are fed back as inputs for adaptive control.
 
 ## Repository Structure
 
@@ -26,7 +26,7 @@ This repository is documentation for my eight-week summer internship with the Qu
     3. [Signal Passthrough (ADC -> DAC)](/projects/signal_passthrough_adc_dac.md)
         - Implementing a analog signal passthrough between ADC and DAC channels
     4. [Pulse Counter](/projects/pulse_counter.md)
-        - Detecting and counting LVTTL pulses (e.g., photon or TTL events) via digital E1 pins using FPGA logic
+        - Detecting and counting LVTTL pulses from external sources via the E1 header using FPGA logic
 
 - **Theory**
     1. [Verilog](/theory/verilog.md)

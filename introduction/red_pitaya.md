@@ -104,7 +104,6 @@ The following explanations are based on the official Red Pitaya Schematics v1.0.
     - The Red Pitaya has two **Analogue-to-Digital Converters (ADCs)**. These devices take an analogue signal (a continuously varying voltage, like a sine wave) and turn it into digital numbers that can be processed by the FPGA.
     - **14-bit resolution:** each sample is represented by one of 16,384 possible values, giving fine precision.
     - **125 MS/s sample rate:** the ADC captures 125 million snapshots per second. This means it can accurately follow signals with frequencies up to tens of MHz.
-    - They have used the [LTC2145-14 ADCs from Analog Devices](https://www.analog.com/en/products/ltc2145-14.html)[^5]
 
 - **Range Setting:**
     - The ADC can only accept signals within a certain input range (**±1V or ±20V** depending on configuration).
@@ -123,8 +122,8 @@ The following explanations are based on the official Red Pitaya Schematics v1.0.
 
 - **SMA Connectors:**
   - The gold connectors on the Red Pitaya board are SMA connectors. These are a type of coaxial connector that carry signals inside a shielded cable, commonly used in RF and test equipment.
-  - For the inputs (IN1 and IN2), on sheet 3 of 9 of the Red Pitaya Schematics v1.0.1[^2], the schematic shows that there is no fixed 50 Ω termination built in. Instead, they are designed with a high input resistance (1 MΩ) so you can connect different types of sources. If you need proper impedance matching (e.g., connecting to a 50 Ω signal generator), you may need to add a 50 Ω terminator externally.
-  - For the outputs (OUT1 and OUT2), the schematic clearly shows a built-in 50 Ω termination, which is explained below in the Outputs (OUT1, OUT2) Section.
+  - According to the Red Pitaya Schematics v1.0.1[^2], the input connectors (IN1, IN2) are connected to a high-impedance (~1 MΩ) front end.
+  - For the outputs (OUT1 and OUT2), the schematic clearly shows a built-in 50 Ω termination, which is explained along with impedance matching in the Outputs (OUT1, OUT2) Section below.
 
 - **[SMA connector] → [Range setting circuit (jumpers)] → [Low-pass filter] → [ADC chip]**
 
@@ -177,13 +176,6 @@ The following explanations are based on the official Red Pitaya Schematics v1.0.
 ### Memory:  
 - 256 MB DDR3 SDRAM, connected to the SoC.  
 - Used for storing data, running Linux, and buffering signals.
-
-### Connectivity:
-- **Ethernet (ETH):** remote control and data transfer over the network.  
-- **USB-A OTG (CN12):** for peripherals.  
-- **Micro USB (PWR):** 5 V / 2 A power input.  
-- **Micro USB (CON):** console/debugging via UART.  
-- **MicroSD slot:** holds the Red Pitaya OS (Linux distribution).  
 
 ### Expansion I/O:
 
@@ -244,8 +236,6 @@ Click on the link to go to a more detailed annotations of the [extension connect
 
 *Pin mapping based on `port.xdc` file and official hardware documentation [^5].*
 
-- **JTAG:** debugging and FPGA programming interface.  
-
 ### Indicators:
 - 9 user LEDs and 2 system LEDs for status and debugging.  
 
@@ -262,16 +252,12 @@ The [annotated board image](https://redpitaya.readthedocs.io/en/latest/intro.htm
 - **GPIO and Extension connectors:** allow additional modules and custom peripherals.  
 - **Zynq SoC (FPGA + ARM):** located under the heatsink at the centre of the board.
 
----
-
 ## How to interpret this
 
 - The FPGA is not a separate chip – it is part of the Zynq SoC (under the heatsink).  
 - Data from the ADC inputs flows directly into the FPGA, where you can design high-speed digital processing pipelines.  
 - Processed data can then be sent to the DAC outputs, or transferred to the ARM processor for higher-level software access.  
 - The ARM processor makes it easy to communicate with the outside world (Ethernet, USB, Linux applications), while the FPGA ensures speed and parallelism.  
-
----
 
 ## Summary
 
@@ -282,7 +268,6 @@ The Red Pitaya STEMlab 125-14 provides:
 - **Accessible control and programming** via the ARM processor running Linux.  
 
 This combination makes the board ideal for applications where high-speed hardware control must be paired with software flexibility – exactly the reason it is used in laboratory and research environments.
-
 
 ## References
 
