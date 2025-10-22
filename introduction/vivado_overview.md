@@ -58,7 +58,7 @@ When you add these cores to your project, they show up as blocks you can drag in
 ### Clocks
 - In digital logic, a clock is a repeating signal that oscillates between high (1) and low (0). It acts as a timing reference so that all parts of the circuit know exactly when to update or transfer data.
 
-![square_wave](/images/vivado_overview/square_wave.jpg)
+![square_wave](/images/vivado_overview/square_wave.svg)
 
 **Figure 2: 125 MHz square wave, which is the shape of a typical clock signal.**
 - The frequency of the clock determines how fast the circuit operates.

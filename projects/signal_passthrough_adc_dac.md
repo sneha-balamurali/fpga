@@ -104,14 +104,14 @@ Later, custom processing logic can be inserted between the ADC and DAC blocks (e
 **Figure 4:** Connections on the Red Pitaya for signal passthrough verfication.
 
 ![set_up](/images/signal_passthrough/set_up.JPEG)
-**Figure 6:** Complete experimental setup.
+**Figure 5:** Complete experimental setup.
 
 ### Step 2: Configure your signal generator
 
 - Make sure that the signal generator's peak-to-peak voltage (Vpp) is within the Red Pitaya's supported input range which is [±1V or ±20V range depending on configuration](/introduction/red_pitaya.md#inputs-in1-in2). 
 
 ![signal_generator](/images/signal_passthrough/signal_generator.JPEG)
-**Figure 5:** Example configuration on signal generator.
+**Figure 6:** Example configuration on signal generator.
 
 ### Step 3: Observe Waveform on oscilloscope
 - Verify that the waveform observed on the oscilloscope matches the signal generated.

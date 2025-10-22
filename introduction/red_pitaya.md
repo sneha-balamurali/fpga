@@ -189,8 +189,8 @@ The following explanations are based on the official Red Pitaya Schematics v1.0.
 
 Click on the link to go to a more detailed annotations of the [extension connectors](https://redpitaya.com/rtd-iframe/?iframe=https://redpitaya.readthedocs.io/en/latest/developerGuide/hardware/hardware.html)
 
-![extension_connectors](/images/red_pitaya/extension_connectors.png)
-**Figure 3:** Labelled DIO0–DIO7 pairs (+/–) with grounds on E1 and the 4 slow analog inputs (0–3) and 4 slow analog outputs (0–3) on E2.
+![extension_connectors](/images/red_pitaya/extension_connectors.svg)
+**Figure 3:** Labelled DIO0–DIO7 pairs (+/–) with grounds on E1 and the 4 slow analog inputs (0–3) and 4 slow analog outputs (0–3) on E2. To see what the other pins represent, refer to the official Red Pitaya documentation.
 
 - **E1 connector:** 
   - 16 single-ended or 8 differential GPIO lines (3.3 V).
